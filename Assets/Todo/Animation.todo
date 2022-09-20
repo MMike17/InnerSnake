@@ -1,0 +1,13 @@
+- Animate snake head
+x 	move
+x 	eat
+x 	die
+- 	win
+- Animate snake pieces
+- 	idle
+x 	grow
+x Pickup
+x 	Snake piece display
+x Timer
+x	cuntdown
+x 	start
