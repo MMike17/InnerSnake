@@ -6,6 +6,8 @@ using static GameManager;
 /// <summary>Player controller</summary>
 public class Player : MonoBehaviour
 {
+    const float crossFadeDuration = 1f / 6f;
+
 	public static Transform Transform => instance.transform;
 	public static Transform CameraTarget => instance.cameraTarget;
 	public static int CollectedPieces => instance.collectedPieces.Count;
@@ -22,7 +24,8 @@ public class Player : MonoBehaviour
 	public float pieceDistance;
 	[Space]
 	public float openMouthDistance;
-	public float openMouthAngle;
+	public float maxOpenMouthAngle;
+	public float minOpenMouthAngle;
 
 	[Header("Scene references")]
 	public Animator anim;
@@ -34,10 +37,10 @@ public class Player : MonoBehaviour
 	Vector3 centerPoint;
 	float currentSpeed;
 	float sideInput;
+	float animOffsetPercent;
 	int indexPieceDistance;
 	int totalPieces;
 	bool blockInput;
-	bool eatState;
 
 	public void Init()
 	{
@@ -118,19 +121,14 @@ public class Player : MonoBehaviour
 
 		float distance = Vector3.Distance(target, transform.position);
 		float angle = Vector3.Angle(Vector3.ProjectOnPlane(target - transform.position, transform.up), transform.forward);
-		bool needEat = distance <= openMouthDistance && angle <= openMouthAngle;
+        bool needEat = distance <= openMouthDistance;
 
-		// TODO : Fix "Eat" anim transition back to "Idle"
+        float openPercent = Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle);
 
-		if (needEat != eatState)
-		{
-			if (needEat)
-				anim.Play("Eat");
-			else
-				anim.Play("Idle");
-
-			eatState = needEat;
-		}
+		if(openPercent > 0)
+            anim.Play("Eat", 0, openPercent);
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            anim.Play("Idle");
 	}
 
 	void AnimateTail()
