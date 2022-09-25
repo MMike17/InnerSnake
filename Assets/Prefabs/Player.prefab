@@ -76,7 +76,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.9
   m_Center: {x: 0, y: 0, z: -0.5}
 --- !u!54 &5406355583439316530
 Rigidbody:
@@ -108,11 +108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left: 140100007100000061000000
   right: 1301000064000000
-  turnSpeed: 90
+  turnSpeed: 110
   height: 5
-  pieceDistance: 2.2
+  pieceDistance: 2.5
   openMouthDistance: 15
-  openMouthAngle: 7
+  maxOpenMouthAngle: 45
+  minOpenMouthAngle: 5
+  openMouthSpeed: 2
   anim: {fileID: 2256441997652956136}
   rigid: {fileID: 5406355583439316530}
   cameraTarget: {fileID: 5406355582661893622}

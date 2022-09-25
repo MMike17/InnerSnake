@@ -6,7 +6,7 @@ using static GameManager;
 /// <summary>Player controller</summary>
 public class Player : MonoBehaviour
 {
-    const float crossFadeDuration = 1f / 6f;
+	const float crossFadeDuration = 1f / 6f;
 
 	public static Transform Transform => instance.transform;
 	public static Transform CameraTarget => instance.cameraTarget;
@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 	public float openMouthDistance;
 	public float maxOpenMouthAngle;
 	public float minOpenMouthAngle;
+	public float openMouthSpeed;
 
 	[Header("Scene references")]
 	public Animator anim;
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
 	float currentSpeed;
 	float sideInput;
 	float animOffsetPercent;
+	float openPercent;
 	int indexPieceDistance;
 	int totalPieces;
 	bool blockInput;
@@ -121,15 +123,17 @@ public class Player : MonoBehaviour
 
 		float distance = Vector3.Distance(target, transform.position);
 		float angle = Vector3.Angle(Vector3.ProjectOnPlane(target - transform.position, transform.up), transform.forward);
-        bool needEat = distance <= openMouthDistance;
+		bool needEat = distance <= openMouthDistance;
 
-        float openPercent = Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle);
+		openPercent = Mathf.MoveTowards(openPercent, Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle), openMouthSpeed * Time.deltaTime);
 
-		if(openPercent > 0)
-            anim.Play("Eat", 0, openPercent);
-        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-            anim.Play("Idle");
+		if (openPercent > 0)
+			anim.Play("Eat", 0, openPercent);
+		else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+			anim.Play("Idle");
 	}
+
+	// TODO : Add snake pieces tail continous colliders
 
 	void AnimateTail()
 	{
