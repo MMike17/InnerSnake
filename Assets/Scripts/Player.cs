@@ -133,8 +133,6 @@ public class Player : MonoBehaviour
 			anim.Play("Idle");
 	}
 
-	// TODO : Add snake pieces tail continous colliders
-
 	void AnimateTail()
 	{
 		// animate pieces
@@ -149,6 +147,11 @@ public class Player : MonoBehaviour
 
 				currentPiece.transform.position = previousPositions[endCount - targetIndex];
 				currentPiece.transform.LookAt(i == 0 ? transform : collectedPieces[i - 1].transform);
+
+				currentPiece.UpdateLine(
+					i == 0 ? transform.position : collectedPieces[i - 1].backPoint,
+					i == 0 ? 0 : collectedPieces[i - 1].targetLineWidth
+				);
 			}
 		}
 
@@ -179,13 +182,13 @@ public class Player : MonoBehaviour
 
 		SnakePiece piece = other.GetComponentInParent<SnakePiece>();
 
+		// collided with piece
 		if (piece != null)
 		{
+			// piece was in tail
 			if (collectedPieces.Contains(piece))
 			{
-				anim.Play("Die");
-				GameManager.ChangeState(GameState.End_Menu);
-				blockInput = true;
+				GameOver();
 				return;
 			}
 
@@ -206,5 +209,14 @@ public class Player : MonoBehaviour
 				MapsManager.SpawnPickUp();
 			}
 		}
+		else if (other.CompareTag("Finish")) // collided with line
+			GameOver();
+	}
+
+	void GameOver()
+	{
+		anim.Play("Die");
+		GameManager.ChangeState(GameState.End_Menu);
+		blockInput = true;
 	}
 }

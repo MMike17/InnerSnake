@@ -14,6 +14,14 @@ public class SnakePiece : MonoBehaviour
 	public AnimateColor colorAnim;
 	public new Collider collider;
 	public Animator anim;
+	public Collider lineCollider;
+	public LineRenderer line;
+	public AnimateLineColor lineAnim;
+
+	public Vector3 backPoint => transform.position - transform.forward * mesh.lossyScale.z;
+	public float targetLineWidth => Mathf.Lerp(mesh.lossyScale.x, mesh.lossyScale.y, 0.5f);
+
+	Vector3 forwardPoint => transform.position + transform.forward * mesh.lossyScale.z;
 
 	void Awake()
 	{
@@ -33,6 +41,9 @@ public class SnakePiece : MonoBehaviour
 
 		mesh.localScale = Vector3.one * normalSize;
 		collider.enabled = true;
+
+		line.enabled = true;
+		lineCollider.enabled = true;
 		anim.Play("Active");
 	}
 
@@ -43,7 +54,28 @@ public class SnakePiece : MonoBehaviour
 
 		StartCoroutine(Grow());
 		colorAnim.Reset(0.1f);
+		lineAnim.Reset(0.05f);
 
 		this.DelayAction(() => collider.enabled = true, 0.5f);
+	}
+
+	// TODO : Fix line color anim
+	// TODO : Fix growth anim being weird on collection
+
+	public void UpdateLine(Vector3 targetPos, float endSize)
+	{
+		Vector3[] positions = new Vector3[line.positionCount];
+		line.GetPositions(positions);
+
+		positions[0] = forwardPoint;
+		positions[1] = targetPos;
+		line.SetPositions(positions);
+
+		line.startWidth = targetLineWidth;
+		line.endWidth = endSize;
+
+		float colliderSize = Vector3.Distance(forwardPoint, targetPos) - 1;
+		lineCollider.transform.position = Vector3.Lerp(forwardPoint, targetPos, 0.5f);
+		lineCollider.transform.forward = lineCollider.transform.position - transform.position;
 	}
 }
