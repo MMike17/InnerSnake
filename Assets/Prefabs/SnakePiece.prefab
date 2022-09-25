@@ -105,6 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8853624362065158154}
+  - component: {fileID: 7140180723876535525}
   - component: {fileID: 8853624362065158155}
   - component: {fileID: 8081081351422453694}
   m_Layer: 0
@@ -129,6 +130,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &7140180723876535525
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8853624362065158197}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b66be45b22162ea4f9fa6a9f1e455d43, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8853624362065158155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,12 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8913c0ec9c90345af6ac9217ac7688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growDuration: 1
+  growDuration: 3
   normalSize: 1
-  minSize: 0.4
+  minSize: 0.3
   mesh: {fileID: 7233707432961635301}
-  anim: {fileID: 8081081351422453694}
+  colorAnim: {fileID: 8081081351422453694}
   collider: {fileID: 6082263210806648125}
+  anim: {fileID: 7140180723876535525}
 --- !u!114 &8081081351422453694
 MonoBehaviour:
   m_ObjectHideFlags: 0

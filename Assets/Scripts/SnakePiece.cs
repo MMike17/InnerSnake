@@ -11,8 +11,9 @@ public class SnakePiece : MonoBehaviour
 
 	[Header("Scene references")]
 	public Transform mesh;
-	public AnimateColor anim;
+	public AnimateColor colorAnim;
 	public new Collider collider;
+	public Animator anim;
 
 	void Awake()
 	{
@@ -32,6 +33,7 @@ public class SnakePiece : MonoBehaviour
 
 		mesh.localScale = Vector3.one * normalSize;
 		collider.enabled = true;
+		anim.Play("Active");
 	}
 
 	public void Collect(float previousOffset)
@@ -40,7 +42,7 @@ public class SnakePiece : MonoBehaviour
 		transform.SetParent(null);
 
 		StartCoroutine(Grow());
-		anim.Reset(0.1f);
+		colorAnim.Reset(0.1f);
 
 		this.DelayAction(() => collider.enabled = true, 0.5f);
 	}

@@ -3,8 +3,8 @@ x 	move
 x 	eat
 x 	die
 - 	win
-- Animate snake pieces
-- 	idle
+x Animate snake pieces
+x 	idle
 x 	grow
 x Pickup
 x 	Snake piece display
