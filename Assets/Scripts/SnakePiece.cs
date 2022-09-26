@@ -30,6 +30,7 @@ public class SnakePiece : MonoBehaviour
 
 	IEnumerator Grow()
 	{
+		line.enabled = true;
 		anim.enabled = false;
 		float timer = 0;
 
@@ -43,7 +44,6 @@ public class SnakePiece : MonoBehaviour
 		mesh.localScale = Vector3.one * normalSize;
 		collider.enabled = true;
 
-		line.enabled = true;
 		anim.enabled = true;
 		anim.Play("Active");
 	}
