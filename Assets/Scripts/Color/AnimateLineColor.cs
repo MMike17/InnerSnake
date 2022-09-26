@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>Animates an line's color depending on time</summary>
+/// <summary>Animates a line's color depending on time</summary>
 public class AnimateLineColor : AnimateColor
 {
 	public float startAlpha;

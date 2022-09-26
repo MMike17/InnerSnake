@@ -110,6 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963548e4fdda03c4e94b719853d5341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: 0.66
+  offset: 0.16666667
   renderers:
   - {fileID: 1672552611026286321}
