@@ -171,8 +171,8 @@ public class MainMenu : MonoBehaviour
 				break;
 
 			case GameState.End_Menu:
-				StartCoroutine(EndLevelAnim());
 				completionTime = (Time.time - completionTime) * 1000;
+				StartCoroutine(EndLevelAnim());
 				break;
 		}
 	}
