@@ -30,6 +30,7 @@ public class SnakePiece : MonoBehaviour
 
 	IEnumerator Grow()
 	{
+		anim.enabled = false;
 		float timer = 0;
 
 		while (timer < growDuration)
@@ -44,6 +45,7 @@ public class SnakePiece : MonoBehaviour
 
 		line.enabled = true;
 		lineCollider.enabled = true;
+		anim.enabled = true;
 		anim.Play("Active");
 	}
 
@@ -53,14 +55,11 @@ public class SnakePiece : MonoBehaviour
 		transform.SetParent(null);
 
 		StartCoroutine(Grow());
-		colorAnim.Reset(0.1f);
-		lineAnim.Reset(0.05f);
+		colorAnim.Reset(previousOffset + 0.1f);
+		lineAnim.Reset(previousOffset + 0.05f);
 
 		this.DelayAction(() => collider.enabled = true, 0.5f);
 	}
-
-	// TODO : Fix line color anim
-	// TODO : Fix growth anim being weird on collection
 
 	public void UpdateLine(Vector3 targetPos, float endSize)
 	{

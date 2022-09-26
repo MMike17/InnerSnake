@@ -136,6 +136,37 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &608125496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045131641524827134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cfec0b5816e0e145ac81fef17837566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTrailLength: 150
+  drawDelay: 0.1
+  line: {fileID: 529094373}
+--- !u!114 &1997773064168554828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7045131641524827134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d00a3b5711c9c4aa4ee2596a9394cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0.5
+  startAlpha: 1
+  endAlpha: 0
+  line: {fileID: 529094373}
 --- !u!1001 &2598321027683868556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -227,32 +258,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5028905412002704499, guid: 36269cbdd81022a4ea3bc6a9d16d9be0, type: 3}
   m_PrefabInstance: {fileID: 2598321027683868556}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &608125496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7045131641524827134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cfec0b5816e0e145ac81fef17837566, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxTrailLength: 150
-  drawDelay: 0.1
-  line: {fileID: 529094373}
---- !u!114 &1997773064168554828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7045131641524827134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3d00a3b5711c9c4aa4ee2596a9394cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: 0.5
-  line: {fileID: 529094373}
