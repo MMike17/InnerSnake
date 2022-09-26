@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 
 	public void StartGame()
 	{
-		currentSpeed = DifficultyManager.UpdateSpeed(0);
+		currentSpeed = DifficultyManager.GetCurrentDifficultySetting().GetSpeed(MapsManager.SpawnedMap.size, 0);
 		blockInput = false;
 
 		rigid.isKinematic = false;
@@ -205,7 +205,7 @@ public class Player : MonoBehaviour
 			}
 			else
 			{
-				currentSpeed = DifficultyManager.UpdateSpeed(collectedPieces.Count);
+				currentSpeed = DifficultyManager.GetCurrentDifficultySetting().GetSpeed(MapsManager.SpawnedMap.size, collectedPieces.Count);
 				MapsManager.SpawnPickUp();
 			}
 		}

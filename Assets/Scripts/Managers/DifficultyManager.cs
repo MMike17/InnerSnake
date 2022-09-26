@@ -21,7 +21,6 @@ public class DifficultyManager : MonoBehaviour
 
 	[Header("Settings")]
 	public List<DifficultySetting> difficulties;
-	public MinMax speedRange;
 
 	MinMax currentPiecesRange;
 
@@ -31,12 +30,6 @@ public class DifficultyManager : MonoBehaviour
 	}
 
 	public static void SetCurrentPiecesTarget(int target) => instance.currentPiecesRange = new MinMax(0, target);
-
-	public static float UpdateSpeed(int currentCount)
-	{
-		float piecesPercent = instance.currentPiecesRange.GetPercent(currentCount);
-		return instance.speedRange.GetValue(piecesPercent);
-	}
 
 	public void Init()
 	{
@@ -52,6 +45,7 @@ public class DifficultyManager : MonoBehaviour
 		[SerializeField] float piecesPerCell;
 		[Space]
 		[SerializeField] MinMax pieceDistancePercent;
+		[SerializeField] MinMax speedRange;
 
 		public int GetTotalPieces(MapSize size)
 		{
@@ -61,6 +55,11 @@ public class DifficultyManager : MonoBehaviour
 		public float GetPieceDistance(MapSize size, int collectedPieces)
 		{
 			return pieceDistancePercent.GetValue(new MinMax(0, GetTotalPieces(size)).GetPercent(collectedPieces));
+		}
+
+		public float GetSpeed(MapSize size, int collectedPieces)
+		{
+			return speedRange.GetValue(new MinMax(0, GetTotalPieces(size)).GetPercent(collectedPieces));
 		}
 	}
 }
