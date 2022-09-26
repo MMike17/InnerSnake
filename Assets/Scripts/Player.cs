@@ -150,7 +150,8 @@ public class Player : MonoBehaviour
 
 				currentPiece.UpdateLine(
 					i == 0 ? transform.position : collectedPieces[i - 1].backPoint,
-					i == 0 ? 0 : collectedPieces[i - 1].targetLineWidth
+					i == 0 ? 0 : collectedPieces[i - 1].targetLineWidth,
+					i == 0
 				);
 			}
 		}

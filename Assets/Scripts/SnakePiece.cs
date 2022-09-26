@@ -44,7 +44,6 @@ public class SnakePiece : MonoBehaviour
 		collider.enabled = true;
 
 		line.enabled = true;
-		lineCollider.enabled = true;
 		anim.enabled = true;
 		anim.Play("Active");
 	}
@@ -61,8 +60,10 @@ public class SnakePiece : MonoBehaviour
 		this.DelayAction(() => collider.enabled = true, 0.5f);
 	}
 
-	public void UpdateLine(Vector3 targetPos, float endSize)
+	public void UpdateLine(Vector3 targetPos, float endSize, bool disableCollider)
 	{
+		lineCollider.enabled = disableCollider;
+
 		Vector3[] positions = new Vector3[line.positionCount];
 		line.GetPositions(positions);
 
