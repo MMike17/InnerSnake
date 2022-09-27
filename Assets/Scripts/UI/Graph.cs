@@ -27,6 +27,8 @@ public class Graph : MonoBehaviour
 	List<GraphIndicator> spawnedIndicators;
 	List<RectTransform> spawnedLines;
 
+	// TODO : fix first result to low on graph (offset ?)
+
 	public void Hide()
 	{
 		group.alpha = 0;

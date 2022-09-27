@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,6 +66,8 @@ public class MainMenu : MonoBehaviour
 		Gizmos.DrawSphere(animCenter, animSphereSize);
 	}
 
+	// TODO : Fix level selection not working
+
 	public void Init()
 	{
 		newGameButton.onClick.AddListener(() =>
@@ -83,10 +86,7 @@ public class MainMenu : MonoBehaviour
 
 		GameManager.OnStateChanged += OnGameStateChange;
 		levelSelector.SubscribeEvents(() => SelectLevel(false), () => SelectLevel(true));
-		difficultySelector.SubscribeEvents(() => SelectDifficulty(false), () => SelectDifficulty(true));
-
-		levelSelector.SetInterractibility(false, Save.Data.unlockedMaps[1]);
-		difficultySelector.SetInterractibility(false, Save.Data.unlockedDifficulties[0].difficulties[1]);
+		difficultySelector.SubscribeEvents(UpdateDifficulty, UpdateDifficulty);
 	}
 
 	void SelectLevel(bool right)
@@ -95,20 +95,7 @@ public class MainMenu : MonoBehaviour
 		StartCoroutine(ChangeLevel());
 	}
 
-	void SelectDifficulty(bool right)
-	{
-		difficultySelector.index = Mathf.Clamp(difficultySelector.index + (right ? 1 : -1), 0, DifficultiesCount);
-		string difficulty = ((Difficulty)difficultySelector.index).ToString();
-		difficultySelector.DisplayText(difficulty);
-
-		bool canGoPlus = false;
-
-		if (difficultySelector.index < DifficultiesCount - 1)
-			canGoPlus = Save.Data.unlockedDifficulties[levelSelector.index].difficulties[difficultySelector.index + 1];
-
-		difficultySelector.SetInterractibility(difficultySelector.index != 0, canGoPlus);
-		DifficultyManager.CurrentDifficulty = (Difficulty)difficultySelector.index;
-	}
+	void UpdateDifficulty() => DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
 
 	void Update()
 	{
@@ -157,16 +144,35 @@ public class MainMenu : MonoBehaviour
 				anim.Play("ShowLevel", 1);
 
 				levelSelector.index = 0;
-				levelSelector.DisplayText(string.Format("{0} x {0}", MapSize._6.ToString().Replace("_", "")));
+				string levelFormat = "{0} x {0}";
+				List<string> choices = new List<string>();
+
+				for (int i = 0; i < Save.Data.unlockedMaps.Length; i++)
+				{
+					if (Save.Data.unlockedMaps[i])
+						choices.Add(string.Format(levelFormat, ((MapSize)i).ToString().Replace("_", "")));
+				}
+
+				levelSelector.SetChoices(choices.ToArray());
+				levelSelector.DisplayText(choices[0]);
 
 				difficultySelector.index = 0;
-				difficultySelector.DisplayText(Difficulty.Easy.ToString());
+				choices = new List<string>();
+
+				for (int i = 0; i < DifficultiesCount; i++)
+				{
+					if (Save.Data.unlockedDifficulties[0].difficulties[i])
+						choices.Add(((Difficulty)i).ToString());
+				}
+
+				difficultySelector.SetChoices(choices.ToArray());
+				difficultySelector.DisplayText(choices[0]);
 
 				StartCoroutine(ChangeLevel());
 				this.DelayAction(() =>
 				{
 					levelSelector.SetInterractibility(false, Save.Data.unlockedMaps[1]);
-					difficultySelector.SetInterractibility(false, Save.Data.unlockedDifficulties[1].difficulties[0]);
+					difficultySelector.SetInterractibility(false, Save.Data.unlockedDifficulties[0].difficulties[1]);
 				}, 1.1f);
 				break;
 
@@ -236,12 +242,22 @@ public class MainMenu : MonoBehaviour
 		levelSelector.SetInterractibility(levelSelector.index != 0, canGoPlus);
 
 		difficultySelector.index = 0;
-		difficultySelector.DisplayText(Difficulty.Easy.ToString());
+		List<string> choices = new List<string>();
+
+		for (int i = 0; i < DifficultiesCount; i++)
+		{
+			if (Save.Data.unlockedDifficulties[levelSelector.index].difficulties[i])
+				choices.Add(((Difficulty)i).ToString());
+		}
+
+		difficultySelector.SetChoices(choices.ToArray());
+		difficultySelector.DisplayText(choices[0]);
+
 		canGoPlus = Save.Data.unlockedDifficulties[levelSelector.index].difficulties[(int)Difficulty.Medium];
 		difficultySelector.SetInterractibility(false, canGoPlus);
-		DifficultyManager.CurrentDifficulty = (Difficulty)difficultySelector.index;
+		DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
 
-		bool completedLevel = Save.Data.CompletedLevel(size, (Difficulty)difficultySelector.index);
+		bool completedLevel = Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty);
 		levelSelector.SetCompletion(completedLevel);
 		difficultySelector.SetCompletion(completedLevel);
 
@@ -330,11 +346,17 @@ public class MainMenu : MonoBehaviour
 						case MapSize._6:
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard] = true;
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
+							Save.Data.unlockedMaps[1] = true;
 							break;
 
 						case MapSize._8:
+							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
+							Save.Data.unlockedMaps[2] = true;
+							break;
+
 						case MapSize._10:
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
+							Save.Data.unlockedMaps[3] = true;
 							break;
 
 						case MapSize._12:
