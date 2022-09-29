@@ -74,7 +74,14 @@ public class MainMenu : MonoBehaviour
 			PickNewAnimTarget();
 		});
 		quitButton.onClick.AddListener(() => Application.Quit());
-		playButton.onClick.AddListener(() => StartCoroutine(StartLevel()));
+		playButton.onClick.AddListener(() =>
+		{
+			anim.Play("HideLevel", 1);
+			StartCoroutine(StartLevel());
+		});
+
+		eolReplayButton.onClick.AddListener(() => StartCoroutine(Replay()));
+		eolMenuButton.onClick.AddListener(() => StartCoroutine(FromEndToMenu()));
 
 		Camera mainCamera = CameraManager.MainCamera;
 		Vector3 forwardOffset = mainCamera.transform.forward * 10;
@@ -124,14 +131,16 @@ public class MainMenu : MonoBehaviour
 			MapsManager.SpawnedMap.transform.Rotate(0, mapRotationSpeed * Time.deltaTime, 0);
 	}
 
+	// TODO : Fix eol canvas group no block raycast
+	// TODO : Fix eol replay or menu delete camera
+
+	// TODO : Add state change when replay
+
 	void OnGameStateChange(GameState state)
 	{
 		switch (state)
 		{
 			case GameState.Main_Menu:
-				if (anim.GetCurrentAnimatorStateInfo(1).IsName("ShowLevel"))
-					anim.Play("HideLevel", 1);
-
 				anim.Play("ShowMain", 0);
 
 				player = Instantiate(playerPrefab, animCenter, Quaternion.Euler(0, 0, 0)).transform;
@@ -275,7 +284,6 @@ public class MainMenu : MonoBehaviour
 	IEnumerator StartLevel()
 	{
 		DifficultyManager.SetCurrentPiecesTarget(DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size));
-		anim.Play("HideLevel", 1);
 
 		// fade preview map
 		float timer = 0;
@@ -319,6 +327,20 @@ public class MainMenu : MonoBehaviour
 			player.StartGame();
 			MapsManager.SpawnPickUp();
 		});
+	}
+
+	IEnumerator FadeEndScreen(float target)
+	{
+		float initialAlpha = eolScreenGroup.alpha;
+
+		float timer = 0;
+		while (timer < eolScreenFadeDuration)
+		{
+			timer += Time.deltaTime;
+
+			eolScreenGroup.alpha = Mathf.Lerp(initialAlpha, target, timer / eolScreenFadeDuration);
+			yield return null;
+		}
 	}
 
 	IEnumerator EndLevelAnim()
@@ -377,17 +399,10 @@ public class MainMenu : MonoBehaviour
 		// show anim
 		eolScoreGraph.Hide();
 		eolScoreLabel.text = isVictory ? "Completion time" : "Collected pieces";
+
+		yield return FadeEndScreen(1);
+
 		float timer = 0;
-
-		while (timer < eolScreenFadeDuration)
-		{
-			timer += Time.deltaTime;
-
-			eolScreenGroup.alpha = Mathf.Lerp(0, 1, timer / eolScreenFadeDuration);
-			yield return null;
-		}
-
-		timer = 0;
 
 		if (isVictory)
 		{
@@ -427,5 +442,21 @@ public class MainMenu : MonoBehaviour
 		);
 
 		anim.Play("ShowEndButtons");
+	}
+
+	IEnumerator Replay()
+	{
+		Player.CleanPlayer();
+		StartCoroutine(StartLevel());
+
+		eolScreenGroup.interactable = false;
+
+		yield return FadeEndScreen(0);
+	}
+
+	IEnumerator FromEndToMenu()
+	{
+		yield return FadeEndScreen(0);
+		GameManager.ChangeState(GameState.Main_Menu);
 	}
 }

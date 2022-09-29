@@ -67,6 +67,12 @@ public class Player : MonoBehaviour
 		centerPoint = MapsManager.SpawnedMap.transform.position;
 	}
 
+	public static void CleanPlayer()
+	{
+		instance.collectedPieces.ForEach(item => Destroy(item.gameObject));
+		Destroy(instance.gameObject);
+	}
+
 	void Update()
 	{
 		if (blockInput)
