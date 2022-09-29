@@ -4,6 +4,7 @@ using UnityEditor;
 using static DifficultyManager;
 using static MapsManager;
 using static Save;
+using System;
 
 /// <summary>Editor script to edit saved data</summary>
 class SaveEditor : EditorWindow
@@ -111,7 +112,7 @@ class SaveEditor : EditorWindow
 						{
 							EditorGUILayout.BeginHorizontal();
 							{
-								for (int x = 0; x < loadedSave.unlockedMaps.Length + 1; x++)
+								for (int x = 0; x < Enum.GetValues(typeof(MapSize)).Length + 1; x++)
 								{
 									if (y == 0)
 									{
@@ -142,19 +143,6 @@ class SaveEditor : EditorWindow
 							EditorGUILayout.EndHorizontal();
 							EditorGUILayout.Space();
 						}
-
-						loadedSave.unlockedDifficulties.ForEach(item =>
-						{
-							bool mapActive = false;
-
-							foreach (bool diff in item.difficulties)
-							{
-								if (diff)
-									mapActive = true;
-							}
-
-							loadedSave.unlockedMaps[(int)item.mapSize] = mapActive;
-						});
 					}
 					EditorGUILayout.EndVertical();
 

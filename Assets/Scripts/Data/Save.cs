@@ -13,15 +13,11 @@ public class Save
 
 	public static Save Data;
 
-	public bool[] unlockedMaps;
 	public List<LevelDifficulty> unlockedDifficulties;
 	public List<LevelResult> results;
 
 	public Save(int difficultiesCount, int mapsCount)
 	{
-		unlockedMaps = new bool[mapsCount];
-		unlockedMaps[0] = true;
-
 		unlockedDifficulties = new List<LevelDifficulty>();
 
 		for (int i = 0; i < mapsCount; i++)
@@ -37,7 +33,7 @@ public class Save
 		return results.FindAll(item => item.size == map && item.difficulty == difficulty && item.completed == completed);
 	}
 
-	public bool IsDifficultyUnlocked(MapSize size, Difficulty difficulty)
+	public bool UnlockedMap(MapSize size)
 	{
 		LevelDifficulty selected = unlockedDifficulties.Find(item => item.mapSize == size);
 
@@ -47,7 +43,13 @@ public class Save
 			return false;
 		}
 
-		return selected.difficulties[(int)difficulty];
+		foreach (bool unlock in selected.difficulties)
+		{
+			if (unlock)
+				return true;
+		}
+
+		return false;
 	}
 
 	public bool CompletedLevel(MapSize map, Difficulty difficulty)

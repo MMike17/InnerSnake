@@ -66,8 +66,6 @@ public class MainMenu : MonoBehaviour
 		Gizmos.DrawSphere(animCenter, animSphereSize);
 	}
 
-	// TODO : Fix level selection not working
-
 	public void Init()
 	{
 		newGameButton.onClick.AddListener(() =>
@@ -147,9 +145,9 @@ public class MainMenu : MonoBehaviour
 				string levelFormat = "{0} x {0}";
 				List<string> choices = new List<string>();
 
-				for (int i = 0; i < Save.Data.unlockedMaps.Length; i++)
+				for (int i = 0; i < Save.Data.unlockedDifficulties.Count; i++)
 				{
-					if (Save.Data.unlockedMaps[i])
+					if (Save.Data.UnlockedMap((MapSize)i))
 						choices.Add(string.Format(levelFormat, ((MapSize)i).ToString().Replace("_", "")));
 				}
 
@@ -171,8 +169,7 @@ public class MainMenu : MonoBehaviour
 				StartCoroutine(ChangeLevel());
 				this.DelayAction(() =>
 				{
-					levelSelector.SetInterractibility(false, Save.Data.unlockedMaps[1]);
-					difficultySelector.SetInterractibility(false, Save.Data.unlockedDifficulties[0].difficulties[1]);
+					levelSelector.SetInterractibility(false, Save.Data.UnlockedMap(MapSize._8));
 				}, 1.1f);
 				break;
 
@@ -238,7 +235,7 @@ public class MainMenu : MonoBehaviour
 
 		int intSize = int.Parse(size.ToString().Replace("_", string.Empty));
 		levelSelector.DisplayText(string.Format("{0} x {0}", intSize));
-		bool canGoPlus = levelSelector.index < MapsCount - 1 ? Save.Data.unlockedMaps[levelSelector.index + 1] : false;
+		bool canGoPlus = levelSelector.index < MapsCount - 1 ? Save.Data.UnlockedMap((MapSize)levelSelector.index + 1) : false;
 		levelSelector.SetInterractibility(levelSelector.index != 0, canGoPlus);
 
 		difficultySelector.index = 0;
@@ -253,8 +250,6 @@ public class MainMenu : MonoBehaviour
 		difficultySelector.SetChoices(choices.ToArray());
 		difficultySelector.DisplayText(choices[0]);
 
-		canGoPlus = Save.Data.unlockedDifficulties[levelSelector.index].difficulties[(int)Difficulty.Medium];
-		difficultySelector.SetInterractibility(false, canGoPlus);
 		DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
 
 		bool completedLevel = Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty);
@@ -346,17 +341,14 @@ public class MainMenu : MonoBehaviour
 						case MapSize._6:
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard] = true;
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							Save.Data.unlockedMaps[1] = true;
 							break;
 
 						case MapSize._8:
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							Save.Data.unlockedMaps[2] = true;
 							break;
 
 						case MapSize._10:
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							Save.Data.unlockedMaps[3] = true;
 							break;
 
 						case MapSize._12:
