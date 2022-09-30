@@ -8,7 +8,8 @@ class CodeOverview : EditorWindow
 {
 	const string CLASS_FLAG = "class ";
 	const string COMMENT_FLAG = "//";
-	const string EDITOR_FLAG = "using UnityEditor;";
+	const string EDITOR_WINDOW_FLAG = "EditorWindow";
+	const string EDITOR_FLAG = "CustomEditor";
 	const string MONOBEHAVIOUR_FLAG = "MonoBehaviour";
 
 	GUIStyle boldCenteredTitleStyle;
@@ -249,10 +250,6 @@ class CodeOverview : EditorWindow
 		// scan scripts
 		foreach (TextAsset script in allScripts)
 		{
-			// skip this script
-			if (excludedScripts.scriptsNames.Contains(script.name))
-				continue;
-
 			string[] fileLines = script.text.Split('\n');
 			string classType = "Non-Mono";
 			int classLineCount = 0;
@@ -289,17 +286,21 @@ class CodeOverview : EditorWindow
 			lineCount += classLineCount;
 
 			// count editor script
-			if (script.text.Contains(EDITOR_FLAG))
+			if (script.text.Contains(EDITOR_FLAG) || script.text.Contains(EDITOR_WINDOW_FLAG))
 			{
 				editorScriptsCount++;
 				classType = "Editor";
 			}
 
-			// gets bad and medium files
-			if (classLineCount >= mediumThreshold)
-				badScripts.Add(new Script(script, classType, classLineCount));
-			else if (classLineCount >= goodThreshold)
-				mediumScripts.Add(new Script(script, classType, classLineCount));
+			// skip this script
+			if (!excludedScripts.scriptsNames.Contains(script.name))
+			{
+                // gets bad and medium files
+                if (classLineCount >= mediumThreshold)
+                    badScripts.Add(new Script(script, classType, classLineCount));
+                else if (classLineCount >= goodThreshold)
+                    mediumScripts.Add(new Script(script, classType, classLineCount));
+			}
 		}
 
 		// count non MonoBehaviours
