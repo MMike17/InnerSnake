@@ -47,7 +47,6 @@ public class MainMenu : MonoBehaviour
 	public CanvasGroup eolScreenGroup;
 	public TMP_Text eolScoreLabel;
 	public TMP_Text eolScore;
-	// TODO : fix end buttons no actions
 	public Button eolReplayButton;
 	public Button eolMenuButton;
 	public Graph eolScoreGraph;
@@ -130,11 +129,6 @@ public class MainMenu : MonoBehaviour
 		if (MapsManager.SpawnedMap != null && GameManager.CurrentState == GameState.Level_selection)
 			MapsManager.SpawnedMap.transform.Rotate(0, mapRotationSpeed * Time.deltaTime, 0);
 	}
-
-	// TODO : Fix eol canvas group no block raycast
-	// TODO : Fix eol replay or menu delete camera
-
-	// TODO : Add state change when replay
 
 	void OnGameStateChange(GameState state)
 	{
@@ -331,6 +325,9 @@ public class MainMenu : MonoBehaviour
 
 	IEnumerator FadeEndScreen(float target)
 	{
+		eolScreenGroup.interactable = false;
+        eolScreenGroup.blocksRaycasts = false;
+
 		float initialAlpha = eolScreenGroup.alpha;
 
 		float timer = 0;
@@ -341,6 +338,9 @@ public class MainMenu : MonoBehaviour
 			eolScreenGroup.alpha = Mathf.Lerp(initialAlpha, target, timer / eolScreenFadeDuration);
 			yield return null;
 		}
+
+		eolScreenGroup.interactable = target == 1;
+        eolScreenGroup.blocksRaycasts = target == 1;
 	}
 
 	IEnumerator EndLevelAnim()
@@ -399,6 +399,7 @@ public class MainMenu : MonoBehaviour
 		// show anim
 		eolScoreGraph.Hide();
 		eolScoreLabel.text = isVictory ? "Completion time" : "Collected pieces";
+		eolScore.text = string.Empty;
 
 		yield return FadeEndScreen(1);
 
@@ -444,19 +445,21 @@ public class MainMenu : MonoBehaviour
 		anim.Play("ShowEndButtons");
 	}
 
+	// TODO : Solve double pickup issue on replay
+
 	IEnumerator Replay()
 	{
 		Player.CleanPlayer();
 		StartCoroutine(StartLevel());
-
-		eolScreenGroup.interactable = false;
 
 		yield return FadeEndScreen(0);
 	}
 
 	IEnumerator FromEndToMenu()
 	{
+		Player.CleanPlayer();
 		yield return FadeEndScreen(0);
+		
 		GameManager.ChangeState(GameState.Main_Menu);
 	}
 }
