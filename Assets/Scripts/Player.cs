@@ -220,10 +220,19 @@ public class Player : MonoBehaviour
 			GameOver();
 	}
 
+#if DEBUG_MODE
+    public void GameOver()
+	{
+		anim.Play("Die");
+		GameManager.ChangeState(GameState.End_Menu);
+		blockInput = true;
+	}
+#else
 	void GameOver()
 	{
 		anim.Play("Die");
 		GameManager.ChangeState(GameState.End_Menu);
 		blockInput = true;
 	}
+#endif
 }
