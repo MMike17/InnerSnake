@@ -111,10 +111,11 @@ MonoBehaviour:
   turnSpeed: 110
   height: 5
   pieceDistance: 2.5
-  openMouthDistance: 15
+  openMouthDistance: 3
   maxOpenMouthAngle: 45
   minOpenMouthAngle: 5
   openMouthSpeed: 2
+  meshRoot: {fileID: 7497605290330754186}
   anim: {fileID: 2256441997652956136}
   rigid: {fileID: 5406355583439316530}
   cameraTarget: {fileID: 5406355582661893622}
@@ -183,5 +184,10 @@ Transform:
 --- !u!95 &2256441997652956136 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6077402951502063569, guid: 36269cbdd81022a4ea3bc6a9d16d9be0, type: 3}
+  m_PrefabInstance: {fileID: 5406355583690372153}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7497605290330754186 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2525362205483956403, guid: 36269cbdd81022a4ea3bc6a9d16d9be0, type: 3}
   m_PrefabInstance: {fileID: 5406355583690372153}
   m_PrefabAsset: {fileID: 0}

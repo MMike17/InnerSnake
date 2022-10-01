@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 	public float openMouthSpeed;
 
 	[Header("Scene references")]
+	public Transform meshRoot;
 	public Animator anim;
 	public Rigidbody rigid;
 	public Transform cameraTarget;
@@ -85,7 +86,10 @@ public class Player : MonoBehaviour
 	void LateUpdate()
 	{
 		if (blockInput)
-			return;
+		{
+            AnimateTailReduced();
+            return;
+		}
 
 		// turn
 		if (sideInput != 0)
@@ -129,9 +133,12 @@ public class Player : MonoBehaviour
 
 		float distance = Vector3.Distance(target, transform.position);
 		float angle = Vector3.Angle(Vector3.ProjectOnPlane(target - transform.position, transform.up), transform.forward);
-		bool needEat = distance <= openMouthDistance;
 
 		openPercent = Mathf.MoveTowards(openPercent, Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle), openMouthSpeed * Time.deltaTime);
+
+        // TODO : Fix force open mouth snap
+        if(distance <= openMouthDistance)
+            openPercent = 1;
 
 		if (openPercent > 0)
 			anim.Play("Eat", 0, openPercent);
@@ -155,7 +162,7 @@ public class Player : MonoBehaviour
 				currentPiece.transform.LookAt(i == 0 ? transform : collectedPieces[i - 1].transform);
 
 				currentPiece.UpdateLine(
-					i == 0 ? transform.position : collectedPieces[i - 1].backPoint,
+                    i == 0 ? meshRoot.position : collectedPieces[i - 1].backPoint,
 					i == 0 ? 0 : collectedPieces[i - 1].targetLineWidth,
 					i == 0
 				);
@@ -182,9 +189,17 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	void AnimateTailReduced()
+    {
+        if (collectedPieces.Count == 0)
+            return;
+
+        collectedPieces[0].UpdateLine(meshRoot.position, 0, true);
+    }
+
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.parent == null)
+        if (other.transform.parent == null || blockInput)
 			return;
 
 		SnakePiece piece = other.GetComponentInParent<SnakePiece>();
@@ -208,7 +223,10 @@ public class Player : MonoBehaviour
 			if (totalPieces == collectedPieces.Count)
 			{
 				currentSpeed = 0;
+                blockInput = true;
+
 				GameManager.ChangeState(GameState.End_Menu);
+                anim.Play("Win");
 			}
 			else
 			{

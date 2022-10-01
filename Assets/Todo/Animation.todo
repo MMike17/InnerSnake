@@ -1,8 +1,8 @@
-- Animate snake head
+x Animate snake head
 x 	move
 x 	eat
 x 	die
-- 	win
+x 	win
 x Animate snake pieces
 x 	idle
 x 	grow
