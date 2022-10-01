@@ -111,7 +111,7 @@ MonoBehaviour:
   turnSpeed: 110
   height: 5
   pieceDistance: 2.5
-  openMouthDistance: 3
+  openMouthDistance: 5
   maxOpenMouthAngle: 45
   minOpenMouthAngle: 5
   openMouthSpeed: 2

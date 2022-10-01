@@ -134,11 +134,12 @@ public class Player : MonoBehaviour
 		float distance = Vector3.Distance(target, transform.position);
 		float angle = Vector3.Angle(Vector3.ProjectOnPlane(target - transform.position, transform.up), transform.forward);
 
-		openPercent = Mathf.MoveTowards(openPercent, Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle), openMouthSpeed * Time.deltaTime);
+		float targetPercent = Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle);
 
-        // TODO : Fix force open mouth snap
-        if(distance <= openMouthDistance)
-            openPercent = 1;
+        if (distance <= openMouthDistance)
+            targetPercent = 1;
+
+        openPercent = Mathf.MoveTowards(openPercent, targetPercent, openMouthSpeed * Time.deltaTime);
 
 		if (openPercent > 0)
 			anim.Play("Eat", 0, openPercent);
