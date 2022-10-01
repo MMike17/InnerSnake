@@ -23,7 +23,10 @@ public class TEST_Graph : MonoBehaviour
 	void StartGraph()
 	{
 		if (!running)
+		{
+            testData.results.ForEach(item => item.completed = isVictory);
 			StartCoroutine(Run());
+		}
 	}
 
 	IEnumerator Run()
