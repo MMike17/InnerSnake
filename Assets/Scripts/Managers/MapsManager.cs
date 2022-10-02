@@ -7,11 +7,10 @@ using Random = UnityEngine.Random;
 /// <summary>Manages the playable maps of the game</summary>
 public class MapsManager : MonoBehaviour
 {
-	public static Map SpawnedMap => instance.spawnedMap;
 	public static int MapsCount => instance.gameMaps.Count;
 
-	public static float pickupOffset { get; private set; }
-	public static Pickup CurrentPickup;
+	public static Pickup CurrentPickup { get; private set; }
+	public static Map SpawnedMap { get; private set; }
 
 	static MapsManager instance;
 
@@ -27,23 +26,25 @@ public class MapsManager : MonoBehaviour
 	public List<GameMap> gameMaps;
 	public Pickup pickupPrefab;
 
-	Map spawnedMap;
-
 	public void Init()
 	{
 		instance = this;
 
 		Map testMap = gameMaps.Find(item => item.size == MapSize._6).inPrefab;
-		pickupOffset = testMap.Radius - Vector3.Distance(testMap.transform.position, testMap.gridPoints.GetChild(1).position);
 	}
 
 	public static void SpawnMap(MapSize size, bool isPreview, Vector3 position)
 	{
-		if (instance.spawnedMap != null)
-			Destroy(instance.spawnedMap.gameObject);
+		// clean map
+		if (SpawnedMap != null)
+			Destroy(SpawnedMap.gameObject);
+
+		// clean pickup
+		if (CurrentPickup != null)
+			Destroy(CurrentPickup.gameObject);
 
 		GameMap selectedMap = instance.gameMaps.Find(item => item.size == size);
-		instance.spawnedMap = Instantiate(isPreview ? selectedMap.outPrefab : selectedMap.inPrefab, position, Quaternion.identity);
+		SpawnedMap = Instantiate(isPreview ? selectedMap.outPrefab : selectedMap.inPrefab, position, Quaternion.identity);
 	}
 
 	public static void SpawnPickUp()
@@ -52,7 +53,7 @@ public class MapsManager : MonoBehaviour
 		float currentDistance;
 		float currentThreshold = SpawnedMap.Radius * DifficultyManager.GetCurrentDifficultySetting().GetPieceDistance(SpawnedMap.size, Player.CollectedPieces);
 
-		foreach (Transform point in instance.spawnedMap.gridPoints)
+		foreach (Transform point in SpawnedMap.gridPoints)
 		{
 			currentDistance = Vector3.Distance(Player.Transform.position, point.position);
 

@@ -4,6 +4,8 @@ using UnityEngine;
 /// <summary>Represents a snake piece that the player can recover</summary>
 public class SnakePiece : MonoBehaviour
 {
+	// TODO : fix last picked up piece doesn't have time to render line properly
+
 	[Header("Settings")]
 	public float growDuration;
 	public float normalSize;

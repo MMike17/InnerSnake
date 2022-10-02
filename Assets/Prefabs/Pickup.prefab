@@ -4859,8 +4859,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationAnimSpeed: 40
-  upDownAnimSpeed: 1.5
-  upDownAnimMagnetude: 1
+  upDownAnimSpeed: 1
+  upDownAnimMagnetude: 0.5
   piece: {fileID: 5552936034263558239}
   vfx: {fileID: 4022164810119999031}
 --- !u!1001 &4022164811291658324

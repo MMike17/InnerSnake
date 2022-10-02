@@ -19,14 +19,14 @@ public class Pickup : MonoBehaviour
 		transform.position = mapCenter + Vector3.Normalize(transform.position - mapCenter).normalized * mapRadius;
 
 		// offset 0.7f to not touch ground
-		float min = 0.7f + playerHeight;
-		upDownRange = new MinMax(min - upDownAnimMagnetude / 2, min + upDownAnimMagnetude / 2);
+		float min = playerHeight;
+		upDownRange = new MinMax(min, min + upDownAnimMagnetude);
 	}
 
 	void Update()
 	{
 		transform.Rotate(Vector3.up * rotationAnimSpeed * Time.deltaTime, Space.Self);
-		piece.transform.position = transform.position + transform.up * upDownRange.GetValue(Mathf.Sin(Time.time * upDownAnimSpeed) / 2 + 0.5f + MapsManager.pickupOffset);
+		piece.transform.position = transform.position + transform.up * upDownRange.GetValue(Mathf.Sin(Time.time * upDownAnimSpeed) / 2 + 0.5f);
 		vfx.position = piece.transform.position;
 	}
 

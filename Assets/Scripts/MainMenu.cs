@@ -76,6 +76,9 @@ public class MainMenu : MonoBehaviour
 		playButton.onClick.AddListener(() =>
 		{
 			anim.Play("HideLevel", 1);
+			levelSelector.SetCompletion(false);
+			difficultySelector.SetCompletion(false);
+
 			StartCoroutine(StartLevel());
 		});
 
@@ -434,8 +437,6 @@ public class MainMenu : MonoBehaviour
 
 		anim.Play("ShowEndButtons");
 	}
-
-	// TODO : Solve double pickup issue on replay
 
 	IEnumerator Replay()
 	{
