@@ -90,7 +90,6 @@ public class MainMenu : MonoBehaviour
 
 		GameManager.OnStateChanged += OnGameStateChange;
 		levelSelector.SubscribeEvents(() => SelectLevel(false), () => SelectLevel(true));
-		difficultySelector.SubscribeEvents(UpdateDifficulty, UpdateDifficulty);
 	}
 
 	void SelectLevel(bool right)
@@ -99,7 +98,12 @@ public class MainMenu : MonoBehaviour
 		StartCoroutine(ChangeLevel());
 	}
 
-	void UpdateDifficulty() => DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
+	void UpdateDifficulty()
+	{
+		DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
+
+		difficultySelector.SetCompletion(Save.Data.CompletedLevel(MapsManager.SpawnedMap.size, DifficultyManager.CurrentDifficulty));
+	}
 
 	void Update()
 	{
@@ -143,37 +147,9 @@ public class MainMenu : MonoBehaviour
 
 			case GameState.Level_selection:
 				anim.Play("ShowLevel", 1);
-
 				levelSelector.index = 0;
-				string levelFormat = "{0} x {0}";
-				List<string> choices = new List<string>();
-
-				for (int i = 0; i < Save.Data.unlockedDifficulties.Count; i++)
-				{
-					if (Save.Data.UnlockedMap((MapSize)i))
-						choices.Add(string.Format(levelFormat, ((MapSize)i).ToString().Replace("_", "")));
-				}
-
-				levelSelector.SetChoices(choices.ToArray());
-				levelSelector.DisplayText(choices[0]);
-
-				difficultySelector.index = 0;
-				choices = new List<string>();
-
-				for (int i = 0; i < DifficultiesCount; i++)
-				{
-					if (Save.Data.unlockedDifficulties[0].difficulties[i])
-						choices.Add(((Difficulty)i).ToString());
-				}
-
-				difficultySelector.SetChoices(choices.ToArray());
-				difficultySelector.DisplayText(choices[0]);
 
 				StartCoroutine(ChangeLevel());
-				this.DelayAction(() =>
-				{
-					levelSelector.SetInterractibility(false, Save.Data.UnlockedMap(MapSize._8));
-				}, 1.1f);
 				break;
 
 			case GameState.End_Menu:
@@ -210,9 +186,16 @@ public class MainMenu : MonoBehaviour
 
 	IEnumerator ChangeLevel()
 	{
+		// disable interractibility
+		levelSelector.SetCompletion(false);
 		levelSelector.SetInterractibility(false, false);
 		levelSelector.DisplayText("-");
 
+		difficultySelector.SetCompletion(false);
+		difficultySelector.SetInterractibility(false, false);
+		difficultySelector.DisplayText("-");
+
+		// map delete animation
 		float timer = 0;
 		Vector3 initialSize;
 
@@ -232,15 +215,17 @@ public class MainMenu : MonoBehaviour
 			Destroy(MapsManager.SpawnedMap);
 		}
 
-
+		// spawn map
 		MapSize size = MapsManager.GetMapPerIndex(levelSelector.index).size;
 		MapsManager.SpawnMap(size, true, animCenter);
 
+		// level selector
 		int intSize = int.Parse(size.ToString().Replace("_", string.Empty));
 		levelSelector.DisplayText(string.Format("{0} x {0}", intSize));
 		bool canGoPlus = levelSelector.index < MapsCount - 1 ? Save.Data.UnlockedMap((MapSize)levelSelector.index + 1) : false;
 		levelSelector.SetInterractibility(levelSelector.index != 0, canGoPlus);
 
+		// difficulty selector
 		difficultySelector.index = 0;
 		List<string> choices = new List<string>();
 
@@ -253,12 +238,10 @@ public class MainMenu : MonoBehaviour
 		difficultySelector.SetChoices(choices.ToArray());
 		difficultySelector.DisplayText(choices[0]);
 
+		difficultySelector.SubscribeEvents(UpdateDifficulty, UpdateDifficulty);
 		DifficultyManager.CurrentDifficulty = (Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text);
 
-		bool completedLevel = Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty);
-		levelSelector.SetCompletion(completedLevel);
-		difficultySelector.SetCompletion(completedLevel);
-
+		// map grow anim
 		Vector3 targetSize = Vector3.one * 5;
 		timer = 0;
 		initialSize = Vector3.zero;
@@ -273,22 +256,29 @@ public class MainMenu : MonoBehaviour
 		}
 
 		MapsManager.SpawnedMap.transform.localScale = targetSize;
+
+		// selector completions
+		levelSelector.SetCompletion(Save.Data.CompletedMap(size));
+		difficultySelector.SetCompletion(Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty));
 	}
 
 	IEnumerator StartLevel()
 	{
 		DifficultyManager.SetCurrentPiecesTarget(DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size));
-
-		// fade preview map
 		float timer = 0;
-		float initialSize = MapsManager.SpawnedMap.transform.localScale.x;
 
-		while (timer < 0.5f)
+		if (GameManager.CurrentState == GameState.Main_Menu)
 		{
-			timer += Time.deltaTime;
+			// fade preview map
+			float initialSize = MapsManager.SpawnedMap.transform.localScale.x;
 
-			MapsManager.SpawnedMap.transform.localScale = Vector3.one * Mathf.Lerp(initialSize, 0, timer / 0.5f);
-			yield return null;
+			while (timer < 0.5f)
+			{
+				timer += Time.deltaTime;
+
+				MapsManager.SpawnedMap.transform.localScale = Vector3.one * Mathf.Lerp(initialSize, 0, timer / 0.5f);
+				yield return null;
+			}
 		}
 
 		// spawn map
@@ -326,7 +316,7 @@ public class MainMenu : MonoBehaviour
 	IEnumerator FadeEndScreen(float target)
 	{
 		eolScreenGroup.interactable = false;
-        eolScreenGroup.blocksRaycasts = false;
+		eolScreenGroup.blocksRaycasts = false;
 
 		float initialAlpha = eolScreenGroup.alpha;
 
@@ -340,7 +330,7 @@ public class MainMenu : MonoBehaviour
 		}
 
 		eolScreenGroup.interactable = target == 1;
-        eolScreenGroup.blocksRaycasts = target == 1;
+		eolScreenGroup.blocksRaycasts = target == 1;
 	}
 
 	IEnumerator EndLevelAnim()
@@ -458,8 +448,8 @@ public class MainMenu : MonoBehaviour
 	IEnumerator FromEndToMenu()
 	{
 		Player.CleanPlayer();
-		yield return FadeEndScreen(0);
-		
 		GameManager.ChangeState(GameState.Main_Menu);
+
+		yield return FadeEndScreen(0);
 	}
 }

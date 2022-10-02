@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
 
 	public static void CleanPlayer()
 	{
+		CameraTarget.GetChild(0).SetParent(null);
 		instance.collectedPieces.ForEach(item => Destroy(item.gameObject));
 		Destroy(instance.gameObject);
 	}
@@ -87,8 +88,8 @@ public class Player : MonoBehaviour
 	{
 		if (blockInput)
 		{
-            AnimateTailReduced();
-            return;
+			AnimateTailReduced();
+			return;
 		}
 
 		// turn
@@ -136,10 +137,10 @@ public class Player : MonoBehaviour
 
 		float targetPercent = Mathf.InverseLerp(maxOpenMouthAngle, minOpenMouthAngle, angle);
 
-        if (distance <= openMouthDistance)
-            targetPercent = 1;
+		if (distance <= openMouthDistance)
+			targetPercent = 1;
 
-        openPercent = Mathf.MoveTowards(openPercent, targetPercent, openMouthSpeed * Time.deltaTime);
+		openPercent = Mathf.MoveTowards(openPercent, targetPercent, openMouthSpeed * Time.deltaTime);
 
 		if (openPercent > 0)
 			anim.Play("Eat", 0, openPercent);
@@ -163,7 +164,7 @@ public class Player : MonoBehaviour
 				currentPiece.transform.LookAt(i == 0 ? transform : collectedPieces[i - 1].transform);
 
 				currentPiece.UpdateLine(
-                    i == 0 ? meshRoot.position : collectedPieces[i - 1].backPoint,
+					i == 0 ? meshRoot.position : collectedPieces[i - 1].backPoint,
 					i == 0 ? 0 : collectedPieces[i - 1].targetLineWidth,
 					i == 0
 				);
@@ -191,16 +192,16 @@ public class Player : MonoBehaviour
 	}
 
 	void AnimateTailReduced()
-    {
-        if (collectedPieces.Count == 0)
-            return;
+	{
+		if (collectedPieces.Count == 0)
+			return;
 
-        collectedPieces[0].UpdateLine(meshRoot.position, 0, true);
-    }
+		collectedPieces[0].UpdateLine(meshRoot.position, 0, true);
+	}
 
 	void OnTriggerEnter(Collider other)
 	{
-        if (other.transform.parent == null || blockInput)
+		if (other.transform.parent == null || blockInput)
 			return;
 
 		SnakePiece piece = other.GetComponentInParent<SnakePiece>();
@@ -224,10 +225,10 @@ public class Player : MonoBehaviour
 			if (totalPieces == collectedPieces.Count)
 			{
 				currentSpeed = 0;
-                blockInput = true;
+				blockInput = true;
 
 				GameManager.ChangeState(GameState.End_Menu);
-                anim.Play("Win");
+				anim.Play("Win");
 			}
 			else
 			{

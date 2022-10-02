@@ -19,31 +19,6 @@ public class ArrowSelector : MonoBehaviour
 
 	string[] choices;
 
-	void Awake()
-	{
-		if (!autoSetValue)
-			return;
-
-		SubscribeEvents(
-			() =>
-			{
-				if (index != 0)
-					index--;
-
-				DisplayText(choices[index]);
-				SetInterractibility(index != 0, index < choices.Length - 1);
-			},
-			() =>
-			{
-				if (index < choices.Length)
-					index++;
-
-				DisplayText(choices[index]);
-				SetInterractibility(index != 0, index < choices.Length - 1);
-			}
-		);
-	}
-
 	public void SetChoices(string[] choices)
 	{
 		this.choices = choices;
@@ -59,8 +34,35 @@ public class ArrowSelector : MonoBehaviour
 
 	public void SubscribeEvents(Action onClickLeft, Action onClickRight)
 	{
-		minusButton.onClick.AddListener(() => onClickLeft());
-		plusButton.onClick.AddListener(() => onClickRight());
+		minusButton.onClick.RemoveAllListeners();
+		minusButton.onClick.AddListener(() =>
+		{
+			if (autoSetValue)
+			{
+				if (index != 0)
+					index--;
+
+				DisplayText(choices[index]);
+				SetInterractibility(index != 0, index < choices.Length - 1);
+			}
+
+			onClickLeft();
+		});
+
+		plusButton.onClick.RemoveAllListeners();
+		plusButton.onClick.AddListener(() =>
+		{
+			if (autoSetValue)
+			{
+				if (index < choices.Length)
+					index++;
+
+				DisplayText(choices[index]);
+				SetInterractibility(index != 0, index < choices.Length - 1);
+			}
+
+			onClickRight();
+		});
 	}
 
 	public void DisplayText(string text) => display.text = text;

@@ -61,6 +61,8 @@ public class CameraManager : MonoBehaviour
 
 	IEnumerator TransitionCamera(Transform target, bool parentAtEnd = false)
 	{
+		mainCamera.transform.SetParent(null);
+
 		float timer = 0;
 		Vector3 initialPos = mainCamera.transform.position;
 		Quaternion initialRot = mainCamera.transform.rotation;

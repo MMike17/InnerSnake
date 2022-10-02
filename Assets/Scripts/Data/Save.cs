@@ -52,6 +52,14 @@ public class Save
 		return false;
 	}
 
+	public bool CompletedMap(MapSize map)
+	{
+		bool easy = results.Find(item => item.size == map && item.difficulty == Difficulty.Easy && item.completed) != null;
+		bool medium = results.Find(item => item.size == map && item.difficulty == Difficulty.Medium && item.completed) != null;
+		bool hard = results.Find(item => item.size == map && item.difficulty == Difficulty.Hard && item.completed) != null;
+		return easy && medium && hard;
+	}
+
 	public bool CompletedLevel(MapSize map, Difficulty difficulty)
 	{
 		return results.Find(item => item.size == map && item.difficulty == difficulty && item.completed) != null;
