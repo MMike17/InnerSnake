@@ -3,6 +3,7 @@ x 	move
 x 	eat
 x 	die
 x 	win
+x	widen open mouth angle
 x Animate snake pieces
 x 	idle
 x 	grow
@@ -11,3 +12,5 @@ x 	Snake piece display
 x Timer
 x	cuntdown
 x 	start
+- Level selection
+- 	level completion
