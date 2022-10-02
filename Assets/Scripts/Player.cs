@@ -86,18 +86,15 @@ public class Player : MonoBehaviour
 
 	void LateUpdate()
 	{
-		if (blockInput)
+		if (!blockInput)
 		{
-			AnimateTailReduced();
-			return;
+			// turn
+			if (sideInput != 0)
+				transform.RotateAround(transform.position, transform.up, turnSpeed * sideInput * Time.deltaTime);
+
+			// move
+			transform.RotateAround(centerPoint, transform.right, -currentSpeed * Time.deltaTime);
 		}
-
-		// turn
-		if (sideInput != 0)
-			transform.RotateAround(transform.position, transform.up, turnSpeed * sideInput * Time.deltaTime);
-
-		// move
-		transform.RotateAround(centerPoint, transform.right, -currentSpeed * Time.deltaTime);
 
 		AnimateTail();
 	}
@@ -170,6 +167,9 @@ public class Player : MonoBehaviour
 				);
 			}
 		}
+
+		if (blockInput)
+			return;
 
 		previousPositions.Add(transform.position);
 
