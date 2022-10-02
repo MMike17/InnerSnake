@@ -12,7 +12,7 @@ public class ArrowSelector : MonoBehaviour
 	[Header("Scene references")]
 	public Button minusButton;
 	public Button plusButton;
-	public GameObject completionIndicator;
+	public Animator completionAnim;
 	public TMP_Text display;
 
 	[HideInInspector] public int index;
@@ -71,5 +71,11 @@ public class ArrowSelector : MonoBehaviour
 		plusButton.gameObject.SetActive(right);
 	}
 
-	public void SetCompletion(bool state) => completionIndicator.SetActive(state);
+	public void SetCompletion(bool state)
+	{
+		if (state)
+			completionAnim.Play("Show");
+		else
+			completionAnim.Play("Hide");
+	}
 }
