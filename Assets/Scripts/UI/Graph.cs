@@ -27,8 +27,6 @@ public class Graph : MonoBehaviour
 	List<GraphIndicator> spawnedIndicators;
 	List<RectTransform> spawnedLines;
 
-	// TODO : Invert result order when level completed
-
 	public void Hide()
 	{
 		group.alpha = 0;
@@ -80,7 +78,7 @@ public class Graph : MonoBehaviour
 
 			float horizontalStep = dataZone.rect.width / results.Count;
 			float startHorizontalPoint = dataZone.position.x - dataZone.rect.width / 2 + horizontalStep / 2;
-			float verticalStep = dataZone.rect.height / max - min;
+			float verticalStep = dataZone.rect.height / (max - min);
 			float startVerticalPoint = dataZone.position.y - dataZone.rect.height / 2 + verticalStep;
 			float[] heights = new float[results.Count];
 
@@ -105,6 +103,10 @@ public class Graph : MonoBehaviour
 				);
 
 				float heightPercent = allResultsEqual ? 0.5f : Mathf.InverseLerp(min, max, currentResult);
+
+				if (isVictory)
+					heightPercent = 1 - heightPercent;
+
 				heights[i] = Mathf.Lerp(startVerticalPoint, dataZone.position.y + dataZone.rect.height / 2, heightPercent);
 
 				bool shouldAnimate = i != results.Count - 1;
