@@ -11,7 +11,7 @@ public class SnakePiece : MonoBehaviour
 
 	[Header("Scene references")]
 	public Transform mesh;
-	public AnimateColor colorAnim;
+	public AnimateMeshesColor colorAnim;
 	public new Collider collider;
 	public Animator anim;
 	public Collider lineCollider;

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>Animates an mesh's color depending on time</summary>
 public class AnimateMeshesColor : AnimateColor
 {
-	const string EMISSION_COLOR_KEY = "_EmissionColor";
+	public const string EMISSION_COLOR_KEY = "_EmissionColor";
 
 	[Header("Scene references")]
 	public Renderer[] renderers;
