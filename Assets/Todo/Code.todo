@@ -3,3 +3,7 @@ x End of game screen
 x Player script
 x Detect victory
 x Color animation
+- Test replay after game
+- Test return to menu after game
+- Add popup messages when big win (Hard mode, finish game, etc...)
+- Add multiplayer scoreboard ?
