@@ -26,7 +26,10 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public float eolScreenFadeDuration;
 	public float eolScoreAnimDuration;
-
+	[Space]
+	[TextArea]
+	public string unlockHardModeMessage;
+	public string finishGameMessage;
 	// TODO : Add highscore panel
 
 	[Header("Scene references")]
@@ -50,6 +53,8 @@ public class MainMenu : MonoBehaviour
 	public Button eolReplayButton;
 	public Button eolMenuButton;
 	public Graph eolScoreGraph;
+	[Space]
+	public Popup popup;
 
 	Transform player;
 	Vector3 animCenter;
@@ -342,18 +347,24 @@ public class MainMenu : MonoBehaviour
 		int totalPieces = DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size);
 		bool isVictory = Player.CollectedPieces == totalPieces;
 
+		bool hasHardUnlock = false;
+		bool hasFinishedGame = false;
+
 		if (isVictory)
 		{
 			switch (DifficultyManager.CurrentDifficulty)
 			{
 				case Difficulty.Easy:
-					Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[1] = true;
+					Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Medium] = true;
 					break;
 
 				case Difficulty.Medium:
 					switch (MapsManager.SpawnedMap.size)
 					{
 						case MapSize._6:
+							if (!Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard])
+								hasHardUnlock = true;
+
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard] = true;
 							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
 							break;
@@ -377,6 +388,8 @@ public class MainMenu : MonoBehaviour
 					{
 						Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Hard] = true;
 					}
+					else if (!Save.Data.finishedGame)
+						hasFinishedGame = true;
 					break;
 			}
 		}
@@ -434,6 +447,15 @@ public class MainMenu : MonoBehaviour
 			DifficultyManager.CurrentDifficulty,
 			Save.Data
 		);
+
+		if (hasHardUnlock)
+			popup.Pop(unlockHardModeMessage);
+
+		if (hasFinishedGame)
+		{
+			popup.Pop(finishGameMessage);
+			Save.Data.finishedGame = true;
+		}
 
 		anim.Play("ShowEndButtons");
 	}
