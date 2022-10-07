@@ -153,6 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.MikeMatthews.InnerSnake
     Standalone: com.DefaultCompany.InnerSnake
   buildNumber:
     Standalone: 0
@@ -592,6 +593,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     1: DEBUG_MODE
+    7: DEBUG_MODE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

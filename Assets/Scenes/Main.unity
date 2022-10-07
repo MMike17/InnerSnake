@@ -1844,6 +1844,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loseKey: 108
+  timePlusKey: 107
+  timeMinusKey: 106
 --- !u!1 &613906249
 GameObject:
   m_ObjectHideFlags: 0

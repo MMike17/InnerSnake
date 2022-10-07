@@ -476,6 +476,8 @@ public class MainMenu : MonoBehaviour
 		Player.CleanPlayer();
 		GameManager.ChangeState(GameState.Main_Menu);
 
+		// displawn played map (shrink ?)
+
 		yield return FadeEndScreen(0);
 	}
 }
