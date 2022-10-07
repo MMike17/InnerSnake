@@ -240,8 +240,8 @@ public class Player : MonoBehaviour
 			GameOver();
 	}
 
-#if DEBUG_MODE
-    public void GameOver()
+#if UNITY_EDITOR
+	public void GameOver()
 	{
 		anim.Play("Die");
 		GameManager.ChangeState(GameState.End_Menu);
