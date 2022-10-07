@@ -24,7 +24,8 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public float spawnAnimSpeed;
 	[Space]
-	public float eolScreenFadeDuration;
+	public float eolScreenFadeInDuration;
+	public float eolScreenFadeOutDuration;
 	public float eolScoreAnimDuration;
 	[Space]
 	[TextArea]
@@ -329,11 +330,13 @@ public class MainMenu : MonoBehaviour
 		float initialAlpha = eolScreenGroup.alpha;
 
 		float timer = 0;
-		while (timer < eolScreenFadeDuration)
+		float fadeDuration = target == 1 ? eolScreenFadeInDuration : eolScreenFadeOutDuration;
+
+		while (timer < fadeDuration)
 		{
 			timer += Time.deltaTime;
 
-			eolScreenGroup.alpha = Mathf.Lerp(initialAlpha, target, timer / eolScreenFadeDuration);
+			eolScreenGroup.alpha = Mathf.Lerp(initialAlpha, target, timer / fadeDuration);
 			yield return null;
 		}
 

@@ -572,7 +572,8 @@ MonoBehaviour:
   levelAnimDuration: 0.8
   mapRotationSpeed: 30
   spawnAnimSpeed: 1
-  eolScreenFadeDuration: 2
+  eolScreenFadeInDuration: 2
+  eolScreenFadeOutDuration: 1
   eolScoreAnimDuration: 3
   unlockHardModeMessage: 
   finishGameMessage: 
