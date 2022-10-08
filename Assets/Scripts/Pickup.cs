@@ -30,9 +30,9 @@ public class Pickup : MonoBehaviour
 		vfx.position = piece.transform.position;
 	}
 
-	public void Collect(float previousOffsett)
+	public void Collect(float previousOffset)
 	{
-		piece.Collect(previousOffsett);
+		piece.Collect(previousOffset);
 		Destroy(gameObject);
 	}
 }

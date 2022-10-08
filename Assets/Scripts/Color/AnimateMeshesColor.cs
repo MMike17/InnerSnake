@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>Animates an mesh's color depending on time</summary>
+/// <summary>Animates a mesh's color depending on time</summary>
 public class AnimateMeshesColor : AnimateColor
 {
 	public const string EMISSION_COLOR_KEY = "_EmissionColor";

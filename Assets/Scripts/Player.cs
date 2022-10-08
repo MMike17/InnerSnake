@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
 	public Animator anim;
 	public Rigidbody rigid;
 	public Transform cameraTarget;
+	public ParticleSystem pickupFX;
+	public AnimateParticlesColor pickupFXColor;
 
 	List<SnakePiece> collectedPieces;
 	List<Vector3> previousPositions;
@@ -218,6 +220,9 @@ public class Player : MonoBehaviour
 
 			collectedPieces.Add(piece);
 			piece.GetComponentInParent<Pickup>().Collect((float)collectedPieces.Count / totalPieces);
+
+			pickupFXColor.offset = piece.colorAnim.offset;
+			pickupFX.Play();
 
 			piece.transform.position = previousPositions[0];
 			piece.transform.LookAt(collectedPieces.Count > 1 ? collectedPieces[collectedPieces.Count - 2].transform : transform);

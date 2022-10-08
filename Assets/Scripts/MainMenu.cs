@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 	[TextArea]
 	public string unlockHardModeMessage;
 	public string finishGameMessage;
-	// TODO : Add highscore panel
+	// TODO : Add score history
 
 	[Header("Scene references")]
 	public Transform animScreenCenter;
