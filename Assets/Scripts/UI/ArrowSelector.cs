@@ -77,7 +77,7 @@ public class ArrowSelector : MonoBehaviour
 	{
 		if (state)
 			completionAnim.Play("Show");
-		else
+		else if (completionAnim.GetCurrentAnimatorStateInfo(0).IsName("Show"))
 			completionAnim.Play("Hide");
 	}
 }

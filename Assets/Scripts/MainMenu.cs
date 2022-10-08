@@ -30,8 +30,10 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	[TextArea]
 	public string unlockHardModeMessage;
+	[TextArea]
 	public string finishGameMessage;
 	// TODO : Add score history
+	// TODO : Feed in "unlocked hard mode" and "finish game" messages
 
 	[Header("Scene references")]
 	public Transform animScreenCenter;
