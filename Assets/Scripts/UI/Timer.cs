@@ -32,11 +32,13 @@ public class Timer : MonoBehaviour
 			timer += Time.deltaTime;
 			display.text = (Mathf.FloorToInt(duration - timer) + 1).ToString();
 
+			SoundsManager.PlaySound("UI");
 			yield return null;
 		}
 
 		display.text = startText;
 		anim.Play("Start");
+		SoundsManager.PlaySound("UI", 1.5f);
 
 		OnDone?.Invoke();
 	}

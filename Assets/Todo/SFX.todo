@@ -1,6 +1,12 @@
-- BGM
-- On collection
-- Button click
+- Game BGM
+x On collection
+x Button click
+x On Win
+x On Lose
 - Lose BGM
 - Win BGM
-- Tick for score graph (low button click)
+x Tick for score graph (low button click)
+x Tick 2 for score graph
+x Menu BGM
+- Rework menu loop
+- Balance sounds volumes (PC volume at 30)

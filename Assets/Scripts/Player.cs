@@ -234,6 +234,7 @@ public class Player : MonoBehaviour
 
 				GameManager.ChangeState(GameState.End_Menu);
 				anim.Play("Win");
+				SoundsManager.PlaySound("Win");
 			}
 			else
 			{
@@ -245,19 +246,11 @@ public class Player : MonoBehaviour
 			GameOver();
 	}
 
-#if UNITY_EDITOR
 	public void GameOver()
 	{
+		SoundsManager.PlaySound("Lose");
 		anim.Play("Die");
 		GameManager.ChangeState(GameState.End_Menu);
 		blockInput = true;
 	}
-#else
-	void GameOver()
-	{
-		anim.Play("Die");
-		GameManager.ChangeState(GameState.End_Menu);
-		blockInput = true;
-	}
-#endif
 }

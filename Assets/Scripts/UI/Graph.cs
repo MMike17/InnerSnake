@@ -91,6 +91,8 @@ public class Graph : MonoBehaviour
 					allResultsEqual = false;
 			});
 
+			SoundsManager.PlaySound("Tick");
+
 			// spawn indicators
 			for (int i = 0; i < results.Count; i++)
 			{
@@ -118,7 +120,11 @@ public class Graph : MonoBehaviour
 			GraphIndicator lastIndicator = spawnedIndicators[spawnedIndicators.Count - 1];
 
 			// delay
-			yield return new WaitForSeconds(lastIndicator.animationDuration + animDelay);
+			yield return new WaitForSeconds(lastIndicator.animationDuration);
+			SoundsManager.StopSound("Tick");
+
+			yield return new WaitForSeconds(animDelay);
+			SoundsManager.PlaySound("Tick");
 
 			// spawn lines
 			for (int i = 0; i < spawnedIndicators.Count - 1; i++)
@@ -140,6 +146,8 @@ public class Graph : MonoBehaviour
 				}
 			}
 
+			SoundsManager.StopSound("Tick");
+
 			// last score line
 			Vector2 initialPos = new Vector2(dataZone.position.x - dataZone.rect.width / 2, heights[heights.Length - 2]);
 			Vector2 targetPos = initialPos;
@@ -149,7 +157,9 @@ public class Graph : MonoBehaviour
 			lastResultLine.position = initialPos;
 			lastResultLine.gameObject.SetActive(true);
 
+			SoundsManager.PlaySound("LineTick");
 			timer = 0;
+
 			while (timer < lastResultAnimDuration)
 			{
 				timer += Time.deltaTime;
@@ -167,16 +177,20 @@ public class Graph : MonoBehaviour
 			}
 
 			lastResultLine.position = targetPos;
+			SoundsManager.StopSound("TickLine");
 
 			// animate last indicator and line
+			SoundsManager.PlaySound("Tick");
 			Vector2 startPoint = spawnedIndicators[spawnedIndicators.Count - 2].scoreIndicator.position;
 			Vector2 endPoint = new Vector2(lastIndicator.scoreIndicator.position.x, heights[heights.Length - 1]);
 
 			StartCoroutine(lastIndicator.Animate(results[results.Count - 1].stat, isVictory, heights[heights.Length - 1]));
 			yield return AnimateLine(spawnedLines[spawnedLines.Count - 1], startPoint, endPoint, lastIndicator.animationDuration);
+			SoundsManager.StopSound("Tick");
 		}
 		else
 		{
+			SoundsManager.PlaySound("Tick");
 			GraphIndicator indicator = Instantiate(indicatorPrefab, dataZone);
 			indicator.transform.position = indicatorLine.transform.position;
 
@@ -185,6 +199,7 @@ public class Graph : MonoBehaviour
 
 			indicator.SetValue(results[0].stat, isVictory, 0, dataZone.position.y, true, 0.5f);
 			yield return new WaitForSeconds(indicator.animationDuration);
+			SoundsManager.StopSound("Tick");
 		}
 
 		yield return new WaitForSeconds(animDelay);

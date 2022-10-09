@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 	public DifficultyManager difficultyManager;
 	public MainMenu mainMenu;
 	public MapsManager mapsManager;
+	public SoundsManager soundsManager;
 	[Space]
 	public Player gamePlayerPrefab;
 
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
 		cameraManager.Init();
 		difficultyManager.Init();
 		mapsManager.Init();
+		soundsManager.Init();
 
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
 

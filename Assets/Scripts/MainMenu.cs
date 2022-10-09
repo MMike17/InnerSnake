@@ -76,12 +76,20 @@ public class MainMenu : MonoBehaviour
 	{
 		newGameButton.onClick.AddListener(() =>
 		{
+			SoundsManager.PlaySound("Click");
+
 			showLevels = true;
 			PickNewAnimTarget();
 		});
-		quitButton.onClick.AddListener(() => Application.Quit());
+		quitButton.onClick.AddListener(() =>
+		{
+			SoundsManager.PlaySound("Click");
+			Application.Quit();
+		});
 		playButton.onClick.AddListener(() =>
 		{
+			SoundsManager.PlaySound("Click");
+
 			anim.Play("HideLevel", 1);
 			levelSelector.SetCompletion(false);
 			difficultySelector.SetCompletion(false);
@@ -191,6 +199,7 @@ public class MainMenu : MonoBehaviour
 				goto pickRandom;
 
 			player.LookAt(animTarget, animTarget - player.position - player.forward);
+			SoundsManager.PlaySound("UI", Random.Range(0.8f, 1.2f));
 		}
 	}
 
@@ -270,6 +279,7 @@ public class MainMenu : MonoBehaviour
 		// selector completions
 		levelSelector.SetCompletion(Save.Data.CompletedMap(size));
 		difficultySelector.SetCompletion(Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty));
+		SoundsManager.PlaySound("UI");
 	}
 
 	IEnumerator StartLevel()
@@ -466,6 +476,8 @@ public class MainMenu : MonoBehaviour
 
 	IEnumerator Replay()
 	{
+		SoundsManager.PlaySound("Click");
+
 		Player.CleanPlayer();
 		StartCoroutine(StartLevel());
 
@@ -474,6 +486,8 @@ public class MainMenu : MonoBehaviour
 
 	IEnumerator FromEndToMenu()
 	{
+		SoundsManager.PlaySound("Click");
+
 		Player.CleanPlayer();
 		GameManager.ChangeState(GameState.Main_Menu);
 

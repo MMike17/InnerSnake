@@ -32,6 +32,8 @@ public class Pickup : MonoBehaviour
 
 	public void Collect(float previousOffset)
 	{
+		SoundsManager.PlaySound("Pickup");
+
 		piece.Collect(previousOffset);
 		Destroy(gameObject);
 	}
