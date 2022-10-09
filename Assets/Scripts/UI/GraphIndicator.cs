@@ -13,12 +13,15 @@ public class GraphIndicator : MonoBehaviour
 	public TMP_Text value;
 	public TMP_Text valueBis;
 	public RectTransform scoreIndicator;
+	public AnimateUIColor colorAnim;
 
-	public void SetValue(int displayValue, bool isVictory, int index, float height, bool animate)
+	public void SetValue(int displayValue, bool isVictory, int index, float height, bool animate, float offset)
 	{
 		bool main = index % 2 != 0;
 		value.enabled = main;
 		valueBis.enabled = !main;
+
+		colorAnim.offset = offset;
 
 		if (animate)
 			StartCoroutine(Animate(displayValue, isVictory, height));

@@ -575,8 +575,18 @@ MonoBehaviour:
   eolScreenFadeInDuration: 2
   eolScreenFadeOutDuration: 1
   eolScoreAnimDuration: 3
-  unlockHardModeMessage: 
-  finishGameMessage: 
+  unlockHardModeMessage: 'You look promising...
+
+    Maybe it''s time for you to
+    get to a higher league
+
+    Join us in Hard mode'
+  finishGameMessage: 'Congratulations !
+
+    You mastered the game, including hard
+    mode
+
+    Come share your top completion time on the game''s page'
   animScreenCenter: {fileID: 1807998515}
   playerPrefab: {fileID: 7045131641524827134, guid: 15b91bc09be580e46a66ca2bea6a4c38, type: 3}
   anim: {fileID: 63027770}
@@ -1903,8 +1913,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: c5723baba2d762c40b4e87fe6b58cd52, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1912,7 +1922,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 5
 --- !u!222 &613906252
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2954,8 +2964,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: af996ae17a67c3c429e9c60bf3e095b6, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2963,7 +2973,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!222 &1004577691
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3961,8 +3971,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: af996ae17a67c3c429e9c60bf3e095b6, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3970,7 +3980,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!222 &1495223358
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5260,8 +5270,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: af996ae17a67c3c429e9c60bf3e095b6, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5269,7 +5279,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!222 &2007683549
 CanvasRenderer:
   m_ObjectHideFlags: 0

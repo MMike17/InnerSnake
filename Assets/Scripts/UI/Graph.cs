@@ -111,7 +111,7 @@ public class Graph : MonoBehaviour
 
 				bool shouldAnimate = i != results.Count - 1;
 
-				indicator.SetValue(shouldAnimate ? currentResult : 0, isVictory, i, heights[i], shouldAnimate);
+				indicator.SetValue(shouldAnimate ? currentResult : 0, isVictory, i, heights[i], shouldAnimate, (float)i / results.Count);
 				spawnedIndicators.Add(indicator);
 			}
 
@@ -127,6 +127,7 @@ public class Graph : MonoBehaviour
 				RectTransform nextIndicator = spawnedIndicators[i + 1].scoreIndicator;
 
 				RectTransform line = Instantiate(linePrefab, dataZone);
+				line.SetSizeWithCurrentAnchors(Axis.Horizontal, 0);
 				line.SetAsFirstSibling();
 				spawnedLines.Add(line);
 
@@ -182,7 +183,7 @@ public class Graph : MonoBehaviour
 			lastResultLine.gameObject.SetActive(false);
 			spawnedIndicators.Add(indicator);
 
-			indicator.SetValue(results[0].stat, isVictory, 0, dataZone.position.y, true);
+			indicator.SetValue(results[0].stat, isVictory, 0, dataZone.position.y, true, 0.5f);
 			yield return new WaitForSeconds(indicator.animationDuration);
 		}
 
@@ -201,7 +202,7 @@ public class Graph : MonoBehaviour
 			float percent = timer / duration;
 
 			Vector2 targetPos = Vector3.Lerp(startPoint, endLinePos, percent);
-			float length = Vector3.Distance(startPoint, Vector3.Lerp(startPoint, endPoint, percent));
+			float length = Mathf.Max(Vector3.Distance(startPoint, Vector3.Lerp(startPoint, endPoint, percent)) - 40, 0);
 
 			SetLine(
 				spawnedLines[spawnedLines.Count - 1],
@@ -216,7 +217,7 @@ public class Graph : MonoBehaviour
 		SetLine(
 			spawnedLines[spawnedLines.Count - 1],
 			endLinePos,
-			Vector2.Distance(startPoint, endPoint),
+			Vector3.Distance(startPoint, endPoint) - 40,
 			angle
 		);
 	}
