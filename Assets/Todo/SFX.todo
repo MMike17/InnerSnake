@@ -8,5 +8,5 @@ x On Lose
 x Tick for score graph (low button click)
 x Tick 2 for score graph
 x Menu BGM
-- Rework menu loop
+- Rework menu loop (remove cut)
 - Balance sounds volumes (PC volume at 30)

@@ -12,9 +12,9 @@ public class SoundsManager : MonoBehaviour
 
 	static SoundsManager instance;
 
-	// TODO : Fix AudioSources not signaling !isPlaying when done playing
-
 	[Header("Settings")]
+	public AnimationCurve fadeInCurve;
+	public AnimationCurve fadeOutCurve;
 	public List<SFX> sounds;
 
 	[Header("Scene references")]
@@ -30,21 +30,12 @@ public class SoundsManager : MonoBehaviour
 		GameManager.OnStateChanged += OnStateChanged;
 	}
 
-	void Update()
-	{
-		pool.ForEach(item =>
-		{
-			if (item.time == item.clip.length)
-				item.Stop();
-		});
-	}
-
 	void OnStateChanged(GameState state)
 	{
 		switch (state)
 		{
 			case GameState.Main_Menu:
-				FadeSound("Menu", 3, true);
+				FadeSound("Menu", 5, true);
 				break;
 
 			case GameState.Game:
@@ -53,12 +44,12 @@ public class SoundsManager : MonoBehaviour
 
 			case GameState.End_Menu:
 				StopSound("Game");
-				FadeSound("Menu", 2, true);
+				FadeSound("Menu", 3, true);
 				break;
 		}
 	}
 
-	public static AudioSource PlaySound(string name, float customPitch = 1)
+	public static AudioSource PlaySound(string name, float customPitch = 1, float overrideVolume = 1)
 	{
 		SFX selectedSound = instance.FindSound(name);
 
@@ -68,16 +59,11 @@ public class SoundsManager : MonoBehaviour
 			return null;
 		}
 
-		if (instance.FindSource(name, false) != null)
-		{
-			Debug.LogWarning(DEBUG_FLAG + "Sound with name \"" + name + "\" is already playing");
-			return null;
-		}
-
 		AudioSource selectedSource = instance.GetAvailableSource();
 		selectedSource.pitch = customPitch;
-		selectedSound.Apply(selectedSource);
+		selectedSound.Apply(selectedSource, overrideVolume);
 
+		instance.pool.Add(selectedSource);
 		return selectedSource;
 	}
 
@@ -105,12 +91,13 @@ public class SoundsManager : MonoBehaviour
 	{
 		float timer = 0;
 		float initialSound = source.volume;
+		AnimationCurve selectedCurve = targetVolume == 0 ? instance.fadeOutCurve : instance.fadeInCurve;
 
 		while (timer < duration)
 		{
 			timer += Time.deltaTime;
 
-			source.volume = Mathf.Lerp(initialSound, targetVolume, timer / duration);
+			source.volume = Mathf.Lerp(initialSound, targetVolume, selectedCurve.Evaluate(timer / duration));
 			yield return null;
 		}
 
@@ -156,10 +143,10 @@ public class SoundsManager : MonoBehaviour
 		public float volume;
 		public bool loop;
 
-		public void Apply(AudioSource source)
+		public void Apply(AudioSource source, float overrideVolume)
 		{
 			source.clip = clip;
-			source.volume = volume;
+			source.volume = volume * overrideVolume;
 			source.loop = loop;
 			source.name = name;
 

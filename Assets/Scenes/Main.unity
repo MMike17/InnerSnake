@@ -567,8 +567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe0e9ad67a4c8694b8ad7825b8386be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minAnimDistance: 0.4
-  mainAnimSpeed: 7
   levelAnimDuration: 0.8
   mapRotationSpeed: 30
   spawnAnimSpeed: 1
@@ -588,7 +586,7 @@ MonoBehaviour:
 
     Come share your top completion time on the game''s page'
   animScreenCenter: {fileID: 1807998515}
-  playerPrefab: {fileID: 7045131641524827134, guid: 15b91bc09be580e46a66ca2bea6a4c38, type: 3}
+  fakePlayer: {fileID: 6452156461547151665, guid: 15b91bc09be580e46a66ca2bea6a4c38, type: 3}
   anim: {fileID: 63027770}
   newGameButton: {fileID: 1700673521}
   quitButton: {fileID: 2054675623}
@@ -602,7 +600,7 @@ MonoBehaviour:
   eolReplayButton: {fileID: 1823510138}
   eolMenuButton: {fileID: 1471024374}
   eolScoreGraph: {fileID: 869292311}
-  popup: {fileID: 0}
+  popup: {fileID: 1064630165}
 --- !u!95 &63027770
 Animator:
   serializedVersion: 3
@@ -1352,6 +1350,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdc99d5acce75645883431edd9cbbad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeOutCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   sounds:
   - name: Pickup
     clip: {fileID: 8300000, guid: 5df7ca7a39594674085d4d98ed819c10, type: 3}
@@ -1379,7 +1425,7 @@ MonoBehaviour:
     loop: 0
   - name: Menu
     clip: {fileID: 8300000, guid: 544176006fc0c964f846cfb4a8180ca4, type: 3}
-    volume: 1
+    volume: 0.8
     loop: 1
   - name: UI
     clip: {fileID: 8300000, guid: cc317ed7a0942d34aa735d966d173da6, type: 3}
@@ -2575,7 +2621,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1144367840}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0.1}
   m_AnchorMax: {x: 0.75, y: 0.9}
@@ -3204,7 +3250,7 @@ RectTransform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1144367840}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.1}
   m_AnchorMax: {x: 0.15, y: 0.9}
@@ -3418,9 +3464,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1844211870}
   - {fileID: 1100229159}
   - {fileID: 937552649}
-  - {fileID: 1844211870}
   - {fileID: 1404359668}
   m_Father: {fileID: 1716074005}
   m_RootOrder: 1
@@ -4655,7 +4701,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1144367840}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20}
   m_AnchorMin: {x: 0.6, y: 0.3}
   m_AnchorMax: {x: 0.85, y: 1.3}
@@ -4727,7 +4773,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844211869}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -5573,7 +5619,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135854864}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

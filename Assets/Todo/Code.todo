@@ -8,3 +8,4 @@ x Test return to menu after game
 x Add popup messages when big win (Hard mode, finish game, etc...)
 - Add multiplayer scoreboard ?
 - Integrate sounds in game
+- Refactor big classes (Main Menu)

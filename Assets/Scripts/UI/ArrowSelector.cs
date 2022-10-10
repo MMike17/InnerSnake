@@ -46,6 +46,7 @@ public class ArrowSelector : MonoBehaviour
 				SetInterractibility(index != 0, index < choices.Length - 1);
 			}
 
+			SoundsManager.PlaySound("Click");
 			onClickLeft();
 		});
 
@@ -61,6 +62,7 @@ public class ArrowSelector : MonoBehaviour
 				SetInterractibility(index != 0, index < choices.Length - 1);
 			}
 
+			SoundsManager.PlaySound("Click");
 			onClickRight();
 		});
 	}

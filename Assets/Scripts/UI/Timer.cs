@@ -26,15 +26,21 @@ public class Timer : MonoBehaviour
 	IEnumerator CountDown()
 	{
 		float timer = 0;
+		string lastText = (Mathf.FloorToInt(duration) + 1).ToString();
 
 		while (timer < duration)
 		{
 			timer += Time.deltaTime;
 			display.text = (Mathf.FloorToInt(duration - timer) + 1).ToString();
 
-			SoundsManager.PlaySound("UI");
+			if (display.text != lastText)
+				SoundsManager.PlaySound("UI");
+
+			lastText = display.text;
 			yield return null;
 		}
+
+		// TODO : Fix double UI sound on start
 
 		display.text = startText;
 		anim.Play("Start");
