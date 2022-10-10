@@ -9,16 +9,11 @@ using static DifficultyManager;
 using static GameManager;
 using static MapsManager;
 using static Save;
-using Random = UnityEngine.Random;
 
 /// <summary>Manages the main menu of the game</summary>
 public class MainMenu : MonoBehaviour
 {
 	[Header("Settings")]
-	[Range(0.1f, 0.5f)]
-	public float minAnimDistance;
-	public float mainAnimSpeed;
-	[Space]
 	public float levelAnimDuration;
 	public float mapRotationSpeed;
 	[Space]
@@ -36,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
 	[Header("Scene references")]
 	public Transform animScreenCenter;
-	public GameObject playerPrefab;
+	public MenuFakePlayer fakePlayer;
 	public Animator anim;
 	[Space]
 	public Button newGameButton;
@@ -58,19 +53,9 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public Popup popup;
 
-	Transform player;
 	Vector3 animCenter;
-	Vector3 animTarget;
-	float showMenuDistance;
-	float animSphereSize;
 	float completionTime;
-	bool showLevels;
-
-	void OnDrawGizmos()
-	{
-		Gizmos.color = new Color(1, 0, 0, 0.5f);
-		Gizmos.DrawSphere(animCenter, animSphereSize);
-	}
+	float animSphereSize;
 
 	public void Init()
 	{
@@ -78,8 +63,8 @@ public class MainMenu : MonoBehaviour
 		{
 			SoundsManager.PlaySound("Click");
 
-			showLevels = true;
-			PickNewAnimTarget();
+			anim.Play("HideMain", 0);
+			fakePlayer.Stop();
 		});
 		quitButton.onClick.AddListener(() =>
 		{
@@ -125,29 +110,6 @@ public class MainMenu : MonoBehaviour
 
 	void Update()
 	{
-		if (player != null)
-		{
-			float targetDistance = Vector3.Distance(player.position, animTarget);
-
-			if (showLevels)
-				player.localScale = Vector3.one * Mathf.Lerp(0, 0.4f, targetDistance / showMenuDistance);
-
-			if (targetDistance <= 0.1f)
-			{
-				if (showLevels)
-				{
-					GameManager.ChangeState(GameState.Level_selection);
-
-					showLevels = false;
-					Destroy(player.gameObject);
-				}
-				else
-					PickNewAnimTarget();
-			}
-
-			player.position = Vector3.MoveTowards(player.position, animTarget, mainAnimSpeed * Time.deltaTime);
-		}
-
 		if (MapsManager.SpawnedMap != null && GameManager.CurrentState == GameState.Level_selection)
 			MapsManager.SpawnedMap.transform.Rotate(0, mapRotationSpeed * Time.deltaTime, 0);
 	}
@@ -159,8 +121,7 @@ public class MainMenu : MonoBehaviour
 			case GameState.Main_Menu:
 				anim.Play("ShowMain", 0);
 
-				player = Instantiate(playerPrefab, animCenter, Quaternion.Euler(0, 0, 0)).transform;
-				PickNewAnimTarget();
+				fakePlayer.Init(animCenter, animSphereSize);
 				break;
 
 			case GameState.Level_selection:
@@ -174,32 +135,6 @@ public class MainMenu : MonoBehaviour
 				completionTime = (Time.time - completionTime) * 1000;
 				StartCoroutine(EndLevelAnim());
 				break;
-		}
-	}
-
-	void PickNewAnimTarget()
-	{
-		if (showLevels)
-		{
-			animTarget = animCenter;
-			showMenuDistance = Vector3.Distance(animCenter, player.position);
-
-			player.LookAt(animTarget, animTarget - player.position - player.forward);
-			anim.Play("HideMain", 0);
-		}
-		else
-		{
-			int loopCount = 0;
-
-		pickRandom:
-			animTarget = animCenter + Random.onUnitSphere * animSphereSize;
-			loopCount++;
-
-			if (loopCount < 3 && Vector3.Distance(animTarget, player.position) < animSphereSize * minAnimDistance)
-				goto pickRandom;
-
-			player.LookAt(animTarget, animTarget - player.position - player.forward);
-			SoundsManager.PlaySound("UI", Random.Range(0.8f, 1.2f));
 		}
 	}
 
@@ -264,11 +199,18 @@ public class MainMenu : MonoBehaviour
 		Vector3 targetSize = Vector3.one * 5;
 		timer = 0;
 		initialSize = Vector3.zero;
+		bool playedSound = false;
 
 		while (timer < levelAnimDuration)
 		{
 			float percent = timer / levelAnimDuration;
 			MapsManager.SpawnedMap.transform.localScale = Vector3.Lerp(initialSize, targetSize, percent);
+
+			if (percent > 0.7f && !playedSound)
+			{
+				SoundsManager.PlaySound("UI");
+				playedSound = true;
+			}
 
 			timer += Time.deltaTime;
 			yield return null;
@@ -279,7 +221,6 @@ public class MainMenu : MonoBehaviour
 		// selector completions
 		levelSelector.SetCompletion(Save.Data.CompletedMap(size));
 		difficultySelector.SetCompletion(Save.Data.CompletedLevel(size, DifficultyManager.CurrentDifficulty));
-		SoundsManager.PlaySound("UI");
 	}
 
 	IEnumerator StartLevel()

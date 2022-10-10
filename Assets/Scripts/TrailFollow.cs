@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>Animates the trail following</summary>
 public class TrailFollow : MonoBehaviour
 {
+	// TODO : merge this into fake player
 	[Header("Settings")]
 	public int maxTrailLength;
 	public float drawDelay;
