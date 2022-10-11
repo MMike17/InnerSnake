@@ -6,16 +6,12 @@ using static GameManager;
 /// <summary>Player controller</summary>
 public class Player : MonoBehaviour
 {
-	const float crossFadeDuration = 1f / 6f;
-
 	public static Transform Transform => instance.transform;
 	public static Transform CameraTarget => instance.cameraTarget;
 	public static int CollectedPieces => instance.collectedPieces.Count;
 	public static float PlayerHeight => instance.height;
 
 	static Player instance;
-
-	// TODO : Fix pickup VFX
 
 	[Header("Settings")]
 	public KeyCode[] left;

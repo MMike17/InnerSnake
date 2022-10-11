@@ -584,7 +584,8 @@ MonoBehaviour:
     You mastered the game, including hard
     mode
 
-    Come share your top completion time on the game''s page'
+    Come share your top completion time on <link="https://mikematthews.itch.io/inner-snake">the
+    game''s page</link>'
   animScreenCenter: {fileID: 1807998515}
   fakePlayer: {fileID: 6452156461547151665, guid: 15b91bc09be580e46a66ca2bea6a4c38, type: 3}
   anim: {fileID: 63027770}
@@ -1418,11 +1419,11 @@ MonoBehaviour:
   - name: Tick
     clip: {fileID: 8300000, guid: 90830c5109f470242bf2ef46cf8a61ac, type: 3}
     volume: 0.4
-    loop: 0
+    loop: 1
   - name: TickLine
     clip: {fileID: 8300000, guid: ed078865d34df194f9d9596cc5a62b70, type: 3}
     volume: 0.3
-    loop: 0
+    loop: 1
   - name: Menu
     clip: {fileID: 8300000, guid: 544176006fc0c964f846cfb4a8180ca4, type: 3}
     volume: 0.8
