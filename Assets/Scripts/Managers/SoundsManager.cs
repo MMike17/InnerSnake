@@ -39,7 +39,7 @@ public class SoundsManager : MonoBehaviour
 				break;
 
 			case GameState.Game:
-				StopSound("Menu");
+				FadeSound("Menu", 2, false);
 				break;
 
 			case GameState.End_Menu:
@@ -84,7 +84,12 @@ public class SoundsManager : MonoBehaviour
 		if (selectedSource == null)
 			selectedSource = PlaySound(name);
 
-		instance.StartCoroutine(FadeSoundRoutine(selectedSource, duration, fadeInOut ? instance.FindSound(name).volume : 0));
+		SFX selectedSound = instance.FindSound(name);
+
+		if (selectedSound == null)
+			return; 
+
+		instance.StartCoroutine(FadeSoundRoutine(selectedSource, duration, fadeInOut ? selectedSound.volume : 0));
 	}
 
 	static IEnumerator FadeSoundRoutine(AudioSource source, float duration, float targetVolume)

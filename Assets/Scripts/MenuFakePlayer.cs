@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using static GameManager;
@@ -6,17 +7,23 @@ using Random = UnityEngine.Random;
 /// <summary>Fake player used in the main menu</summary>
 public class MenuFakePlayer : MonoBehaviour
 {
-	// TODO : fix this shit
-
+	[Header("Settings")]
 	[Range(0.1f, 0.5f)]
 	public float minAnimDistance;
 	public float mainAnimSpeed;
+	[Space]
+	public int maxTrailLength;
+	public float drawDelay;
+
+	[Header("Scene references")]
+	public LineRenderer line;
 
 	Vector3 animTarget;
 	Vector3 center;
 	float animSphereSize;
 	float showMenuDistance;
-	bool showLevels;
+	float timer;
+	bool showLevels = false;
 
 	void OnDrawGizmos()
 	{
@@ -45,6 +52,32 @@ public class MenuFakePlayer : MonoBehaviour
 		}
 
 		transform.position = Vector3.MoveTowards(transform.position, animTarget, mainAnimSpeed * Time.deltaTime);
+
+		Trail();
+	}
+
+	void Trail()
+	{
+		timer += Time.deltaTime;
+
+		if (timer >= drawDelay)
+		{
+			timer = 0;
+
+			Vector3[] positions = new Vector3[line.positionCount];
+			line.GetPositions(positions);
+
+			List<Vector3> newPos = new List<Vector3>(positions);
+
+			if (newPos.Count >= maxTrailLength)
+				newPos.RemoveAt(newPos.Count - 1);
+
+			newPos.Insert(0, transform.position);
+			line.positionCount = newPos.Count;
+			line.SetPositions(newPos.ToArray());
+		}
+		else if (line.positionCount > 0)
+			line.SetPosition(0, transform.position);
 	}
 
 	void PickNewAnimTarget()
@@ -77,7 +110,6 @@ public class MenuFakePlayer : MonoBehaviour
 		this.center = center;
 		animSphereSize = sphereSize;
 
-		Instantiate(this, center, Quaternion.identity);
 		PickNewAnimTarget();
 	}
 

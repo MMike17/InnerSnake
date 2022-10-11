@@ -53,6 +53,7 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public Popup popup;
 
+	MenuFakePlayer player;
 	Vector3 animCenter;
 	float completionTime;
 	float animSphereSize;
@@ -64,7 +65,7 @@ public class MainMenu : MonoBehaviour
 			SoundsManager.PlaySound("Click");
 
 			anim.Play("HideMain", 0);
-			fakePlayer.Stop();
+			player.Stop();
 		});
 		quitButton.onClick.AddListener(() =>
 		{
@@ -121,7 +122,8 @@ public class MainMenu : MonoBehaviour
 			case GameState.Main_Menu:
 				anim.Play("ShowMain", 0);
 
-				fakePlayer.Init(animCenter, animSphereSize);
+				player = Instantiate(fakePlayer, animCenter, Quaternion.identity);
+				player.Init(animCenter, animSphereSize);
 				break;
 
 			case GameState.Level_selection:
