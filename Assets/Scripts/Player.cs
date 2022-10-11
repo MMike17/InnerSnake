@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
 	static Player instance;
 
+	// TODO : Fix pickup VFX
+
 	[Header("Settings")]
 	public KeyCode[] left;
 	public KeyCode[] right;
