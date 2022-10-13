@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public enum GameState
 	{
 		Main_Menu,
+		Score_History,
 		Level_selection,
 		Game,
 		End_Menu
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
 	public CameraManager cameraManager;
 	public DifficultyManager difficultyManager;
 	public MainMenu mainMenu;
+	public ScoreHistoryMenu scoreHistoryMenu;
 	public EndLevelMenu endLevelMenu;
 	public MapsManager mapsManager;
 	public SoundsManager soundsManager;
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
 
 		mainMenu.Init();
+		scoreHistoryMenu.Init();
 		endLevelMenu.Init(() => mainMenu.anim.Play("ShowEndButtons"), () => StartCoroutine(mainMenu.StartLevel()));
 
 		OnStateChanged.Invoke(currentState);

@@ -16,9 +16,6 @@ public class MainMenu : MonoBehaviour
 	public float mapRotationSpeed;
 	[Space]
 	public float spawnAnimSpeed;
-	// TODO : Add score history
-
-	// TODO : Make Graph prefab
 
 	[Header("Scene references")]
 	public Transform animScreenCenter;
@@ -26,6 +23,7 @@ public class MainMenu : MonoBehaviour
 	public Animator anim;
 	[Space]
 	public Button newGameButton;
+	public Button scoreHistoryButton;
 	// public Button highscoreButton;
 	public Button quitButton;
 	[Space]
@@ -47,7 +45,14 @@ public class MainMenu : MonoBehaviour
 			SoundsManager.PlaySound("Click");
 
 			anim.Play("HideMain", 0);
-			player.Stop();
+			player.Stop(GameState.Level_selection);
+		});
+		scoreHistoryButton.onClick.AddListener(() =>
+		{
+			SoundsManager.PlaySound("Click");
+
+			anim.Play("HideMain", 0);
+			player.Stop(GameState.Score_History);
 		});
 		quitButton.onClick.AddListener(() =>
 		{
@@ -94,6 +99,8 @@ public class MainMenu : MonoBehaviour
 			MapsManager.SpawnedMap.transform.Rotate(0, mapRotationSpeed * Time.deltaTime, 0);
 	}
 
+	// TODO : Fix ShowEndButtons animation
+
 	void OnGameStateChange(GameState state)
 	{
 		switch (state)
@@ -103,6 +110,13 @@ public class MainMenu : MonoBehaviour
 
 				player = Instantiate(fakePlayer, animCenter, Quaternion.identity);
 				player.Init(animCenter, animSphereSize);
+				break;
+
+			// TODO : Add ShowHistory
+			// TODO : Add HideHistory somewhere
+			case GameState.Score_History:
+				anim.Play("HideMain", 0);
+				anim.Play("ShowHistory", 2);
 				break;
 
 			case GameState.Level_selection:

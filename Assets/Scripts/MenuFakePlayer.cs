@@ -20,6 +20,7 @@ public class MenuFakePlayer : MonoBehaviour
 
 	Vector3 animTarget;
 	Vector3 center;
+	GameState targetState;
 	float animSphereSize;
 	float showMenuDistance;
 	float timer;
@@ -42,7 +43,7 @@ public class MenuFakePlayer : MonoBehaviour
 		{
 			if (showLevels)
 			{
-				GameManager.ChangeState(GameState.Level_selection);
+				GameManager.ChangeState(targetState);
 
 				showLevels = false;
 				Destroy(transform.gameObject);
@@ -113,8 +114,9 @@ public class MenuFakePlayer : MonoBehaviour
 		PickNewAnimTarget();
 	}
 
-	public void Stop()
+	public void Stop(GameState state)
 	{
+		targetState = state;
 		showLevels = true;
 		PickNewAnimTarget();
 	}

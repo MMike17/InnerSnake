@@ -34,14 +34,7 @@ public class Graph : MonoBehaviour
 
 	public IEnumerator AnimateScore(bool isVictory, MapSize mapSize, Difficulty difficulty, Save save)
 	{
-		// clear graph
-		if (spawnedIndicators != null)
-			spawnedIndicators.ForEach(item => Destroy(item.gameObject));
-
-		if (spawnedLines != null)
-			spawnedLines.ForEach(item => Destroy(item.gameObject));
-
-		lastResultLine.gameObject.SetActive(false);
+		ClearGraph();
 
 		// fade in
 		float timer = 0;
@@ -203,6 +196,17 @@ public class Graph : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(animDelay);
+	}
+
+	public void ClearGraph()
+	{
+		if (spawnedIndicators != null)
+			spawnedIndicators.ForEach(item => Destroy(item.gameObject));
+
+		if (spawnedLines != null)
+			spawnedLines.ForEach(item => Destroy(item.gameObject));
+
+		lastResultLine.gameObject.SetActive(false);
 	}
 
 	IEnumerator AnimateLine(RectTransform line, Vector2 startPoint, Vector2 endPoint, float duration)
