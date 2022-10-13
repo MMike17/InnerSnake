@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 	public CameraManager cameraManager;
 	public DifficultyManager difficultyManager;
 	public MainMenu mainMenu;
+	public EndLevelMenu endLevelMenu;
 	public MapsManager mapsManager;
 	public SoundsManager soundsManager;
 	[Space]
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
 
 		mainMenu.Init();
+		endLevelMenu.Init(() => mainMenu.anim.Play("ShowEndButtons"), () => StartCoroutine(mainMenu.StartLevel()));
 
 		OnStateChanged.Invoke(currentState);
 	}
