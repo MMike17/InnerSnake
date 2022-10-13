@@ -18,6 +18,8 @@ public class MainMenu : MonoBehaviour
 	public float spawnAnimSpeed;
 	// TODO : Add score history
 
+	// TODO : Make Graph prefab
+
 	[Header("Scene references")]
 	public Transform animScreenCenter;
 	public MenuFakePlayer fakePlayer;
