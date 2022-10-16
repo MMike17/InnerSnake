@@ -49,7 +49,7 @@ public class CameraManager : MonoBehaviour
 				StartCoroutine(TransitionCamera(mainMenuTarget));
 				break;
 
-			case GameState.Level_selection:
+			case GameState.Level_Selection:
 				StartCoroutine(TransitionCamera(levelSelectionTarget));
 				break;
 

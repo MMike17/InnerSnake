@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,9 @@ public class MainMenu : MonoBehaviour
 	public float spawnAnimSpeed;
 
 	[Header("Scene references")]
+	public TMP_InputField nameInput;
+	public Button validateNameButton;
+	[Space]
 	public Transform animScreenCenter;
 	public MenuFakePlayer fakePlayer;
 	public Animator anim;
@@ -40,12 +44,21 @@ public class MainMenu : MonoBehaviour
 
 	public void Init()
 	{
+		validateNameButton.onClick.AddListener(() =>
+		{
+			SoundsManager.PlaySound("Click");
+
+			Save.Data.playerName = nameInput.text;
+
+			anim.Play("HideIntro");
+			GameManager.ChangeState(GameState.Main_Menu);
+		});
 		newGameButton.onClick.AddListener(() =>
 		{
 			SoundsManager.PlaySound("Click");
 
 			anim.Play("HideMain", 0);
-			player.Stop(GameState.Level_selection);
+			player.Stop(GameState.Level_Selection);
 		});
 		scoreHistoryButton.onClick.AddListener(() =>
 		{
@@ -95,31 +108,31 @@ public class MainMenu : MonoBehaviour
 
 	void Update()
 	{
-		if (MapsManager.SpawnedMap != null && GameManager.CurrentState == GameState.Level_selection)
+		if (MapsManager.SpawnedMap != null && GameManager.CurrentState == GameState.Level_Selection)
 			MapsManager.SpawnedMap.transform.Rotate(0, mapRotationSpeed * Time.deltaTime, 0);
 	}
-
-	// TODO : Fix ShowEndButtons animation
 
 	void OnGameStateChange(GameState state)
 	{
 		switch (state)
 		{
 			case GameState.Main_Menu:
+				if (!anim.GetCurrentAnimatorStateInfo(2).IsName("HideHistory"))
+					anim.Play("HideHistory", 2);
+
 				anim.Play("ShowMain", 0);
+				ServerManager.Login();
 
 				player = Instantiate(fakePlayer, animCenter, Quaternion.identity);
 				player.Init(animCenter, animSphereSize);
 				break;
 
-			// TODO : Add ShowHistory
-			// TODO : Add HideHistory somewhere
 			case GameState.Score_History:
 				anim.Play("HideMain", 0);
 				anim.Play("ShowHistory", 2);
 				break;
 
-			case GameState.Level_selection:
+			case GameState.Level_Selection:
 				anim.Play("ShowLevel", 1);
 				levelSelector.index = 0;
 

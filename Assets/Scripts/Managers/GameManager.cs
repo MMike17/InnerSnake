@@ -10,9 +10,10 @@ public class GameManager : MonoBehaviour
 
 	public enum GameState
 	{
+		First_Game,
 		Main_Menu,
 		Score_History,
-		Level_selection,
+		Level_Selection,
 		Game,
 		End_Menu
 	}
@@ -47,7 +48,6 @@ public class GameManager : MonoBehaviour
 	{
 		AnimateColor.cycleDuration = colorAnimCycleDuration;
 
-		currentState = GameState.Main_Menu;
 		GamePlayerPrefab = gamePlayerPrefab;
 
 		cameraManager.Init();
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 		soundsManager.Init();
 
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
+		currentState = Save.Data.firstGame ? GameState.First_Game : GameState.Main_Menu;
 
 		mainMenu.Init();
 		scoreHistoryMenu.Init();

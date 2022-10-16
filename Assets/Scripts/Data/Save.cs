@@ -15,7 +15,9 @@ public class Save
 
 	public List<LevelDifficulty> unlockedDifficulties;
 	public List<LevelResult> results;
+	public string playerName;
 	public bool finishedGame;
+	public bool firstGame;
 
 	public Save(int difficultiesCount, int mapsCount)
 	{
@@ -27,7 +29,10 @@ public class Save
 		unlockedDifficulties[0].difficulties[0] = true;
 
 		results = new List<LevelResult>();
+		playerName = null;
+
 		finishedGame = false;
+		firstGame = true;
 	}
 
 	public List<LevelResult> GetResults(MapSize map, Difficulty difficulty, bool completed)
