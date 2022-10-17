@@ -13,6 +13,9 @@ using static MapsManager;
 public class MainMenu : MonoBehaviour
 {
 	[Header("Settings")]
+	[TextArea]
+	public string invalidNameErrorFormat;
+	[Space]
 	public float levelAnimDuration;
 	public float mapRotationSpeed;
 	[Space]
@@ -20,6 +23,7 @@ public class MainMenu : MonoBehaviour
 
 	[Header("Scene references")]
 	public TMP_InputField nameInput;
+	public TMP_Text errorName;
 	public Button validateNameButton;
 	[Space]
 	public Transform animScreenCenter;
@@ -47,11 +51,19 @@ public class MainMenu : MonoBehaviour
 		validateNameButton.onClick.AddListener(() =>
 		{
 			SoundsManager.PlaySound("Click");
+			errorName.text = null;
 
-			Save.Data.playerName = nameInput.text;
+			ServerManager.IsNameValid(
+				nameInput.text,
+				() => errorName.text = string.Format(invalidNameErrorFormat, nameInput.text),
+				() =>
+				{
+					Save.Data.playerName = nameInput.text;
 
-			anim.Play("HideIntro");
-			GameManager.ChangeState(GameState.Main_Menu);
+					anim.Play("HideIntro", 0);
+					this.DelayAction(() => GameManager.ChangeState(GameState.Main_Menu), 2);
+				}
+			);
 		});
 		newGameButton.onClick.AddListener(() =>
 		{
