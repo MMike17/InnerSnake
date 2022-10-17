@@ -4,16 +4,17 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// Editor window to get all "TODO" tasks from scripts
-/// </summary>
+/// <summary>Editor window to get all "TODO" tasks from scripts</summary>
 class ToDoList : EditorWindow
 {
 	GUIStyle boldCenteredTitleStyle, centeredStyle, boldTitleStyle, frameStyle, boldButtonStyle;
-	TextAsset[] scripts = new TextAsset[0];
+	List<TextAsset> scripts = new List<TextAsset>();
 	TextAsset[] texts = new TextAsset[0];
+	ExcludedList excludedScripts;
 	Vector2 scrollPos;
+	Vector2 excludeScroll;
 	int toDoCount;
+	int selectedScriptIndex;
 
 	static ToDoList window;
 
@@ -43,15 +44,44 @@ class ToDoList : EditorWindow
 
 		EditorGUILayout.Space();
 
+		ShowExclusions();
+
+		EditorGUILayout.Space();
+
 		if (GUILayout.Button("Refresh"))
 			GetAllProjectScriptsWithToDos();
 
 		EditorGUILayout.EndVertical();
 	}
 
+	void GenerateRequirement()
+	{
+		boldCenteredTitleStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
+		centeredStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
+		boldTitleStyle = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold };
+		frameStyle = new GUIStyle(GUI.skin.label) { wordWrap = true, richText = true };
+		boldButtonStyle = new GUIStyle(GUI.skin.box) { fontStyle = FontStyle.Bold, stretchWidth = true, alignment = TextAnchor.MiddleLeft };
+
+		if (window == null)
+			window = GetWindow<ToDoList>();
+
+		if (excludedScripts == null)
+		{
+			excludedScripts = JsonUtility.FromJson<ExcludedList>(PlayerPrefs.GetString("excludedScripts"));
+
+			excludedScripts.scriptsNames.ForEach(item =>
+			{
+				TextAsset selected = scripts.Find(script => script.name == item);
+
+				if (selected != null)
+					scripts.Remove(selected);
+			});
+		}
+	}
+
 	void DisplayList()
 	{
-		if (scripts.Length == 0 && texts.Length == 0)
+		if (scripts.Count == 0 && texts.Length == 0)
 			return;
 
 		scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUIStyle.none, GUI.skin.verticalScrollbar);
@@ -115,16 +145,65 @@ class ToDoList : EditorWindow
 		EditorGUILayout.EndScrollView();
 	}
 
-	void GenerateRequirement()
+	void ShowExclusions()
 	{
-		boldCenteredTitleStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
-		centeredStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
-		boldTitleStyle = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold };
-		frameStyle = new GUIStyle(GUI.skin.label) { wordWrap = true, richText = true };
-		boldButtonStyle = new GUIStyle(GUI.skin.box) { fontStyle = FontStyle.Bold, stretchWidth = true, alignment = TextAnchor.MiddleLeft };
+		EditorGUILayout.LabelField("Excluded scripts");
 
-		if (window == null)
-			window = GetWindow<ToDoList>();
+		EditorGUILayout.Space();
+		excludeScroll = EditorGUILayout.BeginScrollView(excludeScroll);
+
+		List<string> toRemove = new List<string>();
+
+		foreach (string script in excludedScripts.scriptsNames)
+		{
+			EditorGUILayout.BeginHorizontal();
+
+			EditorGUILayout.LabelField(script);
+
+			if (GUILayout.Button("Remove"))
+				toRemove.Add(script);
+
+			EditorGUILayout.EndHorizontal();
+		}
+
+		toRemove.ForEach(script => excludedScripts.scriptsNames.Remove(script));
+
+		EditorGUILayout.EndScrollView();
+
+		EditorGUILayout.Space();
+
+		EditorGUILayout.BeginHorizontal();
+
+		string[] allAssetsPaths = AssetDatabase.GetAllAssetPaths();
+		List<string> fileNames = new List<string>();
+
+		foreach (string assetPath in allAssetsPaths)
+		{
+			if (!assetPath.Contains("Packages") && assetPath.EndsWith(".cs"))
+			{
+				TextAsset script = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
+
+				if (!excludedScripts.scriptsNames.Contains(script.name))
+					fileNames.Add(script.name);
+			}
+		}
+
+		selectedScriptIndex = EditorGUILayout.Popup(selectedScriptIndex, fileNames.ToArray());
+
+		if (GUILayout.Button("Add exception"))
+		{
+			excludedScripts.scriptsNames.Add(fileNames[selectedScriptIndex]);
+			selectedScriptIndex = 0;
+
+			TextAsset selected = scripts.Find(item => item.name == fileNames[selectedScriptIndex]);
+
+			if (selected != null)
+				scripts.Remove(selected);
+
+			PlayerPrefs.SetString("excludedScriptsToDo", JsonUtility.ToJson(excludedScripts));
+		}
+
+		EditorGUILayout.EndHorizontal();
 	}
 
 	void GetAllProjectScriptsWithToDos()
@@ -141,7 +220,7 @@ class ToDoList : EditorWindow
 				{
 					TextAsset script = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
 
-					if (ScriptContainsToDo(script.text))
+					if (!excludedScripts.scriptsNames.Contains(script.name) && ScriptContainsToDo(script.text))
 						loadedScripts.Add(script);
 				}
 
@@ -158,7 +237,7 @@ class ToDoList : EditorWindow
 			}
 		}
 
-		scripts = loadedScripts.ToArray();
+		scripts = loadedScripts;
 		texts = loadedTexts.ToArray();
 	}
 
@@ -204,6 +283,14 @@ class ToDoList : EditorWindow
 
 	bool TextContainsToDo(string text)
 	{
-		return text.Contains("- ");
+		return text.Contains("\n- ");
+	}
+
+	[Serializable]
+	class ExcludedList
+	{
+		public List<string> scriptsNames;
+
+		public ExcludedList() => scriptsNames = new List<string>();
 	}
 }

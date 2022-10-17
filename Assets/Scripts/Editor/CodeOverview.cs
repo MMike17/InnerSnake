@@ -295,11 +295,11 @@ class CodeOverview : EditorWindow
 			// skip this script
 			if (!excludedScripts.scriptsNames.Contains(script.name))
 			{
-                // gets bad and medium files
-                if (classLineCount >= mediumThreshold)
-                    badScripts.Add(new Script(script, classType, classLineCount));
-                else if (classLineCount >= goodThreshold)
-                    mediumScripts.Add(new Script(script, classType, classLineCount));
+				// gets bad and medium files
+				if (classLineCount >= mediumThreshold)
+					badScripts.Add(new Script(script, classType, classLineCount));
+				else if (classLineCount >= goodThreshold)
+					mediumScripts.Add(new Script(script, classType, classLineCount));
 			}
 		}
 
@@ -417,7 +417,6 @@ class CodeOverview : EditorWindow
 				return 0;
 		}
 	}
-
 
 	[Serializable]
 	class ExcludedList
