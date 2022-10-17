@@ -15,6 +15,7 @@ public class Save
 
 	public List<LevelDifficulty> unlockedDifficulties;
 	public List<LevelResult> results;
+	public List<NetworkResult> waitingResults;
 	public string playerName;
 	public bool finishedGame;
 	public bool firstGame;
@@ -29,6 +30,7 @@ public class Save
 		unlockedDifficulties[0].difficulties[0] = true;
 
 		results = new List<LevelResult>();
+		waitingResults = new List<NetworkResult>();
 		playerName = null;
 
 		finishedGame = false;
@@ -96,6 +98,22 @@ public class Save
 				completionTimeMil = stat;
 			else
 				collected = stat;
+		}
+	}
+
+	/// <summary>Represents a game's results that we couldn't send to the server</summary>
+	[Serializable]
+	public class NetworkResult
+	{
+		public MapSize size;
+		public Difficulty difficulty;
+		public int completionTimeMil;
+
+		public NetworkResult(MapSize size, Difficulty difficulty, int completionTimeMil)
+		{
+			this.size = size;
+			this.difficulty = difficulty;
+			this.completionTimeMil = completionTimeMil;
 		}
 	}
 

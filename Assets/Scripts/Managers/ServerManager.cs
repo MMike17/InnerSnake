@@ -6,6 +6,7 @@ using UnityEngine;
 
 using static DifficultyManager;
 using static MapsManager;
+using static Save;
 
 /// <summary>Manages connexion to Playfab servers</summary>
 public static class ServerManager
@@ -39,18 +40,19 @@ public static class ServerManager
 		);
 	}
 
-	// TODO : Call this from "first game" panel
-	public static void IsNameValid(string name, Action OnSuccess, Action OnFail)
+	public static void IsNameValid(string name, Action OnNameInvalid, Action OnNameValid)
 	{
 		GetAccountInfoRequest request = new GetAccountInfoRequest() { Username = name };
-		PlayFabClientAPI.GetAccountInfo(request, result => OnSuccess(), error => OnFail());
+		PlayFabClientAPI.GetAccountInfo(request, result => OnNameInvalid(), error => OnNameValid());
 	}
 
+	// TODO : When do we send the stored scores ?
+	// TODO : Call this at the end of a game
 	public static void SendScore(int completionTimeMil, MapSize size, Difficulty difficulty)
 	{
 		if (!HasConnection)
 		{
-			// TODO : store the statistics so that we can send them later ;)
+			StoreScore(completionTimeMil, size, difficulty);
 			return;
 		}
 
@@ -64,14 +66,16 @@ public static class ServerManager
 			}}
 		};
 
-		// TODO : Finish this
-		// PlayFabClientAPI.UpdatePlayerStatistics(request, OnSendScoreSuccess, OnSendScoreFail);
+		PlayFabClientAPI.UpdatePlayerStatistics(request, result => { }, error => StoreScore(completionTimeMil, size, difficulty));
 	}
 
-	// static void OnSendScoreSuccess(UpdatePlayerStatisticsResult result) => Save.Data.firstGame = false;
+	static void StoreScore(int completionTimeMil, MapSize size, Difficulty difficulty)
+	{
+		NetworkResult result = Save.Data.waitingResults.Find(item => item.size == size && item.difficulty == difficulty);
 
-	// static void OnSendScoreFail(PlayFabError error)
-	// {
-	// Debug.LogError(error.GenerateErrorReport());
-	// }
+		if (result != null)
+			result.completionTimeMil = completionTimeMil;
+		else
+			Save.Data.waitingResults.Add(new NetworkResult(size, difficulty, completionTimeMil));
+	}
 }
