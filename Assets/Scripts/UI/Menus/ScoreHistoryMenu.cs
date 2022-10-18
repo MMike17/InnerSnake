@@ -12,6 +12,11 @@ public class ScoreHistoryMenu : MonoBehaviour
 	const string LEVEL_FORMAT = "{0} x {0}";
 
 	[Header("Scene references")]
+	public HighscoreTicket n1Ticket;
+	public HighscoreTicket n2Ticket;
+	public HighscoreTicket n3Ticket;
+	public HighscoreTicket n4Ticket;
+	[Space]
 	public Graph graph;
 	public GameObject noDataMessage;
 	public GameObject completion;
@@ -48,6 +53,11 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 	void DisplayResults()
 	{
+		// n1Ticket.
+		// n2Ticket.
+		// n3Ticket.
+		// n4Ticket.
+
 		graph.ClearGraph();
 
 		LevelResult targetResult = Save.Data.results.Find(item => item.size == (MapSize)levelSelector.index && item.difficulty == (Difficulty)difficultySelector.index);

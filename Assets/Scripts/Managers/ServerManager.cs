@@ -99,4 +99,23 @@ public static class ServerManager
 		UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest() { Statistics = scores };
 		PlayFabClientAPI.UpdatePlayerStatistics(request, result => Save.Data.waitingResults.Clear(), error => { });
 	}
+
+	// TODO : Call this from score history panel
+	public static void GetLeaderboard(MapSize size, Difficulty difficulty, Action<GetLeaderboardResult> OnSuccess, Action OnFailure)
+	{
+		GetLeaderboardRequest request = new GetLeaderboardRequest()
+		{
+			StatisticName = string.Format(LEADERBOARD_NAME_FORMAT, size, difficulty),
+			StartPosition = 0,
+			MaxResultsCount = 3
+		};
+
+		PlayFabClientAPI.GetLeaderboard(request, OnSuccess, error => OnFailure());
+	}
+
+	// TODO : Get player rank for leaderboard
+	public static void GetPlayerRank()
+	{
+
+	}
 }
