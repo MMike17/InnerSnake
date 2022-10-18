@@ -6,9 +6,10 @@ x Color animation
 x Test replay after game
 x Test return to menu after game
 x Add popup messages when big win (Hard mode, finish game, etc...)
-- Add multiplayer scoreboard ?
+- Add multiplayer highscore board in score history
+- Add multiplayer rank on game end
 - Integrate sounds in game
 x Refactor big classes (Main Menu)
 x Score history menu
 - Tutorial popup on first start
-- Ask for name on start up
+x Ask for name on start up
