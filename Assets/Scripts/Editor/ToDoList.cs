@@ -67,7 +67,7 @@ class ToDoList : EditorWindow
 
 		if (excludedScripts == null)
 		{
-			excludedScripts = JsonUtility.FromJson<ExcludedList>(PlayerPrefs.GetString("excludedScripts"));
+			excludedScripts = JsonUtility.FromJson<ExcludedList>(PlayerPrefs.GetString("excludedScriptsToDo"));
 
 			excludedScripts.scriptsNames.ForEach(item =>
 			{
