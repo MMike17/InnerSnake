@@ -44,6 +44,8 @@ public class ScoreHistoryMenu : MonoBehaviour
 		DisplayResults();
 	}
 
+	// TODO : Add online highscores (top 3 + current pos)
+
 	void DisplayResults()
 	{
 		graph.ClearGraph();

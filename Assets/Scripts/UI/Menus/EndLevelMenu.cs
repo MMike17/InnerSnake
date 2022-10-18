@@ -58,6 +58,8 @@ public class EndLevelMenu : MonoBehaviour
 		}
 	}
 
+	// TODO : Add online rank
+
 	IEnumerator FadeEndScreen(float target)
 	{
 		eolScreenGroup.interactable = false;
