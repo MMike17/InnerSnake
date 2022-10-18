@@ -147,7 +147,7 @@ class ToDoList : EditorWindow
 
 	void ShowExclusions()
 	{
-		EditorGUILayout.LabelField("Excluded scripts");
+		EditorGUILayout.LabelField("Excluded scripts", boldCenteredTitleStyle);
 
 		EditorGUILayout.Space();
 		excludeScroll = EditorGUILayout.BeginScrollView(excludeScroll);
