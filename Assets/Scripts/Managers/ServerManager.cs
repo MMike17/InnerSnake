@@ -17,6 +17,8 @@ public static class ServerManager
 	// website link
 	// https://developer.playfab.com/en-US/BDD4E/dashboard
 
+	const string LEADERBOARD_NAME_FORMAT = "Score{0}_{1}";
+
 	public static bool HasConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
 	public static void Login()
@@ -46,7 +48,6 @@ public static class ServerManager
 		PlayFabClientAPI.GetAccountInfo(request, result => OnNameInvalid(), error => OnNameValid());
 	}
 
-	// TODO : When do we send the stored scores ?
 	// TODO : Call this at the end of a game
 	public static void SendScore(int completionTimeMil, MapSize size, Difficulty difficulty)
 	{
@@ -56,7 +57,7 @@ public static class ServerManager
 			return;
 		}
 
-		string leaderboardName = "Score" + size.ToString() + "_" + difficulty;
+		string leaderboardName = string.Format(LEADERBOARD_NAME_FORMAT, size, difficulty);
 
 		UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest()
 		{
@@ -77,5 +78,25 @@ public static class ServerManager
 			result.completionTimeMil = completionTimeMil;
 		else
 			Save.Data.waitingResults.Add(new NetworkResult(size, difficulty, completionTimeMil));
+	}
+
+	public static void SendWaitingScores()
+	{
+		List<StatisticUpdate> scores = new List<StatisticUpdate>();
+		string leaderboardName;
+
+		Save.Data.waitingResults.ForEach(item =>
+		{
+			leaderboardName = string.Format(LEADERBOARD_NAME_FORMAT, item.size, item.difficulty);
+
+			scores.Add(new StatisticUpdate()
+			{
+				StatisticName = leaderboardName,
+				Value = item.completionTimeMil
+			});
+		});
+
+		UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest() { Statistics = scores };
+		PlayFabClientAPI.UpdatePlayerStatistics(request, result => Save.Data.waitingResults.Clear(), error => { });
 	}
 }
