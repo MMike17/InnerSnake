@@ -30,7 +30,7 @@ public class EndLevelMenu : MonoBehaviour
 	public Button eolMenuButton;
 	public Graph eolScoreGraph;
 	[Space]
-	public Popup popup;
+	public PopupMessage messagePopup;
 
 	Action ShowEndButtons;
 	Action StartLevel;
@@ -190,11 +190,11 @@ public class EndLevelMenu : MonoBehaviour
 		);
 
 		if (hasHardUnlock)
-			popup.Pop(unlockHardModeMessage);
+			messagePopup.Pop(unlockHardModeMessage);
 
 		if (hasFinishedGame)
 		{
-			popup.Pop(finishGameMessage);
+			messagePopup.Pop(finishGameMessage);
 			Save.Data.finishedGame = true;
 		}
 

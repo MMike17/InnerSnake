@@ -39,6 +39,8 @@ public class MainMenu : MonoBehaviour
 	public ArrowSelector difficultySelector;
 	public Button playButton;
 	[Space]
+	public PopupTutorial tutorialPopup;
+	[Space]
 	public Timer startGameTimer;
 
 	MenuFakePlayer player;
@@ -279,6 +281,16 @@ public class MainMenu : MonoBehaviour
 			MapsManager.SpawnedMap.transform.localScale = Vector3.one * Mathf.Lerp(0, targetSize, timer / spawnAnimSpeed);
 
 			yield return null;
+		}
+
+		// pop tutorial
+		if (Save.Data.firstGame)
+		{
+			tutorialPopup.Pop(() =>
+			{
+				this.DelayAction(() => Time.timeScale = 1, 1);
+				Save.Data.firstGame = false;
+			});
 		}
 
 		startGameTimer.StartTimer(() =>

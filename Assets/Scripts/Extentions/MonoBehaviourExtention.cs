@@ -12,7 +12,7 @@ public static class MonoBehaviourExtention
 
 	static IEnumerator DelayRoutine(Action callback, float delay)
 	{
-		yield return new WaitForSeconds(delay);
+		yield return new WaitForSecondsRealtime(delay);
 		callback();
 	}
 }

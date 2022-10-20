@@ -9,7 +9,7 @@ x Add popup messages when big win (Hard mode, finish game, etc...)
 - Integrate sounds in game
 x Refactor big classes (Main Menu)
 x Score history menu
-- Tutorial popup on first start
+x Tutorial popup on first start
 x Ask for name on start up
 - Add mobile controlls
 - Windows build
