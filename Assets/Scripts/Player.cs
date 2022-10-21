@@ -103,6 +103,10 @@ public class Player : MonoBehaviour
 	{
 		sideInput = 0;
 
+#if UNITY_ANDROID
+		if (Input.touchCount != 0)
+			sideInput = Mathf.Sign(Input.GetTouch(0).deltaPosition.x);
+#else
 		foreach (KeyCode key in left)
 		{
 			if (Input.GetKey(key))
@@ -120,6 +124,7 @@ public class Player : MonoBehaviour
 				break;
 			}
 		}
+#endif
 	}
 
 	void AnimateMouth()
