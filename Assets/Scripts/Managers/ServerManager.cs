@@ -111,10 +111,4 @@ public static class ServerManager
 
 		PlayFabClientAPI.GetLeaderboard(request, results => OnSuccess(results.Leaderboard), error => OnFailure());
 	}
-
-	// TODO : Get player rank for leaderboard
-	public static void GetPlayerRank()
-	{
-
-	}
 }
