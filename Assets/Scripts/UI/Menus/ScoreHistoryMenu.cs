@@ -1,3 +1,5 @@
+using System;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +17,7 @@ public class ScoreHistoryMenu : MonoBehaviour
 	public HighscoreTicket n1Ticket;
 	public HighscoreTicket n2Ticket;
 	public HighscoreTicket n3Ticket;
-	public HighscoreTicket n4Ticket;
+	public HighscoreTicket currentTicket;
 	[Space]
 	public Graph graph;
 	public GameObject noDataMessage;
@@ -51,10 +53,26 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 	void DisplayResults()
 	{
-		// n1Ticket.
-		// n2Ticket.
-		// n3Ticket.
-		// n4Ticket.
+		ServerManager.GetLeaderboard(
+			(MapSize)Enum.Parse(typeof(MapSize), levelSelector.display.text),
+			(Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text),
+			results =>
+			{
+				results.Sort((first, second) => { return second.Position - first.Position; });
+
+				DisplayHighscoreData(results[0], n1Ticket);
+				DisplayHighscoreData(results[1], n2Ticket);
+				DisplayHighscoreData(results[2], n3Ticket);
+				DisplayHighscoreData(results.Find(item => item.DisplayName == Save.Data.playerName), currentTicket);
+			},
+			() =>
+			{
+				n1Ticket.SetNoData();
+				n2Ticket.SetNoData();
+				n3Ticket.SetNoData();
+				currentTicket.SetNoData();
+			}
+		);
 
 		graph.ClearGraph();
 
@@ -81,5 +99,13 @@ public class ScoreHistoryMenu : MonoBehaviour
 				)
 			);
 		}
+	}
+
+	void DisplayHighscoreData(PlayerLeaderboardEntry result, HighscoreTicket ticket)
+	{
+		if (result == null)
+			ticket.SetNoData();
+		else
+			ticket.SetData(result.Position, result.DisplayName, result.StatValue);
 	}
 }

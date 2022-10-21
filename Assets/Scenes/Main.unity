@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 15838117}
   - component: {fileID: 15838119}
   - component: {fileID: 15838118}
+  - component: {fileID: 15838120}
   m_Layer: 5
   m_Name: Current_Ticket
   m_TagString: Untagged
@@ -348,6 +349,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15838116}
   m_CullTransparentMesh: 1
+--- !u!114 &15838120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15838116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultAnimDuration: 1
+  rank: {fileID: 846083872}
+  playerName: {fileID: 188497720}
+  result: {fileID: 1329980966}
 --- !u!1 &63027764
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +968,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.35
+  m_fontSize: 18.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1133,6 +1150,7 @@ GameObject:
   - component: {fileID: 196570189}
   - component: {fileID: 196570191}
   - component: {fileID: 196570190}
+  - component: {fileID: 196570192}
   m_Layer: 5
   m_Name: '#1_Ticket'
   m_TagString: Untagged
@@ -1200,6 +1218,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196570188}
   m_CullTransparentMesh: 1
+--- !u!114 &196570192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196570188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultAnimDuration: 1
+  rank: {fileID: 1840445206}
+  playerName: {fileID: 1519771791}
+  result: {fileID: 1296470753}
 --- !u!1 &247413704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,7 +1265,6 @@ RectTransform:
   - {fileID: 2084923670}
   - {fileID: 2009494606}
   - {fileID: 15838117}
-  - {fileID: 324631745}
   m_Father: {fileID: 816729532}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1621,81 +1654,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300372641}
   m_CullTransparentMesh: 1
---- !u!1 &324631744
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 324631745}
-  - component: {fileID: 324631747}
-  - component: {fileID: 324631746}
-  m_Layer: 5
-  m_Name: CurrentTicket (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &324631745
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324631744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 247413705}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.15, y: 0}
-  m_AnchorMax: {x: 0.85, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &324631746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324631744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &324631747
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324631744}
-  m_CullTransparentMesh: 1
 --- !u!1 &356662232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1780,7 +1738,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 93.5
+  m_fontSize: 54
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2138,7 +2096,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.3
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3482,7 +3440,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.45
+  m_fontSize: 46.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3616,7 +3574,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.8
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3812,7 +3770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &816729532
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3849,10 +3807,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 112827656fa7ebe42a8738884a4934ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  n1Ticket: {fileID: 0}
-  n2Ticket: {fileID: 0}
-  n3Ticket: {fileID: 0}
-  n4Ticket: {fileID: 0}
+  n1Ticket: {fileID: 196570192}
+  n2Ticket: {fileID: 2084923673}
+  n3Ticket: {fileID: 2009494609}
+  currentTicket: {fileID: 15838120}
   graph: {fileID: 281329144}
   noDataMessage: {fileID: 1914364996}
   completion: {fileID: 125039814}
@@ -4126,7 +4084,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.6
+  m_fontSize: 18.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5515,7 +5473,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.5
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5702,7 +5660,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.2
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5970,7 +5928,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.1
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6104,7 +6062,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.45
+  m_fontSize: 27.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6385,7 +6343,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.6
+  m_fontSize: 18.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7061,7 +7019,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 62.1
+  m_fontSize: 46.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7195,7 +7153,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.1
+  m_fontSize: 27.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7329,7 +7287,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.55
+  m_fontSize: 22.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8018,7 +7976,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.95
+  m_fontSize: 27.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8152,7 +8110,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70.3
+  m_fontSize: 82.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9224,7 +9182,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.45
+  m_fontSize: 46.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9285,6 +9243,7 @@ GameObject:
   - component: {fileID: 2009494606}
   - component: {fileID: 2009494608}
   - component: {fileID: 2009494607}
+  - component: {fileID: 2009494609}
   m_Layer: 5
   m_Name: '#3_Ticket'
   m_TagString: Untagged
@@ -9352,6 +9311,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009494605}
   m_CullTransparentMesh: 1
+--- !u!114 &2009494609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009494605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultAnimDuration: 1
+  rank: {fileID: 1279450563}
+  playerName: {fileID: 459181443}
+  result: {fileID: 1638757225}
 --- !u!1 &2048197457
 GameObject:
   m_ObjectHideFlags: 0
@@ -9631,6 +9606,7 @@ GameObject:
   - component: {fileID: 2084923670}
   - component: {fileID: 2084923672}
   - component: {fileID: 2084923671}
+  - component: {fileID: 2084923673}
   m_Layer: 5
   m_Name: '#2_Ticket'
   m_TagString: Untagged
@@ -9698,6 +9674,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084923669}
   m_CullTransparentMesh: 1
+--- !u!114 &2084923673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084923669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultAnimDuration: 1
+  rank: {fileID: 697055747}
+  playerName: {fileID: 1240049095}
+  result: {fileID: 1139146001}
 --- !u!1001 &1612275369979671117
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -27,6 +27,13 @@ public class HighscoreTicket : MonoBehaviour
 		routine = StartCoroutine(AnimateResult(resultMil));
 	}
 
+	public void SetNoData()
+	{
+		rank.text = null;
+		playerName.text = "No data";
+		result.text = null;
+	}
+
 	IEnumerator AnimateResult(int resultMil)
 	{
 		float timer = 0;

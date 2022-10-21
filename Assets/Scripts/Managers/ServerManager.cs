@@ -100,8 +100,7 @@ public static class ServerManager
 		PlayFabClientAPI.UpdatePlayerStatistics(request, result => Save.Data.waitingResults.Clear(), error => { });
 	}
 
-	// TODO : Call this from score history panel
-	public static void GetLeaderboard(MapSize size, Difficulty difficulty, Action<GetLeaderboardResult> OnSuccess, Action OnFailure)
+	public static void GetLeaderboard(MapSize size, Difficulty difficulty, Action<List<PlayerLeaderboardEntry>> OnSuccess, Action OnFailure)
 	{
 		GetLeaderboardRequest request = new GetLeaderboardRequest()
 		{
@@ -110,7 +109,7 @@ public static class ServerManager
 			MaxResultsCount = 3
 		};
 
-		PlayFabClientAPI.GetLeaderboard(request, OnSuccess, error => OnFailure());
+		PlayFabClientAPI.GetLeaderboard(request, results => OnSuccess(results.Leaderboard), error => OnFailure());
 	}
 
 	// TODO : Get player rank for leaderboard
