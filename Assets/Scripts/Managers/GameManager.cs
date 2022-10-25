@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 	void Awake()
 	{
 		AnimateColor.cycleDuration = colorAnimCycleDuration;
-
 		GamePlayerPrefab = gamePlayerPrefab;
 
 		cameraManager.Init();
@@ -57,6 +56,9 @@ public class GameManager : MonoBehaviour
 
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
 		currentState = Save.Data.firstGame ? GameState.First_Game : GameState.Main_Menu;
+
+		// TODO : fix startup error from this method
+		ServerManager.Login();
 
 		mainMenu.Init();
 		scoreHistoryMenu.Init();

@@ -47,14 +47,12 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 		levelSelector.SetChoices(levels);
 		difficultySelector.SetChoices(difficulties);
-
-		DisplayResults();
 	}
 
 	void DisplayResults()
 	{
 		ServerManager.GetLeaderboard(
-			(MapSize)Enum.Parse(typeof(MapSize), levelSelector.display.text),
+			(MapSize)Enum.Parse(typeof(MapSize), "_" + levelSelector.display.text[0]),
 			(Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text),
 			results =>
 			{

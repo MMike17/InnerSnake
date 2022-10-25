@@ -135,7 +135,6 @@ public class MainMenu : MonoBehaviour
 					anim.Play("HideHistory", 2);
 
 				anim.Play("ShowMain", 0);
-				ServerManager.Login();
 
 				player = Instantiate(fakePlayer, animCenter, Quaternion.identity);
 				player.Init(animCenter, animSphereSize);

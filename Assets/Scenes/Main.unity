@@ -1441,6 +1441,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356662232}
   m_CullTransparentMesh: 1
+--- !u!114 &389184731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5901113860105590934, guid: 63079f13ee48c474cbf7f79f4ec6188a, type: 3}
+  m_PrefabInstance: {fileID: 7751261138250214848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &416725170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,6 +2144,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496173451}
   m_CullTransparentMesh: 1
+--- !u!114 &506817354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3976323543850320749, guid: 63079f13ee48c474cbf7f79f4ec6188a, type: 3}
+  m_PrefabInstance: {fileID: 7751261138250214848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &534617058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3306,6 +3328,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &741026845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1271660491482765421, guid: 63079f13ee48c474cbf7f79f4ec6188a, type: 3}
+  m_PrefabInstance: {fileID: 7751261138250214848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b34f8cbd9e237d4fa42e9f268e688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &783204001
 GameObject:
   m_ObjectHideFlags: 0
@@ -3397,9 +3430,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   n1Ticket: {fileID: 196570192}
-  n2Ticket: {fileID: 0}
-  n3Ticket: {fileID: 0}
-  currentTicket: {fileID: 0}
+  n2Ticket: {fileID: 741026845}
+  n3Ticket: {fileID: 506817354}
+  currentTicket: {fileID: 389184731}
   graph: {fileID: 281329144}
   noDataMessage: {fileID: 1914364996}
   completion: {fileID: 125039814}
