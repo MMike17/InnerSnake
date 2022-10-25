@@ -10,6 +10,7 @@ public class HighscoreTicket : MonoBehaviour
 	public float resultAnimDuration;
 
 	[Header("Scene references")]
+	public Animator anim;
 	public TMP_Text rank;
 	public TMP_Text playerName;
 	public TMP_Text result;

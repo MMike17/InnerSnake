@@ -48,12 +48,11 @@ public static class ServerManager
 		PlayFabClientAPI.GetAccountInfo(request, result => OnNameInvalid(), error => OnNameValid());
 	}
 
-	// TODO : Call this at the end of a game
-	public static void SendScore(int completionTimeMil, MapSize size, Difficulty difficulty)
+	public static void SendScore(MapSize size, Difficulty difficulty, int completionTimeMil)
 	{
 		if (!HasConnection)
 		{
-			StoreScore(completionTimeMil, size, difficulty);
+			StoreScore(size, difficulty, completionTimeMil);
 			return;
 		}
 
@@ -67,10 +66,10 @@ public static class ServerManager
 			}}
 		};
 
-		PlayFabClientAPI.UpdatePlayerStatistics(request, result => { }, error => StoreScore(completionTimeMil, size, difficulty));
+		PlayFabClientAPI.UpdatePlayerStatistics(request, result => { }, error => StoreScore(size, difficulty, completionTimeMil));
 	}
 
-	static void StoreScore(int completionTimeMil, MapSize size, Difficulty difficulty)
+	static void StoreScore(MapSize size, Difficulty difficulty, int completionTimeMil)
 	{
 		NetworkResult result = Save.Data.waitingResults.Find(item => item.size == size && item.difficulty == difficulty);
 

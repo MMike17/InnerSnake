@@ -15,7 +15,7 @@ MonoBehaviour:
   DevAccountEmail: corcksnipe@gmail.com
   DevAccountToken: xr45mnrq5tro6ccog9mn6hy4bxopcyibpkb49yt9j3ajew7djs7e6ua54pbbykryfjm9n5pbcep3z4hhmngqr483k8bc4mcsg4hahwqt5a7tje4xk4675ir8fhb54w3foyy4ccze7356b3xptajazizpr1qqjzikks36zy5a6iju31wybs4bzm5tat5i1txxxg71j5ce
   SelectedStudio: 
-  SdkPath: Assets/PlayFabSDK
+  SdkPath: Assets/Plugins/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 1

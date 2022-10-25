@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class EndLevelMenu : MonoBehaviour
 	public float eolScreenFadeInDuration;
 	public float eolScreenFadeOutDuration;
 	public float eolScoreAnimDuration;
+	public float eolRankAnimDuration;
 	[Space]
 	[TextArea]
 	public string unlockHardModeMessage;
@@ -26,9 +28,12 @@ public class EndLevelMenu : MonoBehaviour
 	public CanvasGroup eolScreenGroup;
 	public TMP_Text eolScoreLabel;
 	public TMP_Text eolScore;
+	public Graph eolScoreGraph;
+	public HighscoreTicket n1Ticket;
+	public HighscoreTicket n2Ticket;
+	public HighscoreTicket currentTicket;
 	public Button eolReplayButton;
 	public Button eolMenuButton;
-	public Graph eolScoreGraph;
 	[Space]
 	public PopupMessage messagePopup;
 
@@ -57,8 +62,6 @@ public class EndLevelMenu : MonoBehaviour
 				break;
 		}
 	}
-
-	// TODO : Add online rank
 
 	IEnumerator FadeEndScreen(float target)
 	{
@@ -143,7 +146,21 @@ public class EndLevelMenu : MonoBehaviour
 			isVictory ? (int)completionTime : Player.CollectedPieces
 		));
 
+		// save score online
+		if (isVictory)
+		{
+			ServerManager.SendScore(
+				MapsManager.SpawnedMap.size,
+				DifficultyManager.CurrentDifficulty,
+				(int)completionTime
+			);
+		}
+
 		// show anim
+		n1Ticket.anim.Play("Hide");
+		n2Ticket.anim.Play("Hide");
+		currentTicket.anim.Play("Hide");
+
 		eolScoreGraph.Hide();
 		eolScoreLabel.text = isVictory ? "Completion time" : "Collected pieces";
 		eolScore.text = string.Empty;
@@ -188,6 +205,89 @@ public class EndLevelMenu : MonoBehaviour
 			DifficultyManager.CurrentDifficulty,
 			Save.Data
 		);
+
+		if (isVictory)
+		{
+			PlayerLeaderboardEntry playerResult = null;
+			bool hasResult = false;
+
+			ServerManager.GetLeaderboard(
+				MapsManager.SpawnedMap.size,
+				DifficultyManager.CurrentDifficulty,
+				results =>
+				{
+					results.Sort((first, second) => { return second.Position - first.Position; });
+					playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
+
+					n1Ticket.SetData(1, results[0].DisplayName, results[0].StatValue);
+					n2Ticket.SetData(2, results[1].DisplayName, results[1].StatValue);
+
+					if (playerResult.Position > 1)
+						currentTicket.SetData(playerResult.Position, playerResult.DisplayName, playerResult.StatValue);
+
+					hasResult = true;
+				},
+				() => hasResult = true
+			);
+
+			yield return new WaitUntil(() => { return hasResult; });
+
+			HighscoreTicket selectedTicket = playerResult.Position switch
+			{
+				0 => n1Ticket,
+				1 => n2Ticket,
+				_ => currentTicket
+			};
+
+			// pop before player result
+			if (playerResult.Position < 2)
+			{
+				currentTicket.anim.Play("Show");
+				yield return new WaitForSeconds(0.5f);
+
+				if (playerResult.Position == 0)
+				{
+					n2Ticket.anim.Play("Show");
+					yield return new WaitForSeconds(0.5f);
+				}
+			}
+
+			selectedTicket.rank.text = "#";
+			selectedTicket.anim.Play("Show");
+
+			yield return new WaitForSeconds(0.5f);
+
+			timer = 0;
+
+			while (timer < eolRankAnimDuration)
+			{
+				timer += Time.deltaTime;
+				selectedTicket.rank.text = "#" + Mathf.FloorToInt(Mathf.Lerp(1, playerResult.Position + 1, timer / eolRankAnimDuration));
+
+				yield return null;
+			}
+
+			selectedTicket.rank.text = "#" + (playerResult.Position + 1);
+
+			// pop after player
+			if (playerResult.Position > 0)
+			{
+				if (playerResult.Position == 2)
+				{
+					n2Ticket.anim.Play("Show");
+					yield return new WaitForSeconds(0.5f);
+				}
+
+				n1Ticket.anim.Play("Show");
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
+		else
+		{
+			n1Ticket.anim.Play("Hide");
+			n2Ticket.anim.Play("Hide");
+			currentTicket.anim.Play("Hide");
+		}
 
 		if (hasHardUnlock)
 			messagePopup.Pop(unlockHardModeMessage);
