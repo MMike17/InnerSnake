@@ -87,64 +87,17 @@ public class EndLevelMenu : MonoBehaviour
 
 	IEnumerator EndLevelAnim()
 	{
-		// unlocks
-		int totalPieces = DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size);
-		bool isVictory = Player.CollectedPieces == totalPieces;
+        // unlocks
+        bool isVictory = Player.CollectedPieces == DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size);
+        bool hasFinishedGame = Save.Data.finishedGame;
+        int currentResult = isVictory ? (int)completionTime : Player.CollectedPieces;
 
-		bool hasHardUnlock = false;
-		bool hasFinishedGame = false;
-
-		if (isVictory)
-		{
-			switch (DifficultyManager.CurrentDifficulty)
-			{
-				case Difficulty.Easy:
-					Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Medium] = true;
-					break;
-
-				case Difficulty.Medium:
-					switch (MapsManager.SpawnedMap.size)
-					{
-						case MapSize._6:
-							if (!Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard])
-								hasHardUnlock = true;
-
-							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard] = true;
-							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							break;
-
-						case MapSize._8:
-							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							break;
-
-						case MapSize._10:
-							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Easy] = true;
-							break;
-
-						case MapSize._12:
-							Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size].difficulties[(int)Difficulty.Hard] = true;
-							break;
-					}
-					break;
-
-				case Difficulty.Hard:
-					if (MapsManager.SpawnedMap.size != MapSize._12)
-					{
-						Save.Data.unlockedDifficulties[(int)MapsManager.SpawnedMap.size + 1].difficulties[(int)Difficulty.Hard] = true;
-					}
-					else if (!Save.Data.finishedGame)
-						hasFinishedGame = true;
-					break;
-			}
-		}
-
-		// save data
-		Save.Data.results.Add(new LevelResult(
-			MapsManager.SpawnedMap.size,
-			DifficultyManager.CurrentDifficulty,
-			isVictory,
-			isVictory ? (int)completionTime : Player.CollectedPieces
-		));
+        bool hasHardUnlock = Save.Data.ProcessUnlocks(
+            currentResult,
+            isVictory,
+            MapsManager.SpawnedMap.size,
+            DifficultyManager.CurrentDifficulty
+        );
 
 		// save score online
 		if (isVictory)
@@ -292,7 +245,7 @@ public class EndLevelMenu : MonoBehaviour
 		if (hasHardUnlock)
 			messagePopup.Pop(unlockHardModeMessage);
 
-		if (hasFinishedGame)
+		if (hasFinishedGame != Save.Data.finishedGame)
 		{
 			messagePopup.Pop(finishGameMessage);
 			Save.Data.finishedGame = true;
