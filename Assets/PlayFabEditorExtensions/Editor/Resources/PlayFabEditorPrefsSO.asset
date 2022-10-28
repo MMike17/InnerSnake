@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
   DevAccountEmail: corcksnipe@gmail.com
-  DevAccountToken: xr45mnrq5tro6ccog9mn6hy4bxopcyibpkb49yt9j3ajew7djs7e6ua54pbbykryfjm9n5pbcep3z4hhmngqr483k8bc4mcsg4hahwqt5a7tje4xk4675ir8fhb54w3foyy4ccze7356b3xptajazizpr1qqjzikks36zy5a6iju31wybs4bzm5tat5i1txxxg71j5ce
-  SelectedStudio: 
-  SdkPath: Assets/Plugins/PlayFabSDK
+  DevAccountToken: xnz1bpa7nzn8wkce9esg7eppegftsgsq189peghgis57dqe6sufuzepf4rrrjzhgmbu5rouhan65j61xtzcdnujqaoej56ya55gb9ytdpdpnh18pcjuz5dzrs8iq3cm8ee83m653uuu7d4op38cdh7j8n8pys7zorzzu3ondy3yek87qiiuhcyd81ik4dq81rf88or3z
+  SelectedStudio: Mike Matthews
+  SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 1

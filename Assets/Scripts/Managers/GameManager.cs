@@ -58,7 +58,8 @@ public class GameManager : MonoBehaviour
 		currentState = Save.Data.firstGame ? GameState.First_Game : GameState.Main_Menu;
 
 		// TODO : fix startup error from this method
-		ServerManager.Login();
+		if (!string.IsNullOrEmpty(Save.Data.playerName))
+			ServerManager.Login();
 
 		mainMenu.Init();
 		scoreHistoryMenu.Init();
