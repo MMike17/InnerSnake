@@ -32,7 +32,6 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public Button newGameButton;
 	public Button scoreHistoryButton;
-	// public Button highscoreButton;
 	public Button quitButton;
 	[Space]
 	public ArrowSelector levelSelector;
@@ -64,7 +63,8 @@ public class MainMenu : MonoBehaviour
 
 					anim.Play("HideIntro", 0);
 					this.DelayAction(() => GameManager.ChangeState(GameState.Main_Menu), 2);
-				}
+				},
+				() => errorName.text = "No internet connexion, restart game to play offline"
 			);
 		});
 		newGameButton.onClick.AddListener(() =>
@@ -130,8 +130,12 @@ public class MainMenu : MonoBehaviour
 	{
 		switch (state)
 		{
+			case GameState.First_Game:
+				anim.Play("ShowIntro");
+				break;
+
 			case GameState.Main_Menu:
-				if (!anim.GetCurrentAnimatorStateInfo(2).IsName("HideHistory"))
+				if (anim.GetCurrentAnimatorStateInfo(2).IsName("ShowHistory"))
 					anim.Play("HideHistory", 2);
 
 				anim.Play("ShowMain", 0);
