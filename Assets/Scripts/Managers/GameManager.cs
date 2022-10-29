@@ -55,9 +55,8 @@ public class GameManager : MonoBehaviour
 		soundsManager.Init();
 
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
-		currentState = Save.Data.firstGame ? GameState.First_Game : GameState.Main_Menu;
+		currentState = Save.Data.firstGame && ServerManager.HasConnection ? GameState.First_Game : GameState.Main_Menu;
 
-		// TODO : fix startup error from this method
 		if (!string.IsNullOrEmpty(Save.Data.playerName))
 			ServerManager.Login();
 

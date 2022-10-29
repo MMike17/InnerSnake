@@ -42,10 +42,27 @@ public static class ServerManager
 		);
 	}
 
-	public static void IsNameValid(string name, Action OnNameInvalid, Action OnNameValid)
+	// TODO : CustomId doesn't set user name, set user name with UpdateUserTitleDisplayName
+
+	public static void IsNameValid(string name, Action OnNameInvalid, Action OnNameValid, Action OnNoConnection)
 	{
-		GetAccountInfoRequest request = new GetAccountInfoRequest() { Username = name };
-		PlayFabClientAPI.GetAccountInfo(request, result => OnNameInvalid(), error => OnNameValid());
+		if (!HasConnection)
+		{
+			OnNoConnection();
+			return;
+		}
+
+		LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+		{
+			CustomId = name,
+			CreateAccount = true
+		};
+
+		PlayFabClientAPI.LoginWithCustomID(
+			request,
+			result => OnNameValid(),
+			error => OnNameInvalid()
+		);
 	}
 
 	public static void SendScore(MapSize size, Difficulty difficulty, int completionTimeMil)
@@ -101,6 +118,12 @@ public static class ServerManager
 
 	public static void GetLeaderboard(MapSize size, Difficulty difficulty, Action<List<PlayerLeaderboardEntry>> OnSuccess, Action OnFailure)
 	{
+		if (!HasConnection)
+		{
+			OnFailure();
+			return;
+		}
+
 		GetLeaderboardRequest request = new GetLeaderboardRequest()
 		{
 			StatisticName = string.Format(LEADERBOARD_NAME_FORMAT, size, difficulty),
