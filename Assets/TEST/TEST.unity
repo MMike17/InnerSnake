@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 91224321}
   - component: {fileID: 91224320}
   - component: {fileID: 91224322}
+  - component: {fileID: 91224323}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -184,7 +185,10 @@ MonoBehaviour:
       completed: 1
       collected: 7
       completionTimeMil: 37000
+    waitingResults: []
+    playerName: 
     finishedGame: 0
+    firstGame: 0
   graph: {fileID: 485832054}
 --- !u!4 &91224321
 Transform:
@@ -213,6 +217,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickups: []
+--- !u!114 &91224323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91224319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e049fcd49639e43baadb31535fb954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testName: Test
 --- !u!1 &193589218
 GameObject:
   m_ObjectHideFlags: 0
