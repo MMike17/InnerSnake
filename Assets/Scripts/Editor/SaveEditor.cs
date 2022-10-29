@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 
 using static DifficultyManager;
 using static MapsManager;
 using static Save;
-using System;
 
 /// <summary>Editor script to edit saved data</summary>
 class SaveEditor : EditorWindow
@@ -81,24 +81,47 @@ class SaveEditor : EditorWindow
 			EditorGUILayout.LabelField("Do you want to generate new save data ?", normalCenter);
 
 			EditorGUILayout.Space();
-			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.Space();
 
-			if (GUILayout.Button("Generate save data"))
+			DisplayCentered(() =>
 			{
-				loadedSave = new Save(
-					FindObjectOfType<DifficultyManager>(true).difficulties.Count,
-					FindObjectOfType<MapsManager>(true).gameMaps.Count
-				);
-			}
-
-			EditorGUILayout.Space();
-			EditorGUILayout.EndHorizontal();
+				if (GUILayout.Button("Generate save data"))
+				{
+					loadedSave = new Save(
+						FindObjectOfType<DifficultyManager>(true).difficulties.Count,
+						FindObjectOfType<MapsManager>(true).gameMaps.Count
+					);
+				}
+			});
 
 			EditorGUILayout.EndVertical();
 		}
 		else
 		{
+			EditorGUILayout.LabelField("State variables", boldCenter);
+			EditorGUILayout.Space();
+
+			DisplayCentered(() =>
+			{
+				loadedSave.playerName = EditorGUILayout.TextField("Player name : ", loadedSave.playerName);
+			});
+
+			EditorGUILayout.Space();
+
+			DisplayCentered(() =>
+			{
+				loadedSave.firstGame = EditorGUILayout.Toggle("First game : ", loadedSave.firstGame);
+			});
+
+			EditorGUILayout.Space();
+
+			DisplayCentered(() =>
+			{
+				loadedSave.finishedGame = EditorGUILayout.Toggle("Finished game : ", loadedSave.finishedGame);
+			});
+
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+
 			EditorGUILayout.BeginVertical();
 			{
 				mainScroll = EditorGUILayout.BeginScrollView(mainScroll);
@@ -151,25 +174,22 @@ class SaveEditor : EditorWindow
 					{
 						EditorGUILayout.LabelField("Game results", boldCenter);
 
-						EditorGUILayout.BeginHorizontal();
-						EditorGUILayout.Space();
-
-						int newCount = EditorGUILayout.IntField("Results count :", loadedSave.results.Count);
-
-						if (newCount < loadedSave.results.Count)
+						DisplayCentered(() =>
 						{
-							while (loadedSave.results.Count != newCount)
-								loadedSave.results.RemoveAt(loadedSave.results.Count - 1);
-						}
+							int newCount = EditorGUILayout.IntField("Results count :", loadedSave.results.Count);
 
-						if (newCount > loadedSave.results.Count)
-						{
-							while (loadedSave.results.Count != newCount)
-								loadedSave.results.Add(new LevelResult(0, 0, false, 0));
-						}
+							if (newCount < loadedSave.results.Count)
+							{
+								while (loadedSave.results.Count != newCount)
+									loadedSave.results.RemoveAt(loadedSave.results.Count - 1);
+							}
 
-						EditorGUILayout.Space();
-						EditorGUILayout.EndHorizontal();
+							if (newCount > loadedSave.results.Count)
+							{
+								while (loadedSave.results.Count != newCount)
+									loadedSave.results.Add(new LevelResult(0, 0, false, 0));
+							}
+						});
 
 						EditorGUILayout.Space();
 
@@ -178,33 +198,27 @@ class SaveEditor : EditorWindow
 							EditorGUILayout.Space();
 							EditorGUILayout.LabelField($"Element {i}", fadedCenter);
 
-							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.Space();
-
-							loadedSave.results[i].size = (MapSize)EditorGUILayout.EnumPopup("Map size :", loadedSave.results[i].size);
-							EditorGUILayout.Space();
-							loadedSave.results[i].completed = EditorGUILayout.Toggle("Completed :", loadedSave.results[i].completed);
-
-							EditorGUILayout.Space();
-							EditorGUILayout.EndHorizontal();
-
-							EditorGUILayout.BeginHorizontal();
-							EditorGUILayout.Space();
-
-							loadedSave.results[i].difficulty = (Difficulty)EditorGUILayout.EnumPopup("Difficulty :", loadedSave.results[i].difficulty);
-							EditorGUILayout.Space();
-
-							if (loadedSave.results[i].completed)
+							DisplayCentered(() =>
 							{
-								loadedSave.results[i].completionTimeMil = EditorGUILayout.IntField("Completion miliseconds :", loadedSave.results[i].completionTimeMil);
-							}
-							else
-							{
-								loadedSave.results[i].collected = EditorGUILayout.IntField("Collected pieces :", loadedSave.results[i].collected);
-							}
+								loadedSave.results[i].size = (MapSize)EditorGUILayout.EnumPopup("Map size :", loadedSave.results[i].size);
+								EditorGUILayout.Space();
+								loadedSave.results[i].completed = EditorGUILayout.Toggle("Completed :", loadedSave.results[i].completed);
+							});
 
-							EditorGUILayout.Space();
-							EditorGUILayout.EndHorizontal();
+							DisplayCentered(() =>
+							{
+								loadedSave.results[i].difficulty = (Difficulty)EditorGUILayout.EnumPopup("Difficulty :", loadedSave.results[i].difficulty);
+								EditorGUILayout.Space();
+
+								if (loadedSave.results[i].completed)
+								{
+									loadedSave.results[i].completionTimeMil = EditorGUILayout.IntField("Completion miliseconds :", loadedSave.results[i].completionTimeMil);
+								}
+								else
+								{
+									loadedSave.results[i].collected = EditorGUILayout.IntField("Collected pieces :", loadedSave.results[i].collected);
+								}
+							});
 						}
 
 						EditorGUILayout.Space();
@@ -213,38 +227,48 @@ class SaveEditor : EditorWindow
 				}
 				EditorGUILayout.EndScrollView();
 
-				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.Space();
 				EditorGUILayout.Space();
 
-				if (GUILayout.Button("Save data"))
+				DisplayCentered(() =>
 				{
-					PlayerPrefs.SetString(DataSaver.SAVE_KEY, JsonUtility.ToJson(loadedSave, true));
-					PlayerPrefs.Save();
-				}
+					if (GUILayout.Button("Save data"))
+					{
+						PlayerPrefs.SetString(DataSaver.SAVE_KEY, JsonUtility.ToJson(loadedSave, true));
+						PlayerPrefs.Save();
+					}
+				});
 
 				EditorGUILayout.Space();
-				EditorGUILayout.EndHorizontal();
 
-				EditorGUILayout.Space();
-
-				EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.Space();
-
-				if (GUILayout.Button("Delete data"))
+				DisplayCentered(() =>
 				{
-					loadedSave = null;
+					if (GUILayout.Button("Delete data"))
+					{
+						loadedSave = null;
 
-					PlayerPrefs.DeleteKey(DataSaver.SAVE_KEY);
-					PlayerPrefs.Save();
-				}
+						PlayerPrefs.DeleteKey(DataSaver.SAVE_KEY);
+						PlayerPrefs.Save();
+					}
+				});
 
 				EditorGUILayout.Space();
-				EditorGUILayout.EndHorizontal();
 			}
 			EditorGUILayout.EndVertical();
 
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 		}
+	}
+
+	void DisplayCentered(Action DisplayContent)
+	{
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.Space();
+
+		DisplayContent();
+
+		EditorGUILayout.Space();
+		EditorGUILayout.EndHorizontal();
 	}
 }
