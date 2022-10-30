@@ -66,6 +66,8 @@ public class ScoreHistoryMenu : MonoBehaviour
 		}
 	}
 
+	void OnEnable() => DisplayResults();
+
 	void DisplayResults()
 	{
 		n1Ticket.anim.Play("Hide");
