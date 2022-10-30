@@ -31,6 +31,8 @@ public class PopupTutorial : PopupBase
 
 		previous.onClick.AddListener(() =>
 		{
+			SoundsManager.PlaySound("Click");
+
 			if (tutorialIndex > 0)
 			{
 				tutorialIndex--;
@@ -39,6 +41,8 @@ public class PopupTutorial : PopupBase
 		});
 		next.onClick.AddListener(() =>
 		{
+			SoundsManager.PlaySound("Click");
+
 			if (tutorialIndex < tutorialContent.Count - 1)
 			{
 				tutorialIndex++;

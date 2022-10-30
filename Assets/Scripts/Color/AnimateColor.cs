@@ -4,9 +4,9 @@ using UnityEngine;
 /// <summary>Base class to animate an object's color depending on time (can be synched with others)</summary>
 public abstract class AnimateColor : MonoBehaviour
 {
+	public static float cycleDuration;
 	static List<AnimateColor> instances;
 	static float globalTimer;
-	public static float cycleDuration;
 
 	[Range(0, 1)]
 	public float offset;

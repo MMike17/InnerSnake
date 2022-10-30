@@ -10,7 +10,13 @@ public class PopupBase : MonoBehaviour
 	void Awake()
 	{
 		if (closeButton != null)
-			closeButton.onClick.AddListener(() => anim.Play("Hide"));
+		{
+			closeButton.onClick.AddListener(() =>
+			{
+				anim.Play("Hide");
+				SoundsManager.PlaySound("Click");
+			});
+		}
 	}
 
 	protected void Pop()

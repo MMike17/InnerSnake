@@ -73,18 +73,18 @@ public class ScoreHistoryMenu : MonoBehaviour
 			{
 				results.Sort((first, second) => { return second.Position - first.Position; });
 
-				if (results.Count > 0)
-					DisplayHighscoreData(results[0], n1Ticket);
+				if (results.Count > 0 && results[0] != null)
+					n1Ticket.SetData(results[0].Position, results[0].DisplayName, results[0].StatValue, true);
 				else
 					n1Ticket.SetNoData();
 
-				if (results.Count > 1)
-					DisplayHighscoreData(results[1], n2Ticket);
+				if (results.Count > 1 && results[1] != null)
+					n2Ticket.SetData(results[1].Position, results[1].DisplayName, results[1].StatValue, true);
 				else
 					n2Ticket.SetNoData();
 
-				if (results.Count > 2)
-					DisplayHighscoreData(results[2], n3Ticket);
+				if (results.Count > 2 && results[2] != null)
+					n3Ticket.SetData(results[2].Position, results[2].DisplayName, results[2].StatValue, true);
 				else
 					n3Ticket.SetNoData();
 
@@ -140,6 +140,6 @@ public class ScoreHistoryMenu : MonoBehaviour
 		if (result == null)
 			ticket.SetNoData();
 		else
-			ticket.SetData(result.Position, result.DisplayName, result.StatValue);
+			ticket.SetData(result.Position, result.DisplayName, result.StatValue, true);
 	}
 }

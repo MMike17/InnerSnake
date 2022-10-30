@@ -17,7 +17,7 @@ public class HighscoreTicket : MonoBehaviour
 
 	Coroutine routine;
 
-	public void SetData(int rankNum, string name, int resultMil)
+	public void SetData(int rankNum, string name, int resultMil, bool animate)
 	{
 		rank.text = "#" + (rankNum + 1);
 		playerName.text = name;

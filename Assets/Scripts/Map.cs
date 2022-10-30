@@ -1,5 +1,4 @@
 using UnityEngine;
-
 using static MapsManager;
 
 /// <summary>Represents a playable game map</summary>

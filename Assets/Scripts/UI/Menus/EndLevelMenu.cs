@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
@@ -160,7 +161,7 @@ public class EndLevelMenu : MonoBehaviour
 
 		if (isVictory)
 		{
-			PlayerLeaderboardEntry playerResult = null;
+			List<PlayerLeaderboardEntry> allResults;
 			bool hasResult = false;
 
 			ServerManager.GetLeaderboard(
@@ -168,21 +169,27 @@ public class EndLevelMenu : MonoBehaviour
 				DifficultyManager.CurrentDifficulty,
 				results =>
 				{
-					results.Sort((first, second) => { return second.Position - first.Position; });
-					playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
-
-					n1Ticket.SetData(1, results[0].DisplayName, results[0].StatValue);
-					n2Ticket.SetData(2, results[1].DisplayName, results[1].StatValue);
-
-					if (playerResult.Position > 1)
-						currentTicket.SetData(playerResult.Position, playerResult.DisplayName, playerResult.StatValue);
-
+					allResults = results;
 					hasResult = true;
 				},
 				() => hasResult = true
 			);
 
 			yield return new WaitUntil(() => { return hasResult; });
+
+			/*
+			results.Sort((first, second) => { return second.Position - first.Position; });
+					playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
+
+					if (results.Count > 0)
+						n1Ticket.SetData(1, results[0].DisplayName, results[0].StatValue);
+
+					if (results.Count > 1)
+						n2Ticket.SetData(2, results[1].DisplayName, results[1].StatValue);
+
+					if (playerResult.Position > 1)
+						currentTicket.SetData(playerResult.Position, playerResult.DisplayName, playerResult.StatValue);
+			*/
 
 			HighscoreTicket selectedTicket = playerResult.Position switch
 			{
