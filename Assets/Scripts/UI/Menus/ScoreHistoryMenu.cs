@@ -68,6 +68,11 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 	void DisplayResults()
 	{
+		n1Ticket.anim.Play("Hide");
+		n2Ticket.anim.Play("Hide");
+		n3Ticket.anim.Play("Hide");
+		currentTicket.anim.Play("Hide");
+
 		ServerManager.GetLeaderboard(
 			(MapSize)Enum.Parse(typeof(MapSize), "_" + levelSelector.display.text.Split(' ')[0]),
 			(Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text),
