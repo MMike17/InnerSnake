@@ -31,7 +31,7 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 	public void Init()
 	{
-		returnButton.onClick.AddListener(() => GameManager.ChangeState(GameState.Score_History));
+		returnButton.onClick.AddListener(() => GameManager.ChangeState(GameState.Main_Menu));
 
 		levelSelector.SubscribeEvents(DisplayResults, DisplayResults);
 		difficultySelector.SubscribeEvents(DisplayResults, DisplayResults);
@@ -47,21 +47,56 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 		levelSelector.SetChoices(levels);
 		difficultySelector.SetChoices(difficulties);
+
+		GameManager.OnStateChanged += OnGameStateChange;
+	}
+
+	void OnGameStateChange(GameState state)
+	{
+		switch (state)
+		{
+			case GameState.Score_History:
+				n1Ticket.SetNoData();
+				n2Ticket.SetNoData();
+				n3Ticket.SetNoData();
+				currentTicket.SetNoData();
+				break;
+		}
 	}
 
 	void DisplayResults()
 	{
 		ServerManager.GetLeaderboard(
-			(MapSize)Enum.Parse(typeof(MapSize), "_" + levelSelector.display.text[0]),
+			(MapSize)Enum.Parse(typeof(MapSize), "_" + levelSelector.display.text.Split(' ')[0]),
 			(Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text),
 			results =>
 			{
 				results.Sort((first, second) => { return second.Position - first.Position; });
 
-				DisplayHighscoreData(results[0], n1Ticket);
-				DisplayHighscoreData(results[1], n2Ticket);
-				DisplayHighscoreData(results[2], n3Ticket);
-				DisplayHighscoreData(results.Find(item => item.DisplayName == Save.Data.playerName), currentTicket);
+				if (results.Count > 0)
+					DisplayHighscoreData(results[0], n1Ticket);
+				else
+					n1Ticket.SetNoData();
+
+				if (results.Count > 1)
+					DisplayHighscoreData(results[1], n2Ticket);
+				else
+					n2Ticket.SetNoData();
+
+				if (results.Count > 2)
+					DisplayHighscoreData(results[2], n3Ticket);
+				else
+					n3Ticket.SetNoData();
+
+				if (results.Count > 3)
+				{
+					DisplayHighscoreData(
+						results.Find(item => item.DisplayName == Save.Data.playerName),
+						currentTicket
+					);
+				}
+				else
+					currentTicket.SetNoData();
 			},
 			() =>
 			{
@@ -80,7 +115,8 @@ public class ScoreHistoryMenu : MonoBehaviour
 
 		if (targetResult != null)
 		{
-			StopCoroutine(animationRoutine);
+			if (animationRoutine != null)
+				StopCoroutine(animationRoutine);
 
 			bool isVictory = Save.Data.CompletedLevel(
 				(MapSize)levelSelector.index,

@@ -54,18 +54,23 @@ public class MainMenu : MonoBehaviour
 			SoundsManager.PlaySound("Click");
 			errorName.text = null;
 
-			ServerManager.IsNameValid(
-				nameInput.text,
-				() => errorName.text = string.Format(invalidNameErrorFormat, nameInput.text),
-				() =>
-				{
-					Save.Data.playerName = nameInput.text;
+			if (string.IsNullOrWhiteSpace(nameInput.text))
+				errorName.text = "Name can't be whitespace";
+			else
+			{
+				ServerManager.IsNameValid(
+					nameInput.text,
+					() => errorName.text = string.Format(invalidNameErrorFormat, nameInput.text),
+					() =>
+					{
+						Save.Data.playerName = nameInput.text;
 
-					anim.Play("HideIntro", 0);
-					this.DelayAction(() => GameManager.ChangeState(GameState.Main_Menu), 2);
-				},
-				() => errorName.text = "No internet connexion, restart game to play offline"
-			);
+						anim.Play("HideIntro", 0);
+						this.DelayAction(() => GameManager.ChangeState(GameState.Main_Menu), 2);
+					},
+					() => errorName.text = "No internet connexion, restart game to play offline"
+				);
+			}
 		});
 		newGameButton.onClick.AddListener(() =>
 		{
@@ -287,12 +292,14 @@ public class MainMenu : MonoBehaviour
 		}
 
 		// pop tutorial
-		if (Save.Data.firstGame)
+		if (!Save.Data.showedTutorial)
 		{
+			Time.timeScale = 0;
+
 			tutorialPopup.Pop(() =>
 			{
-				this.DelayAction(() => Time.timeScale = 1, 1);
-				Save.Data.firstGame = false;
+				Time.timeScale = 1;
+				Save.Data.showedTutorial = true;
 			});
 		}
 
