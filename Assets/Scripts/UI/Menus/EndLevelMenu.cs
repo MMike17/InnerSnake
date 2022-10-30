@@ -5,10 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static DifficultyManager;
 using static GameManager;
-using static MapsManager;
-using static Save;
 
 /// <summary>Manages the end of level menu</summary>
 public class EndLevelMenu : MonoBehaviour
@@ -23,6 +20,8 @@ public class EndLevelMenu : MonoBehaviour
 	public string unlockHardModeMessage;
 	[TextArea]
 	public string finishGameMessage;
+
+	// TODO : Fix index overflow in results
 
 	[Header("Scene references")]
 	public CanvasGroup eolScreenGroup;
@@ -87,17 +86,17 @@ public class EndLevelMenu : MonoBehaviour
 
 	IEnumerator EndLevelAnim()
 	{
-        // unlocks
-        bool isVictory = Player.CollectedPieces == DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size);
-        bool hasFinishedGame = Save.Data.finishedGame;
-        int currentResult = isVictory ? (int)completionTime : Player.CollectedPieces;
+		// unlocks
+		bool isVictory = Player.CollectedPieces == DifficultyManager.GetCurrentDifficultySetting().GetTotalPieces(MapsManager.SpawnedMap.size);
+		bool hasFinishedGame = Save.Data.finishedGame;
+		int currentResult = isVictory ? (int)completionTime : Player.CollectedPieces;
 
-        bool hasHardUnlock = Save.Data.ProcessUnlocks(
-            currentResult,
-            isVictory,
-            MapsManager.SpawnedMap.size,
-            DifficultyManager.CurrentDifficulty
-        );
+		bool hasHardUnlock = Save.Data.ProcessUnlocks(
+			currentResult,
+			isVictory,
+			MapsManager.SpawnedMap.size,
+			DifficultyManager.CurrentDifficulty
+		);
 
 		// save score online
 		if (isVictory)

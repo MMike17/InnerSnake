@@ -19,7 +19,7 @@ public class HighscoreTicket : MonoBehaviour
 
 	public void SetData(int rankNum, string name, int resultMil)
 	{
-		rank.text = "#" + rankNum;
+		rank.text = "#" + (rankNum + 1);
 		playerName.text = name;
 
 		if (routine != null)

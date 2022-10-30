@@ -201,10 +201,16 @@ public class Graph : MonoBehaviour
 	public void ClearGraph()
 	{
 		if (spawnedIndicators != null)
+		{
 			spawnedIndicators.ForEach(item => Destroy(item.gameObject));
+			spawnedIndicators.Clear();
+		}
 
 		if (spawnedLines != null)
+		{
 			spawnedLines.ForEach(item => Destroy(item.gameObject));
+			spawnedLines.Clear();
+		}
 
 		lastResultLine.gameObject.SetActive(false);
 	}

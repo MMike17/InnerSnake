@@ -47,7 +47,7 @@ public class PopupTutorial : PopupBase
 			else
 			{
 				anim.Play("Hide");
-				OnDone();
+				this.DelayAction(OnDone, 1);
 			}
 		});
 	}
@@ -73,9 +73,7 @@ public class PopupTutorial : PopupBase
 	public void Pop(Action onDone)
 	{
 		base.Pop();
-
 		OnDone = onDone;
-		Time.timeScale = 0;
 	}
 
 	/// <summary>Represents data for a tutorial panel</summary>

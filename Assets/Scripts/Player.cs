@@ -103,28 +103,31 @@ public class Player : MonoBehaviour
 	{
 		sideInput = 0;
 
-#if UNITY_ANDROID
-		if (Input.touchCount != 0)
-			sideInput = Mathf.Sign(Input.GetTouch(0).deltaPosition.x);
-#else
-		foreach (KeyCode key in left)
+		if (Application.platform == RuntimePlatform.Android)
 		{
-			if (Input.GetKey(key))
-			{
-				sideInput--;
-				break;
-			}
+			if (Input.touchCount != 0)
+				sideInput = Mathf.Sign(Input.GetTouch(0).deltaPosition.x);
 		}
+		else
+		{
+			foreach (KeyCode key in left)
+			{
+				if (Input.GetKey(key))
+				{
+					sideInput--;
+					break;
+				}
+			}
 
-		foreach (KeyCode key in right)
-		{
-			if (Input.GetKey(key))
+			foreach (KeyCode key in right)
 			{
-				sideInput++;
-				break;
+				if (Input.GetKey(key))
+				{
+					sideInput++;
+					break;
+				}
 			}
 		}
-#endif
 	}
 
 	void AnimateMouth()

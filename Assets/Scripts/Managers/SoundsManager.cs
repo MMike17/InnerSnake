@@ -55,7 +55,7 @@ public class SoundsManager : MonoBehaviour
 
 		if (selectedSound == null)
 		{
-			Debug.LogError(DEBUG_FLAG + "Couldn't find sound with name " + name);
+			Debug.LogError(DEBUG_FLAG + "Couldn't find sound with name \"" + name + "\"");
 			return null;
 		}
 
@@ -87,7 +87,7 @@ public class SoundsManager : MonoBehaviour
 		SFX selectedSound = instance.FindSound(name);
 
 		if (selectedSound == null)
-			return; 
+			return;
 
 		instance.StartCoroutine(FadeSoundRoutine(selectedSource, duration, fadeInOut ? selectedSound.volume : 0));
 	}
