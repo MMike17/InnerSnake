@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
@@ -72,31 +74,7 @@ public class ScoreHistoryMenu : MonoBehaviour
 			results =>
 			{
 				results.Sort((first, second) => { return second.Position - first.Position; });
-
-				if (results.Count > 0 && results[0] != null)
-					n1Ticket.SetData(results[0].Position, results[0].DisplayName, results[0].StatValue, true);
-				else
-					n1Ticket.SetNoData();
-
-				if (results.Count > 1 && results[1] != null)
-					n2Ticket.SetData(results[1].Position, results[1].DisplayName, results[1].StatValue, true);
-				else
-					n2Ticket.SetNoData();
-
-				if (results.Count > 2 && results[2] != null)
-					n3Ticket.SetData(results[2].Position, results[2].DisplayName, results[2].StatValue, true);
-				else
-					n3Ticket.SetNoData();
-
-				if (results.Count > 3)
-				{
-					DisplayHighscoreData(
-						results.Find(item => item.DisplayName == Save.Data.playerName),
-						currentTicket
-					);
-				}
-				else
-					currentTicket.SetNoData();
+				StartCoroutine(AnimateScores(results));
 			},
 			() =>
 			{
@@ -135,11 +113,45 @@ public class ScoreHistoryMenu : MonoBehaviour
 		}
 	}
 
-	void DisplayHighscoreData(PlayerLeaderboardEntry result, HighscoreTicket ticket)
+	IEnumerator AnimateScores(List<PlayerLeaderboardEntry> results)
 	{
-		if (result == null)
-			ticket.SetNoData();
+		PlayerLeaderboardEntry playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
+
+		for (int index = 3; index >= 0; index++)
+		{
+			if (index == 3)
+				yield return AnimateTicket(currentTicket, playerResult.Position > 2 ? playerResult : results[3]);
+			else
+			{
+				HighscoreTicket ticket = index switch
+				{
+					2 => n3Ticket,
+					1 => n2Ticket,
+					0 => n1Ticket,
+					_ => null
+				};
+
+				yield return AnimateTicket(ticket, playerResult.Position == index ? playerResult : results[index]);
+			}
+		}
+	}
+
+	IEnumerator AnimateTicket(HighscoreTicket ticket, PlayerLeaderboardEntry result)
+	{
+		bool isPlayer = result.DisplayName == Save.Data.playerName;
+
+		if (isPlayer)
+			ticket.SetEmpty(result.DisplayName);
 		else
+			ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+
+		ticket.anim.Play("Show");
+		yield return new WaitForSeconds(0.5f);
+
+		if (isPlayer)
+		{
 			ticket.SetData(result.Position, result.DisplayName, result.StatValue, true);
+			yield return new WaitForSeconds(1);
+		}
 	}
 }

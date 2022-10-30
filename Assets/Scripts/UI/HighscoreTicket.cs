@@ -22,10 +22,22 @@ public class HighscoreTicket : MonoBehaviour
 		rank.text = "#" + (rankNum + 1);
 		playerName.text = name;
 
-		if (routine != null)
-			StopCoroutine(routine);
+		if (animate)
+		{
+			if (routine != null)
+				StopCoroutine(routine);
 
-		routine = StartCoroutine(AnimateResult(resultMil));
+			routine = StartCoroutine(AnimateResult(resultMil));
+		}
+		else
+			result.text = new TimeSpan(0, 0, 0, 0, resultMil).ToNiceString();
+	}
+
+	public void SetEmpty(string playerName)
+	{
+		rank.text = "#";
+		this.playerName.text = playerName;
+		result.text = "";
 	}
 
 	public void SetNoData()
@@ -50,7 +62,6 @@ public class HighscoreTicket : MonoBehaviour
 		}
 
 		result.text = new TimeSpan(0, 0, 0, 0, resultMil).ToNiceString();
-
 		routine = null;
 	}
 }
