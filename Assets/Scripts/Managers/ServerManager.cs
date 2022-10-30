@@ -21,28 +21,33 @@ public static class ServerManager
 
 	public static bool HasConnection => Application.internetReachability != NetworkReachability.NotReachable;
 
-	public static void Login()
+	public static void Login(Action OnResult)
 	{
 		if (!HasConnection)
-		{
-			Save.Data.firstGame = false;
 			return;
-		}
 
 		LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
 		{
-			CustomId = Save.Data.playerName,
+			CustomId = SystemInfo.deviceUniqueIdentifier,
 			CreateAccount = true
 		};
 
 		PlayFabClientAPI.LoginWithCustomID(
 			request,
-			result => Save.Data.firstGame = false,
-			error => Debug.LogError(error.GenerateErrorReport())
+			result =>
+			{
+				if (!Save.Data.userRegistered && !string.IsNullOrEmpty(Save.Data.playerName))
+					SetPlayerName(Save.Data.playerName);
+
+				OnResult();
+			},
+			error =>
+			{
+				Debug.LogError(error.GenerateErrorReport());
+				OnResult();
+			}
 		);
 	}
-
-	// TODO : CustomId doesn't set user name, set user name with UpdateUserTitleDisplayName
 
 	public static void IsNameValid(string name, Action OnNameInvalid, Action OnNameValid, Action OnNoConnection)
 	{
@@ -52,16 +57,40 @@ public static class ServerManager
 			return;
 		}
 
-		LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
+		GetAccountInfoRequest request = new GetAccountInfoRequest() { TitleDisplayName = name };
+
+		PlayFabClientAPI.GetAccountInfo(
+			request,
+			result => OnNameInvalid(),
+			error =>
+			{
+				SetPlayerName(name);
+				OnNameValid();
+			}
+		);
+	}
+
+	static void SetPlayerName(string playerName)
+	{
+		if (!HasConnection)
 		{
-			CustomId = name,
-			CreateAccount = true
+			Save.Data.playerName = playerName;
+			return;
+		}
+
+		UpdateUserTitleDisplayNameRequest request = new UpdateUserTitleDisplayNameRequest()
+		{
+			DisplayName = playerName
 		};
 
-		PlayFabClientAPI.LoginWithCustomID(
+		PlayFabClientAPI.UpdateUserTitleDisplayName(
 			request,
-			result => OnNameValid(),
-			error => OnNameInvalid()
+			result =>
+			{
+				Save.Data.playerName = playerName;
+				Save.Data.userRegistered = true;
+			},
+			error => Save.Data.playerName = playerName
 		);
 	}
 
