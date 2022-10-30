@@ -121,11 +121,18 @@ public class ScoreHistoryMenu : MonoBehaviour
 	IEnumerator AnimateScores(List<PlayerLeaderboardEntry> results)
 	{
 		PlayerLeaderboardEntry playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
+		PlayerLeaderboardEntry result;
 
-		for (int index = 3; index >= 0; index++)
+		for (int index = 3; index >= 0; index--)
 		{
 			if (index == 3)
-				yield return AnimateTicket(currentTicket, playerResult.Position > 2 ? playerResult : results[3]);
+			{
+				result = results.Count > 3 ? results[3] : null;
+				yield return AnimateTicket(
+					currentTicket,
+					playerResult != null && playerResult.Position > 2 ? playerResult : result
+				);
+			}
 			else
 			{
 				HighscoreTicket ticket = index switch
@@ -136,24 +143,31 @@ public class ScoreHistoryMenu : MonoBehaviour
 					_ => null
 				};
 
-				yield return AnimateTicket(ticket, playerResult.Position == index ? playerResult : results[index]);
+				result = results.Count > index ? results[index] : null;
+				yield return AnimateTicket(
+					ticket,
+					playerResult != null && playerResult.Position == index ? playerResult : result
+				);
 			}
 		}
 	}
 
 	IEnumerator AnimateTicket(HighscoreTicket ticket, PlayerLeaderboardEntry result)
 	{
-		bool isPlayer = result.DisplayName == Save.Data.playerName;
-
-		if (isPlayer)
-			ticket.SetEmpty(result.DisplayName);
+		if (result != null)
+		{
+			if (result.DisplayName == Save.Data.playerName)
+				ticket.SetEmpty(result.DisplayName);
+			else
+				ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+		}
 		else
-			ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+			ticket.SetNoData();
 
 		ticket.anim.Play("Show");
 		yield return new WaitForSeconds(0.5f);
 
-		if (isPlayer)
+		if (result != null && result.DisplayName == Save.Data.playerName)
 		{
 			ticket.SetData(result.Position, result.DisplayName, result.StatValue, true);
 			yield return new WaitForSeconds(1);

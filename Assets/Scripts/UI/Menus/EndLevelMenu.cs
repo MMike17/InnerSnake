@@ -22,8 +22,6 @@ public class EndLevelMenu : MonoBehaviour
 	[TextArea]
 	public string finishGameMessage;
 
-	// TODO : Fix index overflow in results
-
 	[Header("Scene references")]
 	public CanvasGroup eolScreenGroup;
 	public TMP_Text eolScoreLabel;
@@ -161,7 +159,7 @@ public class EndLevelMenu : MonoBehaviour
 
 		if (isVictory)
 		{
-			List<PlayerLeaderboardEntry> allResults;
+			List<PlayerLeaderboardEntry> allResults = null;
 			bool hasResult = false;
 
 			ServerManager.GetLeaderboard(
@@ -177,68 +175,23 @@ public class EndLevelMenu : MonoBehaviour
 
 			yield return new WaitUntil(() => { return hasResult; });
 
-			/*
-			results.Sort((first, second) => { return second.Position - first.Position; });
-					playerResult = results.Find(item => item.DisplayName == Save.Data.playerName);
+			PlayerLeaderboardEntry playerResult = allResults.Find(item => item.DisplayName == Save.Data.playerName);
 
-					if (results.Count > 0)
-						n1Ticket.SetData(1, results[0].DisplayName, results[0].StatValue);
-
-					if (results.Count > 1)
-						n2Ticket.SetData(2, results[1].DisplayName, results[1].StatValue);
-
-					if (playerResult.Position > 1)
-						currentTicket.SetData(playerResult.Position, playerResult.DisplayName, playerResult.StatValue);
-			*/
-
-			HighscoreTicket selectedTicket = playerResult.Position switch
+			for (int index = 2; index >= 0; index--)
 			{
-				0 => n1Ticket,
-				1 => n2Ticket,
-				_ => currentTicket
-			};
-
-			// pop before player result
-			if (playerResult.Position < 2)
-			{
-				currentTicket.anim.Play("Show");
-				yield return new WaitForSeconds(0.5f);
-
-				if (playerResult.Position == 0)
+				if (index == 2)
+					yield return AnimateTicket(currentTicket, playerResult.Position > 1 ? playerResult : allResults[2]);
+				else
 				{
-					n2Ticket.anim.Play("Show");
-					yield return new WaitForSeconds(0.5f);
+					HighscoreTicket ticket = index switch
+					{
+						1 => n2Ticket,
+						0 => n1Ticket,
+						_ => null
+					};
+
+					yield return AnimateTicket(ticket, playerResult.Position == index ? playerResult : allResults[index]);
 				}
-			}
-
-			selectedTicket.rank.text = "#";
-			selectedTicket.anim.Play("Show");
-
-			yield return new WaitForSeconds(0.5f);
-
-			timer = 0;
-
-			while (timer < eolRankAnimDuration)
-			{
-				timer += Time.deltaTime;
-				selectedTicket.rank.text = "#" + Mathf.FloorToInt(Mathf.Lerp(1, playerResult.Position + 1, timer / eolRankAnimDuration));
-
-				yield return null;
-			}
-
-			selectedTicket.rank.text = "#" + (playerResult.Position + 1);
-
-			// pop after player
-			if (playerResult.Position > 0)
-			{
-				if (playerResult.Position == 2)
-				{
-					n2Ticket.anim.Play("Show");
-					yield return new WaitForSeconds(0.5f);
-				}
-
-				n1Ticket.anim.Play("Show");
-				yield return new WaitForSeconds(0.5f);
 			}
 		}
 		else
@@ -258,6 +211,25 @@ public class EndLevelMenu : MonoBehaviour
 		}
 
 		ShowEndButtons();
+	}
+
+	IEnumerator AnimateTicket(HighscoreTicket ticket, PlayerLeaderboardEntry result)
+	{
+		bool isPlayer = result.DisplayName == Save.Data.playerName;
+
+		if (isPlayer)
+			ticket.SetEmpty(result.DisplayName);
+		else
+			ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+
+		ticket.anim.Play("Show");
+		yield return new WaitForSeconds(0.5f);
+
+		if (isPlayer)
+		{
+			ticket.SetData(result.Position, result.DisplayName, result.StatValue, true);
+			yield return new WaitForSeconds(1);
+		}
 	}
 
 	IEnumerator Replay()

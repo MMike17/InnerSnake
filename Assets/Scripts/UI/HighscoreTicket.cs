@@ -19,7 +19,7 @@ public class HighscoreTicket : MonoBehaviour
 
 	public void SetData(int rankNum, string name, int resultMil, bool animate)
 	{
-		rank.text = "#" + (rankNum + 1);
+		rankNum++;
 		playerName.text = name;
 
 		if (animate)
@@ -27,17 +27,21 @@ public class HighscoreTicket : MonoBehaviour
 			if (routine != null)
 				StopCoroutine(routine);
 
-			routine = StartCoroutine(AnimateResult(resultMil));
+			routine = StartCoroutine(AnimateResult(rankNum, resultMil));
 		}
 		else
+		{
+			rank.text = "#" + rankNum;
+
 			result.text = new TimeSpan(0, 0, 0, 0, resultMil).ToNiceString();
+		}
 	}
 
 	public void SetEmpty(string playerName)
 	{
 		rank.text = "#";
 		this.playerName.text = playerName;
-		result.text = "";
+		result.text = "00:00:00";
 	}
 
 	public void SetNoData()
@@ -47,15 +51,18 @@ public class HighscoreTicket : MonoBehaviour
 		result.text = null;
 	}
 
-	IEnumerator AnimateResult(int resultMil)
+	IEnumerator AnimateResult(int rank, int resultMil)
 	{
 		float timer = 0;
 
 		while (timer < resultAnimDuration)
 		{
 			timer += Time.deltaTime;
+			float percent = timer / resultAnimDuration;
 
-			int targetResult = Mathf.FloorToInt(Mathf.Lerp(0, resultMil, timer / resultAnimDuration));
+			this.rank.text = "#" + Mathf.FloorToInt(Mathf.Lerp(0, rank, percent));
+
+			int targetResult = Mathf.FloorToInt(Mathf.Lerp(0, resultMil, percent));
 			result.text = new TimeSpan(0, 0, 0, 0, targetResult).ToNiceString();
 
 			yield return null;
