@@ -2825,7 +2825,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609373846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489f41666327b8c449fac235a1a1b93f, type: 3}
   m_Name: 
@@ -4592,7 +4592,7 @@ MonoBehaviour:
   doublePanel: {fileID: 783204001}
   doubleDisplayLeft: {fileID: 1853582323}
   doubleDisplayRight: {fileID: 496173453}
-  message: {fileID: 0}
+  message: {fileID: 1256581868}
   previous: {fileID: 300372643}
   next: {fileID: 907122768}
 --- !u!95 &1116834722
