@@ -87,8 +87,8 @@ class SaveEditor : EditorWindow
 				if (GUILayout.Button("Generate save data"))
 				{
 					loadedSave = new Save(
-						FindObjectOfType<DifficultyManager>(true).difficulties.Count,
-						FindObjectOfType<MapsManager>(true).gameMaps.Count
+						Enum.GetNames(typeof(Difficulty)).Length,
+						Enum.GetNames(typeof(MapSize)).Length
 					);
 				}
 			});
@@ -109,7 +109,14 @@ class SaveEditor : EditorWindow
 
 			DisplayCentered(() =>
 			{
-				loadedSave.firstGame = EditorGUILayout.Toggle("First game : ", loadedSave.firstGame);
+				loadedSave.userRegistered = EditorGUILayout.Toggle("Registered user  : ", loadedSave.userRegistered);
+			});
+
+			EditorGUILayout.Space();
+
+			DisplayCentered(() =>
+			{
+				loadedSave.showedTutorial = EditorGUILayout.Toggle("Showed tutorial : ", loadedSave.showedTutorial);
 			});
 
 			EditorGUILayout.Space();

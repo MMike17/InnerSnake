@@ -55,10 +55,11 @@ public class GameManager : MonoBehaviour
 		soundsManager.Init();
 
 		DataSaver.LoadGameData(DifficultyManager.DifficultiesCount, MapsManager.MapsCount);
-		currentState = Save.Data.firstGame && ServerManager.HasConnection ? GameState.First_Game : GameState.Main_Menu;
+		currentState = string.IsNullOrEmpty(Save.Data.playerName) && ServerManager.HasConnection ? GameState.First_Game : GameState.Main_Menu;
 
-		if (!string.IsNullOrEmpty(Save.Data.playerName))
-			ServerManager.Login();
+		// pause until logged in
+		Time.timeScale = 0;
+		ServerManager.Login(() => Time.timeScale = 1);
 
 		mainMenu.Init();
 		scoreHistoryMenu.Init();

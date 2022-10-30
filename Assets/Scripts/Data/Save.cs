@@ -18,7 +18,8 @@ public class Save
 	public List<NetworkResult> waitingResults;
 	public string playerName;
 	public bool finishedGame;
-	public bool firstGame;
+	public bool showedTutorial;
+	public bool userRegistered;
 
 	public Save(int difficultiesCount, int mapsCount)
 	{
@@ -34,7 +35,8 @@ public class Save
 		playerName = null;
 
 		finishedGame = false;
-		firstGame = true;
+		showedTutorial = false;
+		userRegistered = false;
 	}
 
 	public List<LevelResult> GetResults(MapSize map, Difficulty difficulty, bool completed)
@@ -74,57 +76,57 @@ public class Save
 		return results.Find(item => item.size == map && item.difficulty == difficulty && item.completed) != null;
 	}
 
-    public bool ProcessUnlocks(int result, bool isVictory, MapSize size, Difficulty currentDifficulty)
-    {
-        bool hasHardUnlock = false;
+	public bool ProcessUnlocks(int result, bool isVictory, MapSize size, Difficulty currentDifficulty)
+	{
+		bool hasHardUnlock = false;
 
-        if (isVictory)
-        {
-            switch (currentDifficulty)
-            {
-                case Difficulty.Easy:
-                    unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Medium] = true;
-                    break;
+		if (isVictory)
+		{
+			switch (currentDifficulty)
+			{
+				case Difficulty.Easy:
+					unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Medium] = true;
+					break;
 
-                case Difficulty.Medium:
-                    switch (size)
-                    {
-                        case MapSize._6:
-                            if (!unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard])
-                                hasHardUnlock = true;
+				case Difficulty.Medium:
+					switch (size)
+					{
+						case MapSize._6:
+							if (!unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard])
+								hasHardUnlock = true;
 
-                            unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard] = true;
-                            unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
-                            break;
+							unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard] = true;
+							unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
+							break;
 
-                        case MapSize._8:
-                            unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
-                            break;
+						case MapSize._8:
+							unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
+							break;
 
-                        case MapSize._10:
-                            unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
-                            break;
+						case MapSize._10:
+							unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Easy] = true;
+							break;
 
-                        case MapSize._12:
-                            unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard] = true;
-                            break;
-                    }
-                    break;
+						case MapSize._12:
+							unlockedDifficulties[(int)size].difficulties[(int)Difficulty.Hard] = true;
+							break;
+					}
+					break;
 
-                case Difficulty.Hard:
-                    if (size != MapSize._12)
-                        unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Hard] = true;
-                    else if (!finishedGame)
-                        finishedGame = true;
-                    break;
-            }
-        }
+				case Difficulty.Hard:
+					if (size != MapSize._12)
+						unlockedDifficulties[(int)size + 1].difficulties[(int)Difficulty.Hard] = true;
+					else if (!finishedGame)
+						finishedGame = true;
+					break;
+			}
+		}
 
-        // save data
-        results.Add(new LevelResult(size, currentDifficulty, isVictory, result));
+		// save data
+		results.Add(new LevelResult(size, currentDifficulty, isVictory, result));
 
 		return hasHardUnlock;
-    }
+	}
 
 	/// <summary>Represents a result for a level played on a certain difficulty</summary>
 	[Serializable]
