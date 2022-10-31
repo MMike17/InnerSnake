@@ -1161,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5462036824144723351, guid: be0e4e024e6ebf8489d6f03834cca1fb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -5
+      value: -5.0000153
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be0e4e024e6ebf8489d6f03834cca1fb, type: 3}
@@ -1786,11 +1786,11 @@ MonoBehaviour:
     loop: 0
   - name: Tick
     clip: {fileID: 8300000, guid: 90830c5109f470242bf2ef46cf8a61ac, type: 3}
-    volume: 0.2
+    volume: 0.1
     loop: 1
   - name: TickLine
     clip: {fileID: 8300000, guid: ed078865d34df194f9d9596cc5a62b70, type: 3}
-    volume: 0.2
+    volume: 0.1
     loop: 1
   - name: Menu
     clip: {fileID: 8300000, guid: 544176006fc0c964f846cfb4a8180ca4, type: 3}

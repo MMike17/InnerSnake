@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,17 +26,24 @@ public class Player : MonoBehaviour
 	public float maxOpenMouthAngle;
 	public float minOpenMouthAngle;
 	public float openMouthSpeed;
+	[Space]
+	public float pickupAnimDuration;
+	public float pickupSizeMult;
+	public AnimationCurve pickupAlphaCurve;
+	public AnimationCurve pickupSizeCurve;
 
 	[Header("Scene references")]
 	public Transform meshRoot;
 	public Animator anim;
 	public Rigidbody rigid;
 	public Transform cameraTarget;
-	public ParticleSystem pickupFX;
-	public AnimateParticlesColor pickupFXColor;
+	public Transform startPickup;
+	public Transform pickupFX;
+	public AnimateSpriteColor pickupFXColor;
 
 	List<SnakePiece> collectedPieces;
 	List<Vector3> previousPositions;
+	Coroutine pickupRoutine;
 	Vector3 centerPoint;
 	float currentSpeed;
 	float sideInput;
@@ -228,7 +236,11 @@ public class Player : MonoBehaviour
 			piece.GetComponentInParent<Pickup>().Collect((float)collectedPieces.Count / totalPieces);
 
 			pickupFXColor.offset = piece.colorAnim.offset;
-			pickupFX.Play();
+
+			if (pickupRoutine != null)
+				StopCoroutine(pickupRoutine);
+
+			pickupRoutine = StartCoroutine(PickupVFXAnim());
 
 			piece.transform.position = previousPositions[0];
 			piece.transform.LookAt(collectedPieces.Count > 1 ? collectedPieces[collectedPieces.Count - 2].transform : transform);
@@ -250,6 +262,71 @@ public class Player : MonoBehaviour
 		}
 		else if (other.CompareTag("Finish")) // collided with line
 			GameOver();
+	}
+
+	IEnumerator PickupVFXAnim()
+	{
+		float timer = 0;
+		int posIndex = 0;
+
+		float step = pickupAnimDuration / (collectedPieces.Count + 1);
+		SpriteRenderer sprite = pickupFX.GetComponent<SpriteRenderer>();
+
+		pickupFX.transform.rotation = Quaternion.LookRotation(-transform.forward, transform.up);
+		Vector3 previousTarget = Vector3.zero;
+		Vector3 currentTarget = Vector3.zero;
+
+		while (timer < pickupAnimDuration)
+		{
+			timer += Time.deltaTime;
+			float localPercent = (timer - (step * posIndex)) / step;
+			float percent = timer / pickupAnimDuration;
+
+			// pos
+			switch (posIndex)
+			{
+				case 0:
+					currentTarget = transform.position;
+					pickupFX.position = Vector3.Lerp(startPickup.position, currentTarget, localPercent);
+					break;
+
+				case 1:
+					previousTarget = collectedPieces.Count > 0 ? collectedPieces[0].transform.position : previousPositions[0];
+					currentTarget = previousTarget;
+
+					pickupFX.position = Vector3.Lerp(transform.position, previousTarget, localPercent);
+					break;
+
+				case 2:
+				case 3:
+					currentTarget = collectedPieces[posIndex - 1].transform.position;
+					pickupFX.position = Vector3.Lerp(previousTarget, currentTarget, localPercent);
+					break;
+			}
+
+			// scale
+			pickupFX.localScale = Vector3.one * pickupSizeCurve.Evaluate(percent) * pickupSizeMult;
+
+			// orientation
+			pickupFX.transform.rotation = Quaternion.RotateTowards(pickupFX.transform.rotation, Quaternion.LookRotation(currentTarget - pickupFX.transform.position, transform.up), 200 * Time.deltaTime);
+
+			// alpha
+			Color color = sprite.color;
+			color.a = pickupAlphaCurve.Evaluate(percent);
+			sprite.color = color;
+
+			if (localPercent >= 1)
+			{
+				if (posIndex >= 2)
+					previousTarget = collectedPieces[posIndex - 1].transform.position;
+
+				posIndex++;
+			}
+
+			yield return null;
+		}
+
+		pickupRoutine = null;
 	}
 
 	public void GameOver()
