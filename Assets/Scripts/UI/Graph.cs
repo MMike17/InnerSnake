@@ -150,7 +150,7 @@ public class Graph : MonoBehaviour
 			lastResultLine.position = initialPos;
 			lastResultLine.gameObject.SetActive(true);
 
-			SoundsManager.PlaySound("LineTick");
+			SoundsManager.PlaySound("TickLine");
 			timer = 0;
 
 			while (timer < lastResultAnimDuration)

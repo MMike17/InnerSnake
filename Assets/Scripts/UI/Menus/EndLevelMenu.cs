@@ -176,11 +176,15 @@ public class EndLevelMenu : MonoBehaviour
 			yield return new WaitUntil(() => { return hasResult; });
 
 			PlayerLeaderboardEntry playerResult = allResults.Find(item => item.DisplayName == Save.Data.playerName);
+			PlayerLeaderboardEntry localResult = null;
 
 			for (int index = 2; index >= 0; index--)
 			{
 				if (index == 2)
-					yield return AnimateTicket(currentTicket, playerResult.Position > 1 ? playerResult : allResults[2]);
+				{
+					localResult = allResults.Count > 2 ? allResults[2] : null;
+					yield return AnimateTicket(currentTicket, playerResult != null && playerResult.Position > 1 ? playerResult : localResult);
+				}
 				else
 				{
 					HighscoreTicket ticket = index switch
@@ -190,7 +194,8 @@ public class EndLevelMenu : MonoBehaviour
 						_ => null
 					};
 
-					yield return AnimateTicket(ticket, playerResult.Position == index ? playerResult : allResults[index]);
+					localResult = allResults.Count > index ? allResults[index] : null;
+					yield return AnimateTicket(ticket, playerResult != null && playerResult.Position == index ? playerResult : localResult);
 				}
 			}
 		}
@@ -215,17 +220,20 @@ public class EndLevelMenu : MonoBehaviour
 
 	IEnumerator AnimateTicket(HighscoreTicket ticket, PlayerLeaderboardEntry result)
 	{
-		bool isPlayer = result.DisplayName == Save.Data.playerName;
-
-		if (isPlayer)
-			ticket.SetEmpty(result.DisplayName);
+		if (result != null)
+		{
+			if (result.DisplayName == Save.Data.playerName)
+				ticket.SetEmpty(result.DisplayName);
+			else
+				ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+		}
 		else
-			ticket.SetData(result.Position, result.DisplayName, result.StatValue, false);
+			ticket.SetNoData();
 
 		ticket.anim.Play("Show");
 		yield return new WaitForSeconds(0.5f);
 
-		if (isPlayer)
+		if (result != null && result.DisplayName == Save.Data.playerName)
 		{
 			ticket.SetData(result.Position, result.DisplayName, result.StatValue, true);
 			yield return new WaitForSeconds(1);
