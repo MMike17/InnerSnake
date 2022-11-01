@@ -39,7 +39,7 @@ public class MainMenu : MonoBehaviour
 	public ArrowSelector difficultySelector;
 	public Button playButton;
 	[Space]
-	public PopupBase creditsPopup;
+	public PopupCredits creditsPopup;
 	public PopupTutorial tutorialPopup;
 	[Space]
 	public Timer startGameTimer;

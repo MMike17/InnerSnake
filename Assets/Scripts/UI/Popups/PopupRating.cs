@@ -15,4 +15,6 @@ public class PopupRating : PopupBase
 			closeButton.onClick.Invoke();
 		});
 	}
+
+	public new void Pop() => base.Pop();
 }
