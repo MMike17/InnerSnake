@@ -1161,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5462036824144723351, guid: be0e4e024e6ebf8489d6f03834cca1fb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -5.0000153
+      value: -5.0000076
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be0e4e024e6ebf8489d6f03834cca1fb, type: 3}
@@ -1800,6 +1800,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cc317ed7a0942d34aa735d966d173da6, type: 3}
     volume: 0.7
     loop: 0
+  - name: GameIntro
+    clip: {fileID: 0}
+    volume: 1
+    loop: 0
+  - name: GameLoop
+    clip: {fileID: 0}
+    volume: 1
+    loop: 1
   sourcePrefab: {fileID: 3923764542247944046, guid: 51b986860dcaf154daa5872662320b08, type: 3}
 --- !u!1 &474516709
 GameObject:
@@ -3185,7 +3193,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.45
+  m_fontSize: 53.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5841,7 +5849,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 62.1
+  m_fontSize: 53.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7602,7 +7610,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.45
+  m_fontSize: 53.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

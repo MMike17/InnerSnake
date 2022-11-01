@@ -42,8 +42,11 @@ public class Timer : MonoBehaviour
 
 		display.text = startText;
 		anim.Play("Start");
-		SoundsManager.PlaySound("UI", 1.5f);
-		SoundsManager.FadeSound("Game", 1, true);
+
+		AudioSource source = SoundsManager.PlaySound("GameIntro");
+
+		if (source != null)
+			this.DelayAction(() => SoundsManager.PlaySound("GameLoop"), source.clip.length);
 
 		OnDone?.Invoke();
 	}
