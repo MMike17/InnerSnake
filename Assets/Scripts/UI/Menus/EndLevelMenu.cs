@@ -6,7 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static DifficultyManager;
 using static GameManager;
+using static MapsManager;
 
 /// <summary>Manages the end of level menu</summary>
 public class EndLevelMenu : MonoBehaviour
@@ -34,6 +36,7 @@ public class EndLevelMenu : MonoBehaviour
 	public Button eolMenuButton;
 	[Space]
 	public PopupMessage messagePopup;
+	public PopupRating ratingPopup;
 
 	Action ShowEndButtons;
 	Action StartLevel;
@@ -208,6 +211,18 @@ public class EndLevelMenu : MonoBehaviour
 
 		if (hasHardUnlock)
 			messagePopup.Pop(unlockHardModeMessage);
+		else if (!Save.Data.askedRating)
+		{
+			bool hasMap6 = Save.Data.results.Find(item => item.completed && item.size == MapSize._6) != null;
+			bool hasMap8 = Save.Data.results.Find(item => item.size == MapSize._8) != null;
+			bool hasEasy = Save.Data.results.Find(item => item.completed && item.difficulty == Difficulty.Easy) != null;
+			bool hasMid = Save.Data.results.Find(item => item.difficulty == Difficulty.Medium) != null;
+
+			if (hasMap6 && hasMap8 && hasEasy && hasMid)
+				ratingPopup.Pop();
+
+			Save.Data.askedRating = true;
+		}
 
 		if (hasFinishedGame != Save.Data.finishedGame)
 		{

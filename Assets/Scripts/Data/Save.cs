@@ -20,6 +20,7 @@ public class Save
 	public bool finishedGame;
 	public bool showedTutorial;
 	public bool userRegistered;
+	public bool askedRating;
 
 	public Save(int difficultiesCount, int mapsCount)
 	{
@@ -37,6 +38,7 @@ public class Save
 		finishedGame = false;
 		showedTutorial = false;
 		userRegistered = false;
+		askedRating = false;
 	}
 
 	public List<LevelResult> GetResults(MapSize map, Difficulty difficulty, bool completed)

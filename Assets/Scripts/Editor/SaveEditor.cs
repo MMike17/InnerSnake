@@ -123,6 +123,13 @@ class SaveEditor : EditorWindow
 
 			DisplayCentered(() =>
 			{
+				loadedSave.askedRating = EditorGUILayout.Toggle("Asked for rating : ", loadedSave.askedRating);
+			});
+
+			EditorGUILayout.Space();
+
+			DisplayCentered(() =>
+			{
 				loadedSave.finishedGame = EditorGUILayout.Toggle("Finished game : ", loadedSave.finishedGame);
 			});
 
