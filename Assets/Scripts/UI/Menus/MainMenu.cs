@@ -32,12 +32,14 @@ public class MainMenu : MonoBehaviour
 	[Space]
 	public Button newGameButton;
 	public Button scoreHistoryButton;
+	public Button creditsButton;
 	public Button quitButton;
 	[Space]
 	public ArrowSelector levelSelector;
 	public ArrowSelector difficultySelector;
 	public Button playButton;
 	[Space]
+	public PopupBase creditsPopup;
 	public PopupTutorial tutorialPopup;
 	[Space]
 	public Timer startGameTimer;
@@ -85,6 +87,12 @@ public class MainMenu : MonoBehaviour
 
 			anim.Play("HideMain", 0);
 			player.Stop(GameState.Score_History);
+		});
+		creditsButton.onClick.AddListener(() =>
+		{
+			SoundsManager.PlaySound("Click");
+
+			creditsPopup.Pop();
 		});
 		quitButton.onClick.AddListener(() =>
 		{
