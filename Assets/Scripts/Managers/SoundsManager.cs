@@ -54,10 +54,7 @@ public class SoundsManager : MonoBehaviour
 		SFX selectedSound = instance.FindSound(name);
 
 		if (selectedSound == null)
-		{
-			Debug.LogError(DEBUG_FLAG + "Couldn't find sound with name \"" + name + "\"");
 			return null;
-		}
 
 		AudioSource selectedSource = instance.GetAvailableSource();
 		selectedSource.pitch = customPitch;
