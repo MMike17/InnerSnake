@@ -15,7 +15,7 @@ public class PopupCredits : PopupBase
 		angusLink.Subscribe();
 	}
 
-	public new void Pop() => base.Pop();
+	public void Pop() => base.Pop(false);
 
 	/// <summary>Button and url that it has to open</summary>
 	[Serializable]

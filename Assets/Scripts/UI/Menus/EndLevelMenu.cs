@@ -210,7 +210,7 @@ public class EndLevelMenu : MonoBehaviour
 		}
 
 		if (hasHardUnlock)
-			messagePopup.Pop(unlockHardModeMessage);
+			messagePopup.Pop(unlockHardModeMessage, false);
 		else if (!Save.Data.askedRating)
 		{
 			bool hasMap6 = Save.Data.results.Find(item => item.completed && item.size == MapSize._6) != null;
@@ -226,7 +226,9 @@ public class EndLevelMenu : MonoBehaviour
 
 		if (hasFinishedGame != Save.Data.finishedGame)
 		{
-			messagePopup.Pop(finishGameMessage);
+			messagePopup.Pop(finishGameMessage, true);
+			this.DelayAction(() => SoundsManager.PlaySound("Win"), 0.8f);
+
 			Save.Data.finishedGame = true;
 		}
 

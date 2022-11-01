@@ -76,7 +76,7 @@ public class PopupTutorial : PopupBase
 
 	public void Pop(Action onDone)
 	{
-		base.Pop();
+		base.Pop(false);
 		OnDone = onDone;
 	}
 

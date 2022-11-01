@@ -7,20 +7,30 @@ public class PopupBase : MonoBehaviour
 	public Animator anim;
 	public Button closeButton;
 
+	bool specialAnim;
+
 	void Awake()
 	{
 		if (closeButton != null)
 		{
 			closeButton.onClick.AddListener(() =>
 			{
-				anim.Play("Hide");
+				anim.Play("Hide", 0);
 				SoundsManager.PlaySound("Click");
+
+				if (specialAnim)
+					anim.Play("HideSpecial", 1);
 			});
 		}
 	}
 
-	protected void Pop()
+	protected void Pop(bool specialAnim)
 	{
-		anim.Play("Show");
+		this.specialAnim = specialAnim;
+
+		anim.Play("Show", 0);
+
+		if (specialAnim)
+			anim.Play("ShowSpecial", 1);
 	}
 }

@@ -16,5 +16,5 @@ public class PopupRating : PopupBase
 		});
 	}
 
-	public new void Pop() => base.Pop();
+	public void Pop() => base.Pop(false);
 }
