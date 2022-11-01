@@ -3,11 +3,9 @@ x On collection
 x Button click
 x On Win
 x On Lose
-- Lose BGM
-- Win BGM
+- Menu BGM
 x Tick for score graph (low button click)
 x Tick 2 for score graph
-x Menu BGM
 x Rework menu loop (remove cut)
 - Balance sounds volumes (PC volume at 30)
 x Add sound to tutorial panel buttons

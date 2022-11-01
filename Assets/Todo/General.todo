@@ -3,3 +3,5 @@ x Setup build settings
 x Add itch.io page link on end of game message
 - Make tutorial
 x Update Playfab plugin version (from GitHub)
+- Add credit tutorial
+- Add rating panel after X games
