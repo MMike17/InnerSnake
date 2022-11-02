@@ -25,8 +25,9 @@ public class PopupTutorial : PopupBase
 	Action OnDone;
 	int tutorialIndex;
 
-	void Awake()
+	new void Awake()
 	{
+		base.Awake();
 		tutorialIndex = 0;
 
 		previous.onClick.AddListener(() =>

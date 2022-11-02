@@ -7,6 +7,8 @@ public class PopupMessage : PopupBase
 	[Header("Scene references")]
 	public TMP_Text message;
 
+	new void Awake() => base.Awake();
+
 	public void Pop(string message, bool specialAnim)
 	{
 		base.Pop(specialAnim);

@@ -9,8 +9,10 @@ public class PopupCredits : PopupBase
 	public ClickableLink mikeLink;
 	public ClickableLink angusLink;
 
-	void Awake()
+	new void Awake()
 	{
+		base.Awake();
+
 		mikeLink.Subscribe();
 		angusLink.Subscribe();
 	}

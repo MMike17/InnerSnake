@@ -7,8 +7,10 @@ public class PopupRating : PopupBase
 	[Header("Scene references")]
 	public Button rateButton;
 
-	void Awake()
+	new void Awake()
 	{
+		base.Awake();
+
 		rateButton.onClick.AddListener(() =>
 		{
 			Application.OpenURL("https://mikematthews.itch.io/inner-snake");

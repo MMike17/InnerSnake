@@ -9,7 +9,7 @@ public class PopupBase : MonoBehaviour
 
 	bool specialAnim;
 
-	void Awake()
+	virtual protected void Awake()
 	{
 		if (closeButton != null)
 		{

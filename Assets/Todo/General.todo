@@ -6,3 +6,4 @@ x Update Playfab plugin version (from GitHub)
 x Add credit popup
 x Add rating panel after X games
 - Check if hard unlock popup really pops
+x Rework popups to be less transparent
