@@ -18,6 +18,6 @@ x Add anim for score button on show and hide main
 x Fix start game menu anim
 x Score screen : add online scoreboard to show anim (default state ? set first results ?)
 x Hide leaderboard tickets at startup
-- Make end game popup special anim
+x Make end game popup special anim
 x Fix credits button Hide animation
-- Hide end button when replay
+x Hide end button when replay
