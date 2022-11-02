@@ -43,7 +43,7 @@ public class SoundsManager : MonoBehaviour
 				break;
 
 			case GameState.End_Menu:
-				FadeSound("Game", 1, false);
+				FadeSound("GameLoop", 2, false);
 				FadeSound("Menu", 3, true);
 				break;
 		}
