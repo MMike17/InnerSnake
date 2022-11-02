@@ -63,7 +63,11 @@ public class GameManager : MonoBehaviour
 
 		mainMenu.Init();
 		scoreHistoryMenu.Init();
-		endLevelMenu.Init(() => mainMenu.anim.Play("ShowEndButtons"), () => StartCoroutine(mainMenu.StartLevel()));
+		endLevelMenu.Init(
+			() => mainMenu.anim.Play("ShowEndButtons"),
+			() => mainMenu.anim.Play("HideEndButtons"),
+			() => StartCoroutine(mainMenu.StartLevel())
+		);
 
 		if (Save.Data.waitingResults.Count > 0 && ServerManager.HasConnection)
 			ServerManager.SendWaitingScores();

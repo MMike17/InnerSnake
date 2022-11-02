@@ -39,13 +39,15 @@ public class EndLevelMenu : MonoBehaviour
 	public PopupRating ratingPopup;
 
 	Action ShowEndButtons;
+	Action HideEndButtons;
 	Action StartLevel;
 	float completionTime;
 
-	public void Init(Action ShowEndButtons, Action StartLevel)
+	public void Init(Action showEndButtons, Action hideEndButtons, Action startLevel)
 	{
-		this.ShowEndButtons = ShowEndButtons;
-		this.StartLevel = StartLevel;
+		ShowEndButtons = showEndButtons;
+		HideEndButtons = hideEndButtons;
+		StartLevel = startLevel;
 
 		eolReplayButton.onClick.AddListener(() => StartCoroutine(Replay()));
 		eolMenuButton.onClick.AddListener(() => StartCoroutine(FromEndToMenu()));
@@ -261,6 +263,8 @@ public class EndLevelMenu : MonoBehaviour
 	{
 		SoundsManager.PlaySound("Click");
 
+		HideEndButtons();
+
 		Player.CleanPlayer();
 		StartLevel();
 
@@ -270,6 +274,8 @@ public class EndLevelMenu : MonoBehaviour
 	IEnumerator FromEndToMenu()
 	{
 		SoundsManager.PlaySound("Click");
+
+		HideEndButtons();
 
 		Player.CleanPlayer();
 		GameManager.ChangeState(GameState.Main_Menu);
