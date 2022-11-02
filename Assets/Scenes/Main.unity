@@ -2511,11 +2511,11 @@ MonoBehaviour:
     loop: 0
   - name: GameIntro
     clip: {fileID: 8300000, guid: b56fd5686ff953b4e97aed798a01bfbe, type: 3}
-    volume: 1
+    volume: 0.5
     loop: 0
   - name: GameLoop
     clip: {fileID: 8300000, guid: 32e20eecd1ab9354aa066e2c28c9f7c8, type: 3}
-    volume: 1
+    volume: 0.5
     loop: 1
   sourcePrefab: {fileID: 3923764542247944046, guid: 51b986860dcaf154daa5872662320b08, type: 3}
 --- !u!1 &474516709
