@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
 	public KeyCode[] left;
 	public KeyCode[] right;
 	[Space]
-	public float turnSpeed;
+	public float minTurnSpeed;
+	public float maxTurnSpeed;
 	public float height;
 	public float pieceDistance;
 	[Space]
@@ -98,7 +99,11 @@ public class Player : MonoBehaviour
 		{
 			// turn
 			if (sideInput != 0)
+			{
+				float turnSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, Mathf.InverseLerp(DifficultyManager.MinSpeed, DifficultyManager.MaxSpeed, currentSpeed));
+
 				transform.RotateAround(transform.position, transform.up, turnSpeed * sideInput * Time.deltaTime);
+			}
 
 			// move
 			transform.RotateAround(centerPoint, transform.right, -currentSpeed * Time.deltaTime);

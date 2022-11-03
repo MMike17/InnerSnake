@@ -8,6 +8,8 @@ using static MapsManager;
 public class DifficultyManager : MonoBehaviour
 {
 	public static int DifficultiesCount => instance.difficulties.Count;
+	public static float MinSpeed => instance.difficulties[0].speedRange.min;
+	public static float MaxSpeed => instance.difficulties[2].speedRange.max;
 	public static Difficulty CurrentDifficulty;
 
 	static DifficultyManager instance;
@@ -45,7 +47,7 @@ public class DifficultyManager : MonoBehaviour
 		[SerializeField] float piecesPerCell;
 		[Space]
 		[SerializeField] MinMax pieceDistancePercent;
-		[SerializeField] MinMax speedRange;
+		public MinMax speedRange;
 
 		public int GetTotalPieces(MapSize size)
 		{
