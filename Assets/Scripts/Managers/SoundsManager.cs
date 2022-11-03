@@ -78,13 +78,13 @@ public class SoundsManager : MonoBehaviour
 	{
 		AudioSource selectedSource = instance.FindSource(name, false);
 
-		if (selectedSource == null)
-			selectedSource = PlaySound(name);
-
 		SFX selectedSound = instance.FindSound(name);
 
 		if (selectedSound == null)
 			return;
+
+		if (selectedSource == null)
+			selectedSource = PlaySound(name);
 
 		instance.StartCoroutine(FadeSoundRoutine(selectedSource, duration, fadeInOut ? selectedSound.volume : 0));
 	}
