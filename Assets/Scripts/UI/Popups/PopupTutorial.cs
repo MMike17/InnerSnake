@@ -64,6 +64,8 @@ public class PopupTutorial : PopupBase
 		singlePanel.SetActive(selected.rightImage == null);
 		doublePanel.SetActive(selected.rightImage != null);
 
+		previous.gameObject.SetActive(tutorialIndex > 0);
+
 		if (selected.rightImage == null)
 			singleDisplay.sprite = selected.leftImage;
 		else
@@ -79,6 +81,8 @@ public class PopupTutorial : PopupBase
 	{
 		base.Pop(false);
 		OnDone = onDone;
+
+		SetData();
 	}
 
 	/// <summary>Represents data for a tutorial panel</summary>

@@ -172,6 +172,11 @@ public class EndLevelMenu : MonoBehaviour
 				DifficultyManager.CurrentDifficulty,
 				results =>
 				{
+					results.Reverse();
+
+					for (int i = 0; i < results.Count; i++)
+						results[i].Position = i;
+
 					allResults = results;
 					hasResult = true;
 				},
@@ -278,6 +283,8 @@ public class EndLevelMenu : MonoBehaviour
 		HideEndButtons();
 
 		Player.CleanPlayer();
+		MapsManager.CleanMap();
+
 		GameManager.ChangeState(GameState.Main_Menu);
 
 		yield return FadeEndScreen(0);

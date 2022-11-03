@@ -80,7 +80,11 @@ public class ScoreHistoryMenu : MonoBehaviour
 			(Difficulty)Enum.Parse(typeof(Difficulty), difficultySelector.display.text),
 			results =>
 			{
-				results.Sort((first, second) => { return second.Position - first.Position; });
+				results.Reverse();
+
+				for (int i = 0; i < results.Count; i++)
+					results[i].Position = i;
+
 				StartCoroutine(AnimateScores(results));
 			},
 			() =>

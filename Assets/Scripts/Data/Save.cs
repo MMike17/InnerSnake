@@ -9,7 +9,7 @@ using static MapsManager;
 [Serializable]
 public class Save
 {
-	const int MAX_RESULTS_COUNT = 10;
+	const int MAX_RESULTS_COUNT = 8;
 
 	public static Save Data;
 

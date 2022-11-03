@@ -33,7 +33,7 @@ public class MapsManager : MonoBehaviour
 		Map testMap = gameMaps.Find(item => item.size == MapSize._6).inPrefab;
 	}
 
-	public static void SpawnMap(MapSize size, bool isPreview, Vector3 position)
+	public static void CleanMap()
 	{
 		// clean map
 		if (SpawnedMap != null)
@@ -42,6 +42,11 @@ public class MapsManager : MonoBehaviour
 		// clean pickup
 		if (CurrentPickup != null)
 			Destroy(CurrentPickup.gameObject);
+	}
+
+	public static void SpawnMap(MapSize size, bool isPreview, Vector3 position)
+	{
+		CleanMap();
 
 		GameMap selectedMap = instance.gameMaps.Find(item => item.size == size);
 		SpawnedMap = Instantiate(isPreview ? selectedMap.outPrefab : selectedMap.inPrefab, position, Quaternion.identity);
