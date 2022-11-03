@@ -274,17 +274,18 @@ public class Player : MonoBehaviour
 		float timer = 0;
 		int posIndex = 0;
 
-		float step = pickupAnimDuration / (collectedPieces.Count + 1);
+		float step = pickupAnimDuration / Mathf.Min(4, collectedPieces.Count + 1);
 		SpriteRenderer sprite = pickupFX.GetComponent<SpriteRenderer>();
 
-		pickupFX.transform.rotation = Quaternion.LookRotation(-transform.forward, transform.up);
+		pickupFX.rotation = transform.rotation;
 		Vector3 previousTarget = Vector3.zero;
 		Vector3 currentTarget = Vector3.zero;
+		Quaternion currentTargetRotation = Quaternion.identity;
 
 		while (timer < pickupAnimDuration)
 		{
 			timer += Time.deltaTime;
-			float localPercent = (timer - (step * posIndex)) / step;
+			float localPercent = Mathf.Clamp01((timer - (step * posIndex)) / step);
 			float percent = timer / pickupAnimDuration;
 
 			// pos
@@ -292,11 +293,15 @@ public class Player : MonoBehaviour
 			{
 				case 0:
 					currentTarget = transform.position;
+					currentTargetRotation = transform.rotation;
+
 					pickupFX.position = Vector3.Lerp(startPickup.position, currentTarget, localPercent);
 					break;
 
 				case 1:
-					previousTarget = collectedPieces.Count > 0 ? collectedPieces[0].transform.position : previousPositions[0];
+					bool hasPieces = collectedPieces.Count > 0;
+					currentTargetRotation = hasPieces ? collectedPieces[0].transform.rotation : transform.rotation;
+					previousTarget = hasPieces ? collectedPieces[0].transform.position : previousPositions[0];
 					currentTarget = previousTarget;
 
 					pickupFX.position = Vector3.Lerp(transform.position, previousTarget, localPercent);
@@ -304,7 +309,9 @@ public class Player : MonoBehaviour
 
 				case 2:
 				case 3:
+					currentTargetRotation = collectedPieces[posIndex - 1].transform.rotation;
 					currentTarget = collectedPieces[posIndex - 1].transform.position;
+
 					pickupFX.position = Vector3.Lerp(previousTarget, currentTarget, localPercent);
 					break;
 			}
@@ -313,7 +320,7 @@ public class Player : MonoBehaviour
 			pickupFX.localScale = Vector3.one * pickupSizeCurve.Evaluate(percent) * pickupSizeMult;
 
 			// orientation
-			pickupFX.transform.rotation = Quaternion.RotateTowards(pickupFX.transform.rotation, Quaternion.LookRotation(currentTarget - pickupFX.transform.position, transform.up), 4 * currentSpeed * Time.deltaTime);
+			pickupFX.rotation = Quaternion.Lerp(pickupFX.rotation, currentTargetRotation, 10 * Time.deltaTime);
 
 			// alpha
 			Color color = sprite.color;

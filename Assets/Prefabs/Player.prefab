@@ -141,7 +141,7 @@ MonoBehaviour:
   left: 140100007100000061000000
   right: 1301000064000000
   minTurnSpeed: 80
-  maxTurnSpeed: 140
+  maxTurnSpeed: 120
   height: 5
   pieceDistance: 2.5
   openMouthDistance: 5
