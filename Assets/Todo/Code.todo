@@ -17,3 +17,7 @@ x Add mobile controlls
 - Android build
 x Update save editor tool
 x Fix popup Awake call
+- Batch builder
+x Fix android inputs
+- Fix map when go to menu from end screen
+- Fix tutorial message when pop first

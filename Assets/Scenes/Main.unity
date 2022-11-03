@@ -6001,7 +6001,7 @@ MonoBehaviour:
   tutorialContent:
   - leftImage: {fileID: 0}
     rightImage: {fileID: 0}
-    message: Test tutorial
+    message: This is where the tutorial would be shown
   singlePanel: {fileID: 1024076906}
   singleDisplay: {fileID: 69335190}
   doublePanel: {fileID: 783204001}

@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
 		if (Application.platform == RuntimePlatform.Android)
 		{
 			if (Input.touchCount != 0)
-				sideInput = Mathf.Sign(Input.GetTouch(0).deltaPosition.x);
+				sideInput = Mathf.Sign(Input.GetTouch(0).position.x - Screen.width / 2);
 		}
 		else
 		{
@@ -308,7 +308,7 @@ public class Player : MonoBehaviour
 			pickupFX.localScale = Vector3.one * pickupSizeCurve.Evaluate(percent) * pickupSizeMult;
 
 			// orientation
-			pickupFX.transform.rotation = Quaternion.RotateTowards(pickupFX.transform.rotation, Quaternion.LookRotation(currentTarget - pickupFX.transform.position, transform.up), 200 * Time.deltaTime);
+			pickupFX.transform.rotation = Quaternion.RotateTowards(pickupFX.transform.rotation, Quaternion.LookRotation(currentTarget - pickupFX.transform.position, transform.up), 4 * currentSpeed * Time.deltaTime);
 
 			// alpha
 			Color color = sprite.color;
