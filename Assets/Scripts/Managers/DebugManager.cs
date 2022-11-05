@@ -38,10 +38,10 @@ public class DebugManager : MonoBehaviour
 			Time.timeScale = 0.5f;
 
 		if (Input.GetKeyDown(stopPlayerKey))
+		{
 			stopSpeed = !stopSpeed;
-
-		if (stopSpeed)
 			player.BlockSpeed(stopSpeed);
+		}
 	}
 #endif
 }
