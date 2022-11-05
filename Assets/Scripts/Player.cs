@@ -109,7 +109,8 @@ public class Player : MonoBehaviour
 			transform.RotateAround(centerPoint, transform.right, -currentSpeed * Time.deltaTime);
 		}
 
-		AnimateTail();
+		if (currentSpeed != 0)
+			AnimateTail();
 	}
 
 	void ManageInput()
@@ -212,14 +213,6 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	void AnimateTailReduced()
-	{
-		if (collectedPieces.Count == 0)
-			return;
-
-		collectedPieces[0].UpdateLine(meshRoot.position, 0, true);
-	}
-
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.transform.parent == null || blockInput)
@@ -231,7 +224,7 @@ public class Player : MonoBehaviour
 		if (piece != null)
 		{
 			// piece was in tail
-			if (collectedPieces.Contains(piece))
+			if (collectedPieces.Contains(piece) && collectedPieces.Count > 2)
 			{
 				GameOver();
 				return;
@@ -265,7 +258,7 @@ public class Player : MonoBehaviour
 				MapsManager.SpawnPickUp();
 			}
 		}
-		else if (other.CompareTag("Finish")) // collided with line
+		else if (other.CompareTag("Finish") && collectedPieces.Count > 2) // collided with line
 			GameOver();
 	}
 
