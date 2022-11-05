@@ -1,10 +1,10 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
-using UnityEditor.Build.Reporting;
-using System.IO;
 using UnityEditor.SceneManagement;
-using System;
+using UnityEditor.Build.Reporting;
 
 /// <summary>Tool to plan consécutive builds for multiple platforms</summary>
 class BatchBuilder : EditorWindow
