@@ -348,4 +348,21 @@ public class Player : MonoBehaviour
 		GameManager.ChangeState(GameState.End_Menu);
 		blockInput = true;
 	}
+
+#if UNITY_EDITOR
+	float previousSpeed;
+
+	public void BlockSpeed(bool state)
+	{
+		if (state)
+		{
+			if (currentSpeed != 0)
+				previousSpeed = currentSpeed;
+
+			currentSpeed = 0;
+		}
+		else
+			currentSpeed = previousSpeed;
+	}
+#endif
 }

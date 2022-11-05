@@ -7,6 +7,21 @@ public class DebugManager : MonoBehaviour
 	public KeyCode loseKey;
 	public KeyCode timePlusKey;
 	public KeyCode timeMinusKey;
+	public KeyCode stopPlayerKey;
+
+	bool stopSpeed;
+
+	Player _player;
+	Player player
+	{
+		get
+		{
+			if (_player == null)
+				_player = FindObjectOfType<Player>();
+
+			return _player;
+		}
+	}
 
 #if UNITY_EDITOR
 	void Update()
@@ -21,6 +36,12 @@ public class DebugManager : MonoBehaviour
 
 		if (Input.GetKey(timeMinusKey))
 			Time.timeScale = 0.5f;
+
+		if (Input.GetKeyDown(stopPlayerKey))
+			stopSpeed = !stopSpeed;
+
+		if (stopSpeed)
+			player.BlockSpeed(stopSpeed);
 	}
 #endif
 }
