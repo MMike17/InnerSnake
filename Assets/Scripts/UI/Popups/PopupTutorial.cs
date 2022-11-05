@@ -30,6 +30,11 @@ public class PopupTutorial : PopupBase
 		base.Awake();
 		tutorialIndex = 0;
 
+		// remove tutorials for the wrong platform
+#if !UNITY_EDITOR
+		tutorialContent.RemoveAll(item => !item.platforms.Contains(Application.platform));
+#endif
+
 		previous.onClick.AddListener(() =>
 		{
 			SoundsManager.PlaySound("Click");
@@ -89,6 +94,8 @@ public class PopupTutorial : PopupBase
 	[Serializable]
 	public class Panel
 	{
+		public List<RuntimePlatform> platforms;
+		[Space]
 		public Sprite leftImage;
 		public Sprite rightImage;
 		[TextArea]

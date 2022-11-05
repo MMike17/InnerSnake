@@ -1,10 +1,11 @@
 x Make an itch.io page
 x Setup build settings
 x Add itch.io page link on end of game message
-- Make tutorial
+x Make tutorial
 x Update Playfab plugin version (from GitHub)
 x Add credit popup
 x Add rating panel after X games
 x Check if hard unlock popup really pops
 x Rework popups to be less transparent
 x Fix highscore sorted the wrong way
+- Configure build settings for Wndows and Web GL
