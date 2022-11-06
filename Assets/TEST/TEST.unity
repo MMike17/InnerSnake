@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 91224320}
   - component: {fileID: 91224322}
   - component: {fileID: 91224323}
+  - component: {fileID: 91224324}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -188,7 +189,9 @@ MonoBehaviour:
     waitingResults: []
     playerName: 
     finishedGame: 0
-    firstGame: 0
+    showedTutorial: 0
+    userRegistered: 0
+    askedRating: 0
   graph: {fileID: 485832054}
 --- !u!4 &91224321
 Transform:
@@ -230,6 +233,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testName: Test
+--- !u!114 &91224324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91224319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996c161ae889e8449bb2f078dc988546, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  difficulty: 1
+  settings:
+  - ID: 0A
+    name: Stan
+    minutes: 1
+    seconds: 21
+  - ID: 1B
+    name: Niko
+    minutes: 1
+    seconds: 19
+  - ID: 2C
+    name: Claire
+    minutes: 1
+    seconds: 26
 --- !u!1 &193589218
 GameObject:
   m_ObjectHideFlags: 0
