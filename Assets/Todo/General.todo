@@ -10,4 +10,4 @@ x Rework popups to be less transparent
 x Fix highscore sorted the wrong way
 x Configure build settings for Wndows
 x Configure build settings for Web GL
-- Clear all leaderboards before uploading builds
+x Clear all leaderboards before uploading builds
