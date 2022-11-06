@@ -172,6 +172,11 @@ public class EndLevelMenu : MonoBehaviour
 				DifficultyManager.CurrentDifficulty,
 				results =>
 				{
+					results.Reverse();
+
+					for (int i = 0; i < results.Count; i++)
+						results[i].Position = i;
+
 					allResults = results;
 					hasResult = true;
 				},
@@ -182,29 +187,6 @@ public class EndLevelMenu : MonoBehaviour
 
 			PlayerLeaderboardEntry playerResult = allResults.Find(item => item.DisplayName == Save.Data.playerName);
 			PlayerLeaderboardEntry localResult = null;
-
-			if (playerResult != null && playerResult.StatValue > completionTime)
-				playerResult.StatValue = Mathf.RoundToInt(completionTime);
-			else
-			{
-				playerResult = new PlayerLeaderboardEntry()
-				{
-					DisplayName = Save.Data.playerName,
-					Position = 0,
-					StatValue = Mathf.RoundToInt(completionTime)
-				};
-
-				if (allResults != null)
-					allResults.Add(playerResult);
-			}
-
-			if (allResults != null)
-			{
-				allResults.Sort((result1, result2) => result1.StatValue - result2.StatValue);
-
-				for (int i = 0; i < allResults.Count; i++)
-					allResults[i].Position = i;
-			}
 
 			for (int index = 2; index >= 0; index--)
 			{
