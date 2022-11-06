@@ -9,3 +9,4 @@ x Check if hard unlock popup really pops
 x Rework popups to be less transparent
 x Fix highscore sorted the wrong way
 - Configure build settings for Wndows and Web GL
+- Clear all leaderboards
