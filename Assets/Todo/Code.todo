@@ -12,9 +12,9 @@ x Score history menu
 x Tutorial popup on first start
 x Ask for name on start up
 x Add mobile controlls
-- Windows build
-- Web build
-- Android build
+x Windows build
+x Web build
+x Android build
 x Update save editor tool
 x Fix popup Awake call
 x Batch builder
