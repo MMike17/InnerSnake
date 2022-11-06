@@ -247,6 +247,8 @@ public class Player : MonoBehaviour
 
 			if (totalPieces == collectedPieces.Count)
 			{
+				AnimateTail();
+
 				currentSpeed = 0;
 				blockInput = true;
 
