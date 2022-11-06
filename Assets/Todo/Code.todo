@@ -21,3 +21,7 @@ x Batch builder
 x Fix android inputs
 x Fix map when go to menu from end screen
 x Fix tutorial message when pop first
+x Fix tail colliders size
+x Fix colliders activation state
+x Populate fake results for screenshots
+- Fix last snake piece line setup

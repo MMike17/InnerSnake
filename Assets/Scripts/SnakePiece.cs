@@ -62,7 +62,7 @@ public class SnakePiece : MonoBehaviour
 
 	public void UpdateLine(Vector3 targetPos, float endSize, bool disableCollider)
 	{
-		lineCollider.enabled = disableCollider;
+		lineCollider.enabled = !disableCollider;
 
 		Vector3[] positions = new Vector3[line.positionCount];
 		line.GetPositions(positions);
@@ -78,4 +78,6 @@ public class SnakePiece : MonoBehaviour
 		lineCollider.transform.position = Vector3.Lerp(forwardPoint, targetPos, 0.5f);
 		lineCollider.transform.forward = lineCollider.transform.position - transform.position;
 	}
+
+	public void SetLineColliderSize(float size) => (lineCollider as CapsuleCollider).height = size;
 }

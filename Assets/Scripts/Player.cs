@@ -224,9 +224,11 @@ public class Player : MonoBehaviour
 		if (piece != null)
 		{
 			// piece was in tail
-			if (collectedPieces.Contains(piece) && collectedPieces.Count > 2)
+			if (collectedPieces.Contains(piece))
 			{
-				GameOver();
+				if (collectedPieces.Count > 2)
+					GameOver();
+
 				return;
 			}
 
@@ -257,6 +259,11 @@ public class Player : MonoBehaviour
 				currentSpeed = DifficultyManager.GetCurrentDifficultySetting().GetSpeed(MapsManager.SpawnedMap.size, collectedPieces.Count);
 				MapsManager.SpawnPickUp();
 			}
+
+			int lastIndex = collectedPieces.Count - 1;
+			float size = Vector3.Distance((collectedPieces.Count > 1 ? collectedPieces[lastIndex - 1].transform : transform).position, piece.transform.position);
+
+			piece.SetLineColliderSize(size * 3);
 		}
 		else if (other.CompareTag("Finish") && collectedPieces.Count > 2) // collided with line
 			GameOver();

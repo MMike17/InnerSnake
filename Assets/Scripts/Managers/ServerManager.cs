@@ -11,9 +11,6 @@ using static Save;
 /// <summary>Manages connexion to Playfab servers</summary>
 public static class ServerManager
 {
-	// video tutorial link
-	// https://www.youtube.com/watch?v=DQWYMfZyMNU&list=PL1aAeF6bPTB4oP-Tejys3n8P8iXlj7uj-
-
 	// website link
 	// https://developer.playfab.com/en-US/BDD4E/dashboard
 
