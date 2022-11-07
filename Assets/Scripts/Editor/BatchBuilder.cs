@@ -174,7 +174,7 @@ class BatchBuilder : EditorWindow
 			string spaces = "";
 
 			for (int i = 0; i < step.depth; i++)
-				spaces += " ";
+				spaces += "    ";
 
 			result += spaces + "<b>" + step.name + "</b> | duration : " + step.duration.ToString(@"\:hh\:mm\:ss") + "\n";
 		}
